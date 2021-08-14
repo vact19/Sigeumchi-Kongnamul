@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+
+</style>
+<body>
+
+  <form role="form" action="/user/new" th:object="${userForm}"
+        method="post">
+    <div class="form-group">
+      <label th:for="name">이름</label>
+      <!-- th:object,에서 선언한 object를 이용한다는 의미 *{name}
+      th:field는 id와 name값을 설정함. 관례상 id와 name은 같은 값을 쓸 때가 많다.-->
+
+      <!--class~ 는 css 넣는 용도, if~는 경고문 표시용 (name에 에러가 있으면
+      name과 관련된 에러 출력-->
+      <input type="text" th:field="*{userName}" class="form-control"
+             placeholder="이름을 입력하세요"
+
+             th:class="${#fields.hasErrors('userName')}? 'form-control fieldError' : 'form-control'" >
+
+      <p th:if="${#fields.hasErrors('userName')}"
+         th:errors="*{userName}">Incorrect date</p>
+    </div>
+
+    <div class="form-group">
+      <label th:for="password">비밀번호</label>
+      <input type="text" th:field="*{password}" class="form-control"
+             placeholder="비밀번호를 입력하세요">
+    </div>
+    <!-- th:field는 Id, name을 정함-->
+    <div class="form-group">
+      <label th:for="email">이메일</label>
+      <input type="text" th:field="*{email}" class="form-control"
+             placeholder="이메일을 입력하세요">
+      <label th:for="email2">@</label>
+      <input type="text" id="email2" name="email2" class="form-control"
+             placeholder="xxx.com">
+    </div>
+
+    <div class="form-group">
+      <label th:for="pwdQuestion">비밀번호 찾기 질문</label>
+      <input type="text" th:field="*{pwdQuestion}" class="form-control"
+             placeholder="비밀번호 찾기 질문">
+    </div>
+
+    <div class="form-group">
+      <label th:for="pwdAnswer">비밀번호 찾기 답</label>
+      <input type="text" th:field="*{pwdAnswer}" class="form-control"
+             placeholder="비밀번호 찾기 답">
+    </div>
+
+    <div class="form-group">
+      <label th:for="pwdHint">비밀번호 힌트 (질문에 올바르게 답할 시 조회 가능)</label>
+      <input type="text" th:field="*{pwdHint}" class="form-control"
+             placeholder="비밀번호 찾기 힌트">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br/>
+
+
+</body>
+</html>

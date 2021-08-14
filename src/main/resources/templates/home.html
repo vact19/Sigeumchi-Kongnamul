@@ -16,10 +16,17 @@
 </script>
 
 <span class="btn-close-layer"><button OnClick="javascript:ManagePopup('SharePopup','열기')">열기</button></span>
+    <a href="/user/new"> 회원가입하기</a>
 <hr>
 <a href="/1">1번</a> <a href="/2"> 2번</a><p>
 <a href="/3">3번</a> <a href="/4"> 4번</a>
+<hr>
+<div th:if="${session.userSession != null}">
+    <input type="button" value="세션 활성화">
+</div>
 
+
+<div></div>
 <!-- Layer POPUP -->  <!--  display none -->
 <div id="SharePopup" class="popup-layer" style="display:none;margin-top:20%;">
     <header class="header-layer">
