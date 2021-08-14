@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/jpashopBoot;
+    url: jdbc:h2:tcp://localhost/~/hawaii
     username: sa
     password:
       driver-class-name: org.h2.Driver
@@ -8,7 +8,7 @@ spring:
 #spring.io 공식사이트에 속성 설정 가이드가 있음
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
 #        show_sql: true
