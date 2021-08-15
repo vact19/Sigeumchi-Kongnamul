@@ -6,11 +6,12 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@SequenceGenerator(name = "comment-seq-generator", sequenceName = "comment_seq")
 @Entity
 @Setter @Getter
 public class TestComment {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment-seq-generator")
     @Column(name = "comment_id")
     private Long id;
 
