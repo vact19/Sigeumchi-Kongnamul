@@ -21,8 +21,8 @@ public class UserRepository {
         em.persist(user);
          //  find (Entity Type, PK)
         // if the entity instance is contained in the persistence context, it is returned from there. 그리고 PK는 즉시 생성
-
     }
+
 
     //
     private void validateUser(User user) {
@@ -38,5 +38,8 @@ public class UserRepository {
                 .setParameter("name", name).getResultList();
     }
 
+    public List<User> findAll(){
+        return em.createQuery("select u from User  as u ", User.class).getResultList();
+    }
 
 }

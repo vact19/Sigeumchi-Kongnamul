@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class UserController {
 
         model.addAttribute("userForm", new UserFormDTO());
         //model로 빈 객체 넘겨서 표시.  주소창 단순입력으로 접근 불가
-        return "member/createMemberForm";
+        return "user/createUserForm";
     }
 
     @PostMapping("/user/new")
@@ -37,12 +38,13 @@ public class UserController {
                                  HttpServletRequest request, RedirectAttributes rttr)
     {
         if(bindingResult.hasErrors()){
-            return "member/createMemberForm";
+            return "user/createUserForm";
         }
         User user = setUserField(form, new User());
         userService.joinUser(user);
 
         HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(5);
         session.setAttribute("userSession",form.getUserName());
 
         return "redirect:/hello";
@@ -59,11 +61,39 @@ public class UserController {
         return "home";
     }
 
+    @GetMapping("/test")
+    public String generateUser(){
+        generateUserTest();
 
+        return "redirect:/";
+    }
+    private void generateUserTest() {
 
+        User user1 = new User();
+        user1.setUserName("JO1");
+        user1.setEmail("etrete@.com");
+        user1.setPassword("12345");
 
+        User user2 = new User();
+        user2.setUserName("JO2");
+        user2.setEmail("gdgdg@.com");
+        user2.setPassword("12345");
 
+        User user3 = new User();
+        user3.setUserName("JO3");
+        user3.setEmail("gxvsdf@.com");
+        user3.setPassword("3333");
 
+        User user4 = new User();
+        user4.setUserName("JO4");
+        user4.setEmail("gwefsd@.com");
+        user4.setPassword("4444");
+
+        userService.joinUser(user1);
+        userService.joinUser(user2);
+        userService.joinUser(user3);
+        userService.joinUser(user4);
+    }
 
 
 

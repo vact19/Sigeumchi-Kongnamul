@@ -1,7 +1,8 @@
 <html>
 <head>
+    <link rel="shortcut icon" href="#" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>카톡 공유</title>
+    <title> 웹페이지 </title>
     <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 
@@ -21,10 +22,13 @@
 <a href="/1">1번</a> <a href="/2"> 2번</a><p>
 <a href="/3">3번</a> <a href="/4"> 4번</a>
 <hr>
-<div th:if="${session.userSession != null}">
-    <input type="button" value="세션 활성화">
-</div>
+<a href="/users"> User 목록 </a> ★★★★ <a href="/test">  테스트용 유저 DB 생성 </a>
 
+
+
+<div th:if="${session.userSession != null}">
+    <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|"    value="세션 활성화">
+</div>
 
 <div></div>
 <!-- Layer POPUP -->  <!--  display none -->
