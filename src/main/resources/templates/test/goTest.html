@@ -5,23 +5,27 @@
     <title>Title</title>
 </head>
 <body>
-
+<img src="../img/eodeoddl.jpg" alt="멍댕이" width="250px" height="180px">
+<h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
+<h1 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h1>
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>#</th>
+        <th>댓글 식별자</th>
         <th>이름</th>
         <th>내용</th>
         <th>좋아요</th>
+        <th>소속 테스트 식별자(pathVar)</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.id}"></td>
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.password}"></td>
+    <tr th:each="co : ${comments}">
+        <td th:text="${co.id}"></td>
+        <td th:text="${co.commentData.userName}"></td>
+        <td th:text="${co.commentData.content}"></td>
+        <td th:text="${co.commentData.likes}"></td>
+        <td th:text="${co.testEntity.id}"></td>
     </tr>
     </tbody>
 </table>

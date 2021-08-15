@@ -7,6 +7,7 @@
 </head>
 
 <body>
+<img src="img/eodeoddl.jpg" alt="멍댕이" width="400px" height="300px">
 <script type="text/javascript">
     function sendLinkCustom() {
         Kakao.init("a19b5bbf9d8a077d08e6f4ab324883fb");
@@ -19,18 +20,20 @@
 <span class="btn-close-layer"><button OnClick="javascript:ManagePopup('SharePopup','열기')">열기</button></span>
     <a href="/user/new"> 회원가입하기</a>
 <hr>
-<a href="/1">1번</a> <a href="/2"> 2번</a><p>
-<a href="/3">3번</a> <a href="/4"> 4번</a>
+<a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>
+<a href="/test/3">3번</a> <a href="/test/4"> 4번</a>
 <hr>
-<a href="/users"> User 목록 </a> ★★★★ <a href="/test">  테스트용 유저 DB 생성 </a>
+<a href="/users"> User 목록 </a> ★★★★
 
+<a th:href="'javascript:autoGenerate('+')'"
+   href="#"
+   class="btn btn-danger">테스트용 유저 DB / 댓글 생성</a>
 
 
 <div th:if="${session.userSession != null}">
-    <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|"    value="세션 활성화">
+    <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
 </div>
 
-<div></div>
 <!-- Layer POPUP -->  <!--  display none -->
 <div id="SharePopup" class="popup-layer" style="display:none;margin-top:20%;">
     <header class="header-layer">
@@ -75,6 +78,15 @@ function CopyUrlToClipboard() {
     obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿉니다.
     alert("URL이 클립보드에 복사되었습니다");
 }
+</script>
+<script>
+    function autoGenerate() {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/generatedata");
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 </body>
 </html>
