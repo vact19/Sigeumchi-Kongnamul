@@ -42,7 +42,6 @@ public class HomeController {
     @PostMapping("/generatedata")
     @Transactional
     public String generateUser(){
-        System.out.println(" 여기까지 왔어==================");
         generateUserTest();
        generateCommentAndTest(); // 기본 테스트 1, 2와  기본 댓글 생성
         return "redirect:/";
@@ -51,25 +50,35 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("뚱이에요");
+        testEntity.setTestName("1뚱이에요1"); testEntity.setCount(0);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("뚱이라니까요");
+        testEntity2.setTestName("2뚱이라니까요2"); testEntity2.setCount(0);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
+
+        TestEntity testEntity3 = new TestEntity();
+        testEntity3.setTestName("3뚱이라니까요3"); testEntity3.setCount(0);
+        em.persist(testEntity3);
+        Long testId3 = testEntity3.getId();
+
+        TestEntity testEntity4 = new TestEntity();
+        testEntity4.setTestName("4뚱이라니까요4"); testEntity4.setCount(0);
+        em.persist(testEntity4);
+        Long testId4 = testEntity4.getId();
 
         TestComment comment = new TestComment();
         CommentData commentData = new CommentData("다람쥐1", "월요일 좋아1", 4L);
         TestComment comment2 = new TestComment();
-        CommentData commentData2 = new CommentData("다람이2", "월요일 조으아2", 44L);
+        CommentData commentData2 = new CommentData("다람이2", "월요일 안조아2", 44L);
         TestComment comment3 = new TestComment();
         CommentData commentData3 = new CommentData("다람이3", "월요일 안조아3", 444L);
         TestComment comment4 = new TestComment();
-        CommentData commentData4 = new CommentData("다람이4", "월요일 안조아4", 444L);
+        CommentData commentData4 = new CommentData("다람이4", "월요일 안조아4", 4444L);
         TestComment comment5 = new TestComment();
-        CommentData commentData5 = new CommentData("다람이5", "월요일 안조아5", 444L);
+        CommentData commentData5 = new CommentData("다람이5", "월요일 안조아5", 44444L);
 
         comment.setCommentData(commentData);
         comment.setTestEntity(em.find(TestEntity.class, testId));

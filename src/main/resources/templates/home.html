@@ -36,26 +36,19 @@
 
 <!-- Layer POPUP -->  <!--  display none -->
 <div id="SharePopup" class="popup-layer" style="display:none;margin-top:20%;">
-    <header class="header-layer">
         <h1 class="title">공유하기</h1>
         <span class="btn-close-layer"><button OnClick="javascript:ManagePopup('SharePopup','닫기')">닫기</button></span>
-    </header>
 
-    <div class="cont-body">
         <div class="box-share-sns">
             <button type="button" onClick="sendLinkCustom();" value="Custom">
                 <img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" />
             </button>
         </div>
-    </div>
 
-    <footer class="footer-layer">
         <div class="share-url">
             <input type="text" id = "ShareUrl">
             <span class="btn-type1"><button OnClick="javascript:CopyUrlToClipboard()">URL 복사</button></span>
         </div>
-    </footer>
-
 </div>
 <!-- Layer POPUP -->
 <script>
