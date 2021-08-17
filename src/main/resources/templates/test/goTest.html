@@ -8,6 +8,23 @@
 <img src="../img/eodeoddl.jpg" alt="멍댕이" width="250px" height="180px">
 <h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
 <h1 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h1>
+############################## <table class="table table-striped">
+    <thead>
+    <tr>
+        <th>순위</th>
+        <th>이름</th>
+        <th>조회수</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="srt : ${sorted}">
+        <td th:text="${srtStat.count}"></td>
+        <td th:text="${srt.getTestName()}"></td>
+        <td th:text="${srt.getCount()}"></td>
+    </tr>
+    </tbody>
+</table>
 <table class="table table-striped">
     <thead>
     <tr>
