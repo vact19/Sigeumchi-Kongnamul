@@ -1,13 +1,14 @@
 package com.nigagara.hawaii.repository;
 
 import com.nigagara.hawaii.entity.User;
-import com.nigagara.hawaii.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class UserRepository {
@@ -22,24 +23,30 @@ public class UserRepository {
          //  find (Entity Type, PK)
         // if the entity instance is contained in the persistence context, it is returned from there. 그리고 PK는 즉시 생성
     }
-
-
     //
     private void validateUser(User user) {
-        List<User> findUser = findByUserName(user.getUserName());
-        if( ! findUser.isEmpty()){
+        User findUser = findByUserName(user.getUserName());
+        if( findUser!=null ){
             throw new IllegalStateException("=============유저 중복=============");
         }
         System.out.println(" ValidateUser 중복 없음 ========================");
     }
 
-    public List<User> findByUserName(String name) {
-        return em.createQuery("select u from User u where u.userName =:name", User.class)
-                .setParameter("name", name).getResultList();
+    public User findByUserName(String name) {
+        try {
+            return em.createQuery("select u from User u where u.userName =:name", User.class)
+                    .setParameter("name", name).getSingleResult();
+        } catch (Exception e){
+            log.info(" {} 검색결과 유저 테이블에서 발견되지 않음", name);
+            return null;
+        }
+        // List로 받지 않으면 못 찾았을 때 오류 발생
     }
 
     public List<User> findAll(){
         return em.createQuery("select u from User  as u ", User.class).getResultList();
     }
+
+
 
 }

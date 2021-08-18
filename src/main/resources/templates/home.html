@@ -18,7 +18,12 @@
 </script>
 
 <span class="btn-close-layer"><button OnClick="javascript:ManagePopup('SharePopup','열기')">열기</button></span>
-    <a href="/user/new"> 회원가입하기</a>
+    <a href="/user/new"> 회원가입하기</a> #####
+<form  action="/user/login" method="post" th:if="${session.userSession==null}">
+    <input type="text" id="name" name="userName" placeholder="id 입력">
+    <input type="password" id="password" name="password"  placeholder="pwd 입력">
+    <button type="button" value="로그인하기">로그인</button>
+</form>
 <hr>
 <a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>
 <a href="/test/3">3번</a> <a href="/test/4"> 4번</a>

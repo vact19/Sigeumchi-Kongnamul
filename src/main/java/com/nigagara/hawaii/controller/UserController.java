@@ -1,6 +1,7 @@
 package com.nigagara.hawaii.controller;
 
 import com.nigagara.hawaii.entity.User;
+import com.nigagara.hawaii.service.LoginResult;
 import com.nigagara.hawaii.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,23 +29,31 @@ public class UserController {
     @GetMapping("/user/new")
     public String createUser(Model model){
 
-        model.addAttribute("userForm", new UserFormDTO());
+        model.addAttribute("userFormDTO", new UserFormDTO());
         //model로 빈 객체 넘겨서 표시.  주소창 단순입력으로 접근 불가
         return "user/createUserForm";
     }
 
+
     @PostMapping("/user/new")
     public String createUserPost(@Valid UserFormDTO form, BindingResult bindingResult,
-                                 HttpServletRequest request, RedirectAttributes rttr)
+                                 HttpServletRequest request, Model model)
+
     {
         if(bindingResult.hasErrors()){
+            /**
+               Form @ModelAttribute 생략. 기본 key 값은 camel case "userFormDTO"
+             반드시 빈 객체의 key 값과 Error Return.의  key.값 일치해야 함
+             ( "userFormDTO" )
+             */
             return "user/createUserForm";
         }
+
         User user = setUserField(form, new User());
         userService.joinUser(user);
 
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(5);
+        session.setMaxInactiveInterval(5); // 세션 5초임.
         session.setAttribute("userSession",form.getUserName());
 
         return "redirect:/hello";
@@ -61,6 +70,14 @@ public class UserController {
         return "home";
     }
 
+    @PostMapping("/user/login")
+    public String login(String userName, String password){
+
+        LoginResult result = userService.login(userName, password);
+        System.out.println("result = " + result);
+
+        return "home";
+    }
     private User setUserField(UserFormDTO form, User user) {
         user.setUserName(form.getUserName());
         user.setEmail(form.getEmail()+"@"+form.getEmail2());

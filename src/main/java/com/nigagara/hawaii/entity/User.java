@@ -44,4 +44,9 @@ public class User {
                 ", regDate=" + regDate +
                 '}';
     }
+    public boolean isThisEmpty(){
+        if(this==null)
+            return true;
+        return false;
+    }
 }

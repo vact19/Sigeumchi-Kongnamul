@@ -2,11 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <style>
-
+  .form-control fieldError {
+    border-color: #bd2130;
+  }
+  .form-control{
+    border-color: #bd9999;
+  }
+  .red{
+    color: #005cbf;
+  }
 </style>
 <body>
 
-  <form role="form" action="/user/new" th:object="${userForm}"
+  <form role="form" action="/user/new" th:object="${userFormDTO}"
         method="post">
     <div class="form-group">
       <label th:for="name">이름</label>
@@ -15,14 +23,21 @@
 
       <!--class~ 는 css 넣는 용도, if~는 경고문 표시용 (name에 에러가 있으면
       name과 관련된 에러 출력-->
+
+
       <input type="text" th:field="*{userName}" class="form-control"
              placeholder="이름을 입력하세요"
 
-             th:class="${#fields.hasErrors('userName')}? 'form-control fieldError' : 'form-control'" >
+             th:class="${#fields.hasErrors('userName')}? 'form-control fieldError' : 'form-control'"
+      >
 
-      <p th:if="${#fields.hasErrors('userName')}"
-         th:errors="*{userName}">Incorrect date</p>
+      <p th:if= "${#fields.hasErrors('userName')}"  th:errors="*{userName}" class="red"
+      >Incorrect date</p>
     </div>
+
+
+
+
 
     <div class="form-group">
       <label th:for="password">비밀번호</label>

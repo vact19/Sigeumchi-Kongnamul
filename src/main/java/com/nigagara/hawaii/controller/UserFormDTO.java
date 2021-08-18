@@ -13,6 +13,7 @@ public class UserFormDTO {
      */
     @NotEmpty(message = "회원 이름은 필수에요")
     private String userName;
+
     private String password;
     private String email;
     private String email2;
