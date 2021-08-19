@@ -23,8 +23,10 @@ public class HomeController {
     private final EntityManager em;
     private final UserService userService;
 
-    @GetMapping("/") // 모든 방식에 반응
-    public String home(){
+    @GetMapping("/")
+    public String home(Model model){
+        // 빈 폼 전달하지 않으면 오류 발생
+        model.addAttribute("loginFormDTO", new LoginFormDTO());
         return "home";
     }
 

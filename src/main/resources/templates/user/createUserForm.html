@@ -14,6 +14,7 @@
 </style>
 <body>
 
+
   <form role="form" action="/user/new" th:object="${userFormDTO}"
         method="post">
     <div class="form-group">
@@ -25,6 +26,7 @@
       name과 관련된 에러 출력-->
 
 
+
       <input type="text" th:field="*{userName}" class="form-control"
              placeholder="이름을 입력하세요"
 
@@ -34,9 +36,6 @@
       <p th:if= "${#fields.hasErrors('userName')}"  th:errors="*{userName}" class="red"
       >Incorrect date</p>
     </div>
-
-
-
 
 
     <div class="form-group">

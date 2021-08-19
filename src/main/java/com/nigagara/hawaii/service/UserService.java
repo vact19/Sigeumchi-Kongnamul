@@ -33,25 +33,15 @@ public class UserService {
         User user = userRepository.findByUserName(userName);
         // 로그인 시도된 파라미터, 기존 User user
         if ( user==null )
-            System.out.println(" 그런 사람 없어요 ");
+            return LoginResult.NO_SUCH_ID; // findByUserName.에서 NULL 반환
         //Optional<String> userName1 = Optional.ofNullable(user.getUserName());
 
-
-
         if( user.getUserName().equals(userName) && user.getPassword().equals(password)) {
-            return LoginResult.SUCCESS;
+            return LoginResult.SUCCESS; // ID와 PWD 모두 일치하면
         } else if ( user.getUserName().equals(userName) &&
                 !(user.getPassword().equals(password)) ){
-            return LoginResult.ONLYID;
-        } else if ( !(user.getUserName().equals(userName)) &&
-                user.getPassword().equals(password) ) {
-            return LoginResult.ONLYPASSWORD;
-        } else if ( !(user.getUserName().equals(userName)) &&
-                !(user.getPassword().equals(password)) ) {
-            return LoginResult.FAIL;
+            return LoginResult.ONLY_ID;  // ID만 일치하면
         }
-
-
 
         return null;
     }
