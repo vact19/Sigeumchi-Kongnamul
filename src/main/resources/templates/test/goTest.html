@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:value="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -25,6 +25,30 @@
     </tr>
     </tbody>
 </table>
+
+<div th:if="${session.userSession != null}">
+    <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
+</div>
+<form id="comment"  method="post" th:if="${session.userSession!=null}">
+    <textarea cols="25" rows="5" id="textBox" name="textBox" placeholder="댓글 입력"></textarea>
+    <button type="button" onclick="addComment()"> 댓 글 등 록 </button>
+    <input type="hidden" id="userName" name="userName" th:value="${session.userSession}" value="세션 만료 오류">
+</form>
+
+<form id="noSession"  method="post" th:if="${session.userSession==null}">
+    <textarea cols="25" rows="5" id="" name="" placeholder="세션이 없어요. 로그인해 주세요." disabled="disabled">
+    </textarea>
+</form>
+
+<hr>
+
+<form  id="commentUpdate"  method="post"  hidden="hidden" th:if="${session.userSession!=null}">
+    <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
+    <button type="button" onclick="updateComment()"> 댓글 수정 </button>
+    <input type="hidden" id="userNameU" name="userNameU" th:value="${session.userSession}" value="세션 만료 오류">
+    <input type="hidden" id="comIndex" name="comIndex" value="">
+</form>
+
 <table class="table table-striped">
     <thead>
     <tr>
@@ -33,19 +57,74 @@
         <th>내용</th>
         <th>좋아요</th>
         <th>소속 테스트 식별자(pathVar)</th>
+        <th>수정</th>
+        <th>삭제</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
+
     <tr th:each="co : ${comments}">
-        <td th:text="${co.id}"></td>
+        <td th:text="${co.id}" ></td>
         <td th:text="${co.commentData.userName}"></td>
         <td th:text="${co.commentData.content}"></td>
         <td th:text="${co.commentData.likes}"></td>
         <td th:text="${co.testEntity.id}"></td>
+        <td><a  th:onclick="|showUpdateArea(${coStat.index})|">수정</a> <input type="hidden"
+                           th:id="|commentIndexUpdate${coStat.index}|"
+                           name="commentIndexUpdate" id="commentIndexUpdate" th:value="${coStat.index}"></td>
+        <td><a  th:onclick="|deleteComment(${coStat.index})|">삭제</a> <input type="hidden"
+                           name="commentIndexDelete" id="commentIndexDelete" th:value="${coStat.index}"> </td>
     </tr>
     </tbody>
 </table>
+
+<script>
+    function addComment() {
+        var form = document.getElementById("comment");
+
+        var url = window.location.href+"/addComment";
+        form.setAttribute("action", url)
+
+        var name = document.getElementById("userName");
+        alert(name.getAttribute("value")); // th:value가 기존 value 대체
+        alert(url);
+
+        form.submit();
+    }
+    function showUpdateArea(index){
+        var form = document.getElementById("commentUpdate");
+        form.removeAttribute("hidden");
+
+        alert(index);
+
+        var indexElement = document.getElementById("comIndex");
+        indexElement.setAttribute("value", index);
+    }
+    function updateComment(){
+        var form = document.getElementById("commentUpdate")
+        var url = window.location.href+"/updateComment";
+        form.setAttribute("action", url);
+        form.submit();
+    }
+
+    function deleteComment(index){
+        /**  Form.과 Input.을 직접 만들어 제출. Input  type="hidden"에는 row Index
+         */
+        var form = document.createElement("form");
+        var input = document.createElement("input");
+        var url = window.location.href+"/deleteComment";
+        form.setAttribute("method", "post");
+        form.setAttribute("action", url);
+
+        input.setAttribute("type", "hidden");
+        input.setAttribute("value", index); input.setAttribute("name", "index");
+        form.appendChild(input);
+        document.body.appendChild(form);
+
+        form.submit();
+    }
+</script>
 
 </body>
 </html>

@@ -38,7 +38,7 @@ public class HomeController {
         return "/user/userList"; // userList.html
     }
 
-    @PostMapping("/generatedata")
+    @PostMapping("/generateData")
     @Transactional
     public String generateUser(){
         generateUserTest();
@@ -115,9 +115,9 @@ public class HomeController {
     private void generateUserTest() {
 
         User user1 = new User();
-        user1.setUserName("JO1");
+        user1.setUserName("3");
         user1.setEmail("etrete@.com");
-        user1.setPassword("12345");
+        user1.setPassword("3");
 
         User user2 = new User();
         user2.setUserName("JO2");

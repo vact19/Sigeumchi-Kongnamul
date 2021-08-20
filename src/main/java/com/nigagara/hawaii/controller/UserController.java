@@ -52,7 +52,7 @@ public class UserController {
         userService.joinUser(user);
 
         HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(5); // 세션 n초.
+        session.setMaxInactiveInterval(10); // 세션 n초.
         session.setAttribute("userSession",form.getUserName());
 
         System.out.println(session.getId());
@@ -104,7 +104,7 @@ public class UserController {
         } else if (result == LoginResult.SUCCESS) {
 
             HttpSession session = request.getSession();
-            session.setMaxInactiveInterval(5); // 세션 ㅜ초임.
+            session.setMaxInactiveInterval(10); // 세션 ㅜ초임.
             session.setAttribute("userSession", form.getUserName());
             if (session.getId().equals(request.getSession().getId())) {
                 model.addAttribute("session", session);

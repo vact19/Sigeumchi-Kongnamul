@@ -1,5 +1,6 @@
 package com.nigagara.hawaii.controller;
 
+import com.nigagara.hawaii.entity.CommentData;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.service.CommentService;
@@ -10,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -44,6 +47,58 @@ public class TestController {
         List<TestEntity> sortedTest = testService.sortTests();
         model.addAttribute("sorted", sortedTest);
         return "/test/goTest";
+    }
+
+    /**
+             댓글 식별자는 개발단계 확인용.
+     */
+    @PostMapping("/test/{id}/addComment")
+    @Transactional // 코드가 짧아 Service를 거치지 않기로 함
+    public String addComment(@PathVariable Long id,
+                             @RequestParam String textBox, @RequestParam String userName
+                             ){
+        //id를 이용한 crud. 그중 C
+        // showTestView에서 모델에 실려가는 sortedTest에 반영되게끔
+        // TestEntity id를 찾아서 다대일 매핑을 이용해 TestComment를 persist하고 끝낸다
+
+        CommentData data = new CommentData(userName, textBox, 0L);
+        TestComment comment = new TestComment();
+        comment.setCommentData(data);
+        comment.setTestEntity(em.find(TestEntity.class, id));
+        em.persist(comment);
+
+        return "redirect:/test/"+id;
+    }
+
+    @PostMapping("/test/{id}/updateComment")
+    @Transactional
+    public String updateComment(@PathVariable Long id,  @RequestParam("textBoxU") String content,
+                                @RequestParam("comIndex") Long index){
+
+        // 해당 TestEntity에 맞는 댓글들 불러오기
+        TestEntity testEntity = em.find(TestEntity.class, id);
+        List<TestComment> comments = commentService.findComments(testEntity);
+
+        // 댓글 수정하기
+        TestComment comment = comments.get(index.intValue());
+        CommentData existingData = comment.getCommentData();
+        CommentData newData = new CommentData(existingData.getUserName(), content, existingData.getLikes());
+        comment.setCommentData(newData);
+        comments.set(index.intValue(), comment);
+
+        return "redirect:/test/{id}";
+    }
+
+    @PostMapping("/test/{id}/deleteComment")
+    @Transactional
+    public String deleteComment(@PathVariable Long id, @RequestParam("index") int rowIndex)
+    {
+        TestEntity testEntity = em.find(TestEntity.class, id);
+        List<TestComment> comments = commentService.findComments(testEntity);
+
+        TestComment comment = comments.get(rowIndex);
+        em.remove(comment);
+        return "redirect:/test/{id}";
     }
 
 

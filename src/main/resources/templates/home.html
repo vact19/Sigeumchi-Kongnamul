@@ -42,7 +42,7 @@
 <hr>
 <a href="/users"> User 목록 </a> ★★★★
 
-<a th:href="'javascript:autoGenerate('+')'"
+<a th:href="'javascript:autoGenerate()'"
    href="#"
    class="btn btn-danger">테스트용 유저 DB / 댓글 생성</a>
 
@@ -93,7 +93,7 @@ function CopyUrlToClipboard() {
     function autoGenerate() {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "/generatedata");
+        form.setAttribute("action", "/generateData");
         document.body.appendChild(form);
         form.submit();
     }
