@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .errorBlue{
+            color: #005cbf;
+        }
+    </style>
 </head>
+
 <body>
 <img src="../img/eodeoddl.jpg" alt="멍댕이" width="250px" height="180px">
 <h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
@@ -41,7 +47,7 @@
 </form>
 
 <hr>
-
+<strong th:text="${authError}" class="errorBlue"></strong>
 <form  id="commentUpdate"  method="post"  hidden="hidden" th:if="${session.userSession!=null}">
     <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
     <button type="button" onclick="updateComment()"> 댓글 수정 </button>
@@ -93,9 +99,6 @@
         form.setAttribute("action", url)
 
         let name = document.getElementById("userName");
-        alert(name.getAttribute("value")); // th:value가 기존 value 대체
-        alert(url);
-
         form.submit();
     }
     function showUpdateArea(index){
@@ -116,11 +119,11 @@
         let index = document.getElementById("commRow").value;
         index++;
         let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
-        alert(commentId);
+
         let commId = document.getElementById("commId");
         commId.setAttribute("value", commentId);
         form.setAttribute("action", url);
-        alert(" submit 성공");
+
         form.submit();
     }
 
@@ -130,11 +133,13 @@
         let form = document.createElement("form");
         let input = document.createElement("input");
         let url = window.location.href+"/deleteComment";
+        let userList = document.getElementById('userList');
+        index++;
+        let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
         form.setAttribute("method", "post");
         form.setAttribute("action", url);
-
         input.setAttribute("type", "hidden");
-        input.setAttribute("value", index); input.setAttribute("name", "index");
+        input.setAttribute("value", commentId); input.setAttribute("name", "commentId");
         form.appendChild(input);
         document.body.appendChild(form);
 

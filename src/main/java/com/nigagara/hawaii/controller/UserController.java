@@ -19,8 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -39,7 +41,15 @@ public class UserController {
     }
     @PostMapping("/user/new/typetest")
     public String validatePrice(@Valid TypeMismatchTest typeTest, BindingResult bindingResult,
-                                UserFormDTO form){
+                                UserFormDTO form){ // 에러떠서 돌아갈때 userForm.도 모델에 담아가야 함
+
+        // Optional 사용해보기
+        int total = Optional.ofNullable(typeTest.getPrice1()).orElse(0)
+                + Optional.ofNullable(typeTest.getPrice2()).orElse(0);
+        if ( total < 10000){
+            // GlobalError를 추가하는 reject()
+            bindingResult.reject("totalPriceMin", new Object[]{10000, total}, null);
+        }
 
         if (bindingResult.hasErrors()){
             log.info("ERROR? = {}", bindingResult);
@@ -50,8 +60,8 @@ public class UserController {
 
     @PostMapping("/user/new")
     public String createUserPost(@Valid UserFormDTO form, BindingResult bindingResult,
-                                 HttpServletRequest request, Model model)
-    {
+                                 HttpServletRequest request, TypeMismatchTest test, Model model)
+    {                                    // 에러떠서 돌아갈때 TypeMismatchTest.도 모델에 담아가야 함
         if(bindingResult.hasErrors()){
             /**
                Form @ModelAttribute 생략. 기본 key 값은 camel case "userFormDTO"
@@ -60,7 +70,8 @@ public class UserController {
              */
             return "user/createUserForm"; // 파일명이 아니라 주소명으로 보내면 양식 초기화될듯
         }
-        // Email Interceptor preHandle.에서 등록한 email
+        /** Email Interceptor preHandle.에서 등록한 email
+         */
         form.setEmail((String) request.getAttribute("email"));
         validator.validate(form, bindingResult);
         if(bindingResult.hasErrors()){
@@ -108,6 +119,14 @@ public class UserController {
         }
         return "unexpectedError";
     }
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:/";
+    }
+
+
+
     private User setUserField(UserFormDTO form, User user) {
         user.setUserName(form.getUserName());
         user.setEmail(form.getEmail());

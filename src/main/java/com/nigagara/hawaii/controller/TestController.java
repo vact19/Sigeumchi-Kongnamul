@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Slf4j
@@ -74,34 +77,41 @@ public class TestController {
 
     @PostMapping("/test/{id}/updateComment")
     @Transactional
-    public String updateComment(@PathVariable Long id,  @RequestParam("textBoxU") String content,
-                                @RequestParam("commRow") Long index){
-
-        log.info(" update 컨트롤러 도착 ");
-
-        // 해당 TestEntity에 맞는 댓글들 불러오기
-        TestEntity testEntity = em.find(TestEntity.class, id);
-        List<TestComment> comments = commentService.findComments(testEntity);
-
-        // 댓글 수정하기
-        TestComment comment = comments.get(index.intValue());
-        CommentData existingData = comment.getCommentData();
-        CommentData newData = new CommentData(existingData.getUserName(), content, existingData.getLikes());
-        comment.setCommentData(newData);
-        comments.set(index.intValue(), comment);
-
+    public String updateComment(@PathVariable Long id, @RequestParam("textBoxU") String content,
+                                @RequestParam("commId") Long commentId, HttpServletRequest request
+                                ,Model model, RedirectAttributes rttr)
+    {
+        HttpSession session = request.getSession();
+        String userName = (String) session.getAttribute("userSession");
+        /** 해당 번호 글의 댓글들을 리스트로 모두 불러와
+         *   행 번호로 특정 댓글을 찾아내는 방식
+         *   -> 댓글 식별자를 이용해 하나의 댓글만 찾아와 수정하도록 변경.
+         */
+        // 2줄로 끝
+        TestComment comment = em.find(TestComment.class, commentId);
+        if( (comment.getCommentData().getUserName()).equals(userName) ){
+            comment.getCommentData().setContent(content);
+            return "redirect:/test/{id}";
+        }
+        rttr.addFlashAttribute("authError", "권한 없음");
         return "redirect:/test/{id}";
     }
 
     @PostMapping("/test/{id}/deleteComment")
     @Transactional
-    public String deleteComment(@PathVariable Long id, @RequestParam("index") int rowIndex)
+    public String deleteComment(@PathVariable Long id, @RequestParam("commentId") Long commentId
+                                    , RedirectAttributes rttr, HttpServletRequest request)
     {
-        TestEntity testEntity = em.find(TestEntity.class, id);
-        List<TestComment> comments = commentService.findComments(testEntity);
+        HttpSession session = request.getSession();
+        String  username = (String) session.getAttribute("userSession");
 
-        TestComment comment = comments.get(rowIndex);
-        em.remove(comment);
+        TestComment comment = em.find(TestComment.class, commentId);
+        if( (comment.getCommentData().getUserName()).equals(username) ){
+            em.remove(comment);
+            return "redirect:/test/{id}";
+        }
+
+        rttr.addFlashAttribute("authError", "권한 없음");
         return "redirect:/test/{id}";
     }
 

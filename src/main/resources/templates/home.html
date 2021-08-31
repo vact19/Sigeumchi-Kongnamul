@@ -35,6 +35,10 @@
     <button type="submit" value="로그인하기">로그인</button>
     </div>
 </form>
+<div th:if="${session.userSession != null}">
+    <button type="button"  th:text="|${session.userSession} 로그아웃|" value="로그아웃"
+                    onclick="logout()"></button>
+</div>
 
 <hr>
 <a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>
@@ -94,6 +98,14 @@ function CopyUrlToClipboard() {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/generateData");
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function logout(){
+        let form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/logout");
         document.body.appendChild(form);
         form.submit();
     }

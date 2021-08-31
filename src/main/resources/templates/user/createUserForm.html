@@ -81,7 +81,15 @@
   </form>
   <br/>
 <p><br><br></p>
+
+
+
 <form method="post" action="/user/new/typetest" th:object="${typeMismatchTest}" >
+  <div th:if="${#fields.hasGlobalErrors()}">
+    <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+       th:text="${err}"> GlobalError 오류 메시지 </p>
+  </div>
+  <p>
   <label th:for="price1"> TypeMisMatch 테스트용--  가격</label>
   <input type="text" th:field="*{price1}" placeholder="10~10000">
   <strong th:if= "${ #fields.hasErrors('price1')}"  th:errors="*{price1}" class="red"></strong>
