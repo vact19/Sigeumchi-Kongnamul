@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:text="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="shortcut icon" href="#" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -50,7 +50,7 @@
 <div th:if="${session.userSession != null}">
     <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
 </div>
-
+<h2 th:text="${session11}"></h2>
 <!-- Layer POPUP -->  <!--  display none -->
 <div id="SharePopup" class="popup-layer" style="display:none;margin-top:20%;">
         <h1 class="title">공유하기</h1>

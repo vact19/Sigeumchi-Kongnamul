@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,8 @@ public class HomeController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String home(Model model){
+    public String home(Model model, RedirectAttributes redirectAttributes){
+
         // 빈 폼 전달하지 않으면 오류 발생
         model.addAttribute("loginFormDTO", new LoginFormDTO());
         return "home";

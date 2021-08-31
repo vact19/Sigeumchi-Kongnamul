@@ -4,9 +4,13 @@ import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.service.LoginResult;
 import com.nigagara.hawaii.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.SmartValidator;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,11 +23,12 @@ import javax.validation.Valid;
 import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class UserController {
 
+    @Autowired SmartValidator validator;
     private final UserService userService;
 
     @GetMapping("/user/new")
@@ -47,42 +52,21 @@ public class UserController {
              */
             return "user/createUserForm"; // 파일명이 아니라 주소명으로 보내면 양식 초기화될듯
         }
-
+        // Email Interceptor preHandle.에서 등록한 email
+        form.setEmail((String) request.getAttribute("email"));
+        validator.validate(form, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "user/createUserForm";
+        }
         User user = setUserField(form, new User());
         userService.joinUser(user);
 
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(10); // 세션 n초.
-        session.setAttribute("userSession",form.getUserName());
-
-        System.out.println(session.getId());
-        System.out.println(request.getSession().getId());
-
-        if (session.getId().equals(request.getSession().getId())){
-            model.addAttribute("session",session);
-        }
-
         return "redirect:/";
-        //return "redirect:/hello";
     }
-    //
-//    @GetMapping("/hello")
-//    public String hello(Model model, HttpServletRequest request, HttpSession httpSession){
-//
-//        System.out.println(httpSession.getId());
-//        System.out.println(request.getSession().getId());
-//
-//        if (httpSession.getId().equals(request.getSession().getId())){
-//            model.addAttribute("session", httpSession);
-//        }
-//
-//
-//        return "home";
-//    }
 
     @PostMapping("/user/login")
     public String login( LoginFormDTO form, HttpServletRequest request
-                        , Model model)
+                        , Model model, RedirectAttributes redirectAttributes)
     /**
      *  LoginFormDTO 모델에 자동 전송 안되는 문제가 생겨
      *  조건문 분기점마다 add()
@@ -103,19 +87,21 @@ public class UserController {
             return "home";
         } else if (result == LoginResult.SUCCESS) {
 
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true); // 세션 생성
             session.setMaxInactiveInterval(10); // 세션 ㅜ초임.
             session.setAttribute("userSession", form.getUserName());
-            if (session.getId().equals(request.getSession().getId())) {
-                model.addAttribute("session", session);
-            }
+
+            /** session 객체 모델 전송은 X. 타임리프에서 자동 처리
+             */
+           // redirect 되는 뷰에 모델로 보내지는 듯 함.
+           redirectAttributes.addFlashAttribute("session11", "rttr.addFlashAttribute()");
             return "redirect:/";
         }
         return "unexpectedError";
     }
     private User setUserField(UserFormDTO form, User user) {
         user.setUserName(form.getUserName());
-        user.setEmail(form.getEmail()+"@"+form.getEmail2());
+        user.setEmail(form.getEmail());
         user.setPassword(form.getPassword());
         user.setPwdQuestion(form.getPwdQuestion());
         user.setPwdAnswer(form.getPwdAnswer());
