@@ -80,6 +80,20 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   <br/>
+<p><br><br></p>
+<form method="post" action="/user/new/typetest" th:object="${typeMismatchTest}" >
+  <label th:for="price1"> TypeMisMatch 테스트용--  가격</label>
+  <input type="text" th:field="*{price1}" placeholder="10~10000">
+  <strong th:if= "${ #fields.hasErrors('price1')}"  th:errors="*{price1}" class="red"></strong>
+  <br>
+  <label th:for="price2"> TypeMisMatch 테스트용--  가격</label>
+  <input type="text" th:field="*{price2}" placeholder="10~10000">
+  <strong th:if= "${ #fields.hasErrors('price2')}"  th:errors="*{price2}" class="red">
+    wrong</strong>
+  <button type="submit" >눌러요</button>
+
+</form>
+
 
 
 </body>

@@ -1,5 +1,6 @@
 package com.nigagara.hawaii.controller;
 
+import com.nigagara.hawaii.controller.DTO.LoginFormDTO;
 import com.nigagara.hawaii.entity.CommentData;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -23,6 +22,11 @@ public class HomeController {
 
     private final EntityManager em;
     private final UserService userService;
+
+    @GetMapping("/test")
+    public String goTestPage(){
+        return "copy";
+    }
 
     @GetMapping("/")
     public String home(Model model, RedirectAttributes redirectAttributes){

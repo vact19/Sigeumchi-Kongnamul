@@ -6,6 +6,7 @@ import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.service.CommentService;
 import com.nigagara.hawaii.service.TestService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class TestController {
@@ -73,7 +75,9 @@ public class TestController {
     @PostMapping("/test/{id}/updateComment")
     @Transactional
     public String updateComment(@PathVariable Long id,  @RequestParam("textBoxU") String content,
-                                @RequestParam("comIndex") Long index){
+                                @RequestParam("commRow") Long index){
+
+        log.info(" update 컨트롤러 도착 ");
 
         // 해당 TestEntity에 맞는 댓글들 불러오기
         TestEntity testEntity = em.find(TestEntity.class, id);

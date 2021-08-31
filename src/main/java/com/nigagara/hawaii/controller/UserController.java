@@ -1,5 +1,8 @@
 package com.nigagara.hawaii.controller;
 
+import com.nigagara.hawaii.controller.DTO.LoginFormDTO;
+import com.nigagara.hawaii.controller.DTO.TypeMismatchTest;
+import com.nigagara.hawaii.controller.DTO.UserFormDTO;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.service.LoginResult;
 import com.nigagara.hawaii.service.UserService;
@@ -10,19 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.http.HttpRequest;
 import java.time.LocalDateTime;
-import java.util.List;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -33,12 +32,21 @@ public class UserController {
 
     @GetMapping("/user/new")
     public String createUser(Model model){
-
         model.addAttribute("userFormDTO", new UserFormDTO());
+        model.addAttribute("typeMismatchTest", new TypeMismatchTest());
         //model로 빈 객체 넘겨서 표시.  주소창 단순입력으로 접근 불가
         return "user/createUserForm";
     }
+    @PostMapping("/user/new/typetest")
+    public String validatePrice(@Valid TypeMismatchTest typeTest, BindingResult bindingResult,
+                                UserFormDTO form){
 
+        if (bindingResult.hasErrors()){
+            log.info("ERROR? = {}", bindingResult);
+            return "user/createUserForm";
+        }
+        return "redirect:/";
+    }
 
     @PostMapping("/user/new")
     public String createUserPost(@Valid UserFormDTO form, BindingResult bindingResult,
@@ -65,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public String login( LoginFormDTO form, HttpServletRequest request
+    public String login(LoginFormDTO form, HttpServletRequest request
                         , Model model, RedirectAttributes redirectAttributes)
     /**
      *  LoginFormDTO 모델에 자동 전송 안되는 문제가 생겨
@@ -88,12 +96,13 @@ public class UserController {
         } else if (result == LoginResult.SUCCESS) {
 
             HttpSession session = request.getSession(true); // 세션 생성
-            session.setMaxInactiveInterval(10); // 세션 ㅜ초임.
+            session.setMaxInactiveInterval(30); // 세션 ㅜ초임.
             session.setAttribute("userSession", form.getUserName());
 
             /** session 객체 모델 전송은 X. 타임리프에서 자동 처리
              */
-           // redirect 되는 뷰에 모델로 보내지는 듯 함.
+           // redirect 되는 뷰에 모델로 보내지는
+            // 듯 함.
            redirectAttributes.addFlashAttribute("session11", "rttr.addFlashAttribute()");
             return "redirect:/";
         }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+function getUserName() {
+let userList = document.getElementById('userList');
+
+for (let i = 1; i < userList.rows.length; i++) {
+userList.rows[i].cells[2].onclick = function () {
+let userName = userList.rows[i].cells[1].innerText;
+alert(userName+"을 선택하셨습니다.");
+}
+}
+}
+</script>
+</html>

@@ -1,4 +1,4 @@
-package com.nigagara.hawaii.controller;
+package com.nigagara.hawaii.controller.DTO;
 
 import lombok.Getter;
 import lombok.Setter;

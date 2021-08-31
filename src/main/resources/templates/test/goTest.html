@@ -46,74 +46,90 @@
     <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
     <button type="button" onclick="updateComment()"> 댓글 수정 </button>
     <input type="hidden" id="userNameU" name="userNameU" th:value="${session.userSession}" value="세션 만료 오류">
-    <input type="hidden" id="comIndex" name="comIndex" value="">
+    <input type="hidden" id="commRow" name="commRow" value="">
+    <input type="hidden" id="commId" name="commId" value="">
 </form>
 
-<table class="table table-striped">
-    <thead>
+<table id="userList" >
     <tr>
-        <th>댓글 식별자</th>
-        <th>이름</th>
-        <th>내용</th>
-        <th>좋아요</th>
-        <th>소속 테스트 식별자(pathVar)</th>
-        <th>수정</th>
-        <th>삭제</th>
-        <th></th>
+        <td>댓글 식별자</td>
+        <td>이름</td>
+        <td>내용</td>
+        <td>좋아요</td>
+        <td>소속 테스트 식별자(pathVar)</td>
+        <td>수정</td>
+        <td>삭제</td>
+        <td></td>
     </tr>
-    </thead>
-    <tbody>
-
-    <tr th:each="co : ${comments}">
+    <tr th:each="co : ${comments}" >
         <td th:text="${co.id}" ></td>
         <td th:text="${co.commentData.userName}"></td>
         <td th:text="${co.commentData.content}"></td>
         <td th:text="${co.commentData.likes}"></td>
         <td th:text="${co.testEntity.id}"></td>
-        <td><a  th:onclick="|showUpdateArea(${coStat.index})|">수정</a> <input type="hidden"
+        <td><button type="button"  th:onclick="|showUpdateArea(${coStat.index})|">수정</button> <input type="hidden"
                            th:id="|commentIndexUpdate${coStat.index}|"
                            name="commentIndexUpdate" id="commentIndexUpdate" th:value="${coStat.index}"></td>
-        <td><a  th:onclick="|deleteComment(${coStat.index})|">삭제</a> <input type="hidden"
+        <td><button type="button"  th:onclick="|deleteComment(${coStat.index})|">삭제</button> <input type="hidden"
                            name="commentIndexDelete" id="commentIndexDelete" th:value="${coStat.index}"> </td>
     </tr>
-    </tbody>
 </table>
 
 <script>
+    // function getUserName() {
+    //     let userList = document.getElementById('userList');
+    //
+    //     for (let i = 1; i < userList.rows.length; i++) {
+    //         userList.rows[i].cells[2].onclick = function () {
+    //             let userName = userList.rows[i].cells[1].innerText;
+    //             alert(userName+"을 선택하셨습니다.");
+    //         }
+    //     }
+    // }
     function addComment() {
-        var form = document.getElementById("comment");
+        let form = document.getElementById("comment");
 
-        var url = window.location.href+"/addComment";
+        let url = window.location.href+"/addComment";
         form.setAttribute("action", url)
 
-        var name = document.getElementById("userName");
+        let name = document.getElementById("userName");
         alert(name.getAttribute("value")); // th:value가 기존 value 대체
         alert(url);
 
         form.submit();
     }
     function showUpdateArea(index){
-        var form = document.getElementById("commentUpdate");
-        form.removeAttribute("hidden");
-
-        alert(index);
-
-        var indexElement = document.getElementById("comIndex");
+        let form = document.getElementById("commentUpdate");
+        form.removeAttribute("hidden"); // 가린거 드러내기
+        let userList = document.getElementById('userList');
+        /**
+         * hidden 속성 엘리먼트에 행값 숨겨넣기
+        */
+        let indexElement = document.getElementById("commRow");
         indexElement.setAttribute("value", index);
     }
     function updateComment(){
-        var form = document.getElementById("commentUpdate")
-        var url = window.location.href+"/updateComment";
+        // TextArea쪽에서 post form 가져옴
+        let form = document.getElementById("commentUpdate")
+        let url = window.location.href+"/updateComment";
+        let userList = document.getElementById('userList');
+        let index = document.getElementById("commRow").value;
+        index++;
+        let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
+        alert(commentId);
+        let commId = document.getElementById("commId");
+        commId.setAttribute("value", commentId);
         form.setAttribute("action", url);
+        alert(" submit 성공");
         form.submit();
     }
 
     function deleteComment(index){
         /**  Form.과 Input.을 직접 만들어 제출. Input  type="hidden"에는 row Index
          */
-        var form = document.createElement("form");
-        var input = document.createElement("input");
-        var url = window.location.href+"/deleteComment";
+        let form = document.createElement("form");
+        let input = document.createElement("input");
+        let url = window.location.href+"/deleteComment";
         form.setAttribute("method", "post");
         form.setAttribute("action", url);
 
@@ -127,4 +143,3 @@
 </script>
 
 </body>
-</html>

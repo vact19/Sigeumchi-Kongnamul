@@ -1,4 +1,6 @@
 spring:
+  messages:
+    basename: messages, errors
   datasource:
     url: jdbc:h2:tcp://localhost/~/hawaii
     username: sa
@@ -13,7 +15,12 @@ spring:
       hibernate:
 #        show_sql: true
         format_sql: true
+
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+    #org.apache.coyote.http11: debug
+
+
+
