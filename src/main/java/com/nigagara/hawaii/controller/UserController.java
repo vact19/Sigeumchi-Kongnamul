@@ -133,7 +133,10 @@ public class UserController {
         }
         /** Email Interceptor preHandle.에서 등록한 email
          */
-        form.setEmail((String) request.getAttribute("email"));
+        form.setEmail(form.getEmail1()+"@"+form.getEmail2());
+        /**
+         *  회원가입 화면에서 이메일 양식 확인을 하기 위해 두 번 검증함
+         */
         validator.validate(form, bindingResult);
         if(bindingResult.hasErrors()){
             return "user/createUserForm";

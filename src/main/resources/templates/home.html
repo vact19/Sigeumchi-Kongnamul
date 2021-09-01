@@ -40,7 +40,7 @@
                     onclick="logout()"></button>
 </div>
 <div th:if="${session.userSession != null}">
-    <button type="button"  th:text="|${session.userSession} 마이페이지|" value="마이페이지"
+    <button type="button"  th:text="|${session.userSession} 내 정보 수정|" value="수정"
             onclick="location.href='/user/myPage' "></button>
 </div>
 
