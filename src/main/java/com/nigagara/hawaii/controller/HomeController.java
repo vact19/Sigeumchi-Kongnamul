@@ -124,11 +124,16 @@ public class HomeController {
         user1.setUserName("3");
         user1.setEmail("etrete@.com");
         user1.setPassword("3");
+        user1.setPwdQuestion("내 보물 1호는?"); user1.setPwdAnswer("이 웹사이트");
+        user1.setPwdHint(user1.getUserName()+"의 힌트");
+
 
         User user2 = new User();
         user2.setUserName("JO2");
         user2.setEmail("gdgdg@.com");
         user2.setPassword("12345");
+        user2.setPwdQuestion("내가 처음 산 차는?"); user2.setPwdAnswer("차가 없음");
+        user2.setPwdHint(user2.getUserName()+"의 힌트2");
 
         User user3 = new User();
         user3.setUserName("JO3");

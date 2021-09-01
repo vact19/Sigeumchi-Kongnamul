@@ -39,6 +39,10 @@
     <button type="button"  th:text="|${session.userSession} 로그아웃|" value="로그아웃"
                     onclick="logout()"></button>
 </div>
+<div th:if="${session.userSession != null}">
+    <button type="button"  th:text="|${session.userSession} 마이페이지|" value="마이페이지"
+            onclick="location.href='/user/myPage' "></button>
+</div>
 
 <hr>
 <a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>

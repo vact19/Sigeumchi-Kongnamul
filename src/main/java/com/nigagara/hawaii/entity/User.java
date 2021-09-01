@@ -17,7 +17,7 @@ public class User {
     @Column(name = "user_identifier")
     private Long id;
 
-    @Column(name = "username") // 식별자 identifier.와 실제 유저이름 userName
+    @Column(name = "username") // 식별자 identifier.와 실제 유저이름(로그인시) userName
     private String userName;
 
     private String password;

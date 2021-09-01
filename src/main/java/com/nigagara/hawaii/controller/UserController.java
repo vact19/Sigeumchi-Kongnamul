@@ -3,13 +3,16 @@ package com.nigagara.hawaii.controller;
 import com.nigagara.hawaii.controller.DTO.LoginFormDTO;
 import com.nigagara.hawaii.controller.DTO.TypeMismatchTest;
 import com.nigagara.hawaii.controller.DTO.UserFormDTO;
+import com.nigagara.hawaii.controller.DTO.UserFormDTOUpdate;
 import com.nigagara.hawaii.entity.User;
+import com.nigagara.hawaii.repository.UserRepository;
 import com.nigagara.hawaii.service.LoginResult;
 import com.nigagara.hawaii.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.html.Option;
@@ -31,6 +35,8 @@ public class UserController {
 
     @Autowired SmartValidator validator;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final EntityManager em;
 
     @GetMapping("/user/new")
     public String createUser(Model model){
@@ -39,10 +45,65 @@ public class UserController {
         //model로 빈 객체 넘겨서 표시.  주소창 단순입력으로 접근 불가
         return "user/createUserForm";
     }
+    @GetMapping("/user/myPage")
+    public String showMyPage(Model model, HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("userSession");
+        User myPageUser = userRepository.findByUserName(username);
+        UserFormDTO form = new UserFormDTO();
+
+        log.info("$$${}" , myPageUser.getUserName());
+        log.info("$$${}" , myPageUser.getEmail());
+        // 나중에 메서드로 빼기
+        String[] split = myPageUser.getEmail().split("@");
+        String email1 = split[0];
+        String email2 = split[1];
+
+        form.setUserName(myPageUser.getUserName()); form.setPassword(myPageUser.getPassword());
+        form.setEmail1(email1); form.setEmail2(email2);
+        form.setPwdQuestion(myPageUser.getPwdQuestion()); form.setPwdAnswer(myPageUser.getPwdAnswer());
+        form.setPwdHint(myPageUser.getPwdHint());
+
+        model.addAttribute("userFormDTO", form);
+        return "user/myPage";
+    }
+    @Transactional
+    @PostMapping("/user/myPage")
+    public String updateUserInfo(@Valid UserFormDTOUpdate form, BindingResult bindingResult
+                                        , Model model, HttpServletRequest request)
+    {
+        /**
+         *   로그인화면의 TypeMisMatch 폼을 검증하는 메서드
+         */
+        if(bindingResult.hasErrors()){
+            return "/user/myPage";
+        }
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("userSession");
+        // JPQL로 조회한 엔티티는 영속 상태. 다시 find()로 찾을 필요 없음
+        User user = userRepository.findByUserName(username);
+
+        log.info(" **** {} ***", user.getUserName());
+        log.info(" **** {} ***", form.getUserName());
+
+
+        user.setUserName(form.getUserName()); user.setPassword(form.getPassword());
+        //user.setEmail( form.getEmail() );
+        user.setPwdQuestion( form.getPwdQuestion() );
+        user.setPwdAnswer( form.getPwdAnswer() ); user.setPwdHint( form.getPwdHint() );
+
+        session.setAttribute("userSession", user.getUserName());
+        // 수정 완료
+        return "redirect:/";
+    }
+
     @PostMapping("/user/new/typetest")
     public String validatePrice(@Valid TypeMismatchTest typeTest, BindingResult bindingResult,
                                 UserFormDTO form){ // 에러떠서 돌아갈때 userForm.도 모델에 담아가야 함
-
+        /**
+         *   로그인화면의 TypeMisMatch 폼을 검증하는 메서드
+         */
         // Optional 사용해보기
         int total = Optional.ofNullable(typeTest.getPrice1()).orElse(0)
                 + Optional.ofNullable(typeTest.getPrice2()).orElse(0);
@@ -124,6 +185,8 @@ public class UserController {
         request.getSession().invalidate();
         return "redirect:/";
     }
+
+
 
 
 

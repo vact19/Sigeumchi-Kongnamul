@@ -42,7 +42,6 @@ public class UserService {
                 !(user.getPassword().equals(password)) ){
             return LoginResult.ONLY_ID;  // ID만 일치하면
         }
-
         return null;
     }
 
