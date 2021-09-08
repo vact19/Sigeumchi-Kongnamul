@@ -7,6 +7,7 @@ import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -18,10 +19,18 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
 
     private final EntityManager em;
     private final UserService userService;
+
+    @PostMapping("/ajax")
+    public String jax(){
+        log.info("jax");
+
+        return null;
+    }
 
     @GetMapping("/test")
     public String goTestPage(){
@@ -70,22 +79,22 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("1뚱이에요1"); testEntity.setCount(9);
+        testEntity.setTestName("1번 게시물"); testEntity.setCount(9);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("2뚱이라니까요2"); testEntity2.setCount(7);
+        testEntity2.setTestName("2번 게시물"); testEntity2.setCount(7);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
 
         TestEntity testEntity3 = new TestEntity();
-        testEntity3.setTestName("3뚱이라니까요3"); testEntity3.setCount(5);
+        testEntity3.setTestName("3번 게시물"); testEntity3.setCount(5);
         em.persist(testEntity3);
         Long testId3 = testEntity3.getId();
 
         TestEntity testEntity4 = new TestEntity();
-        testEntity4.setTestName("4뚱이라니까요4"); testEntity4.setCount(11);
+        testEntity4.setTestName("4번 게시물"); testEntity4.setCount(11);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();
 
@@ -94,11 +103,11 @@ public class HomeController {
         TestComment comment2 = new TestComment();
         CommentData commentData2 = new CommentData("다람이2", "월요일 안조아2", 44L);
         TestComment comment3 = new TestComment();
-        CommentData commentData3 = new CommentData("다람이3", "월요일 안조아3", 444L);
+        CommentData commentData3 = new CommentData("다람이3", "금요일 안조아3", 444L);
         TestComment comment4 = new TestComment();
-        CommentData commentData4 = new CommentData("다람이4", "월요일 안조아4", 4444L);
+        CommentData commentData4 = new CommentData("다람이4", "금요일 조아4", 4444L);
         TestComment comment5 = new TestComment();
-        CommentData commentData5 = new CommentData("다람이5", "월요일 안조아5", 44444L);
+        CommentData commentData5 = new CommentData("다람이5", "5번째 댓글", 44444L);
 
         comment.setCommentData(commentData);
         comment.setTestEntity(em.find(TestEntity.class, testId));

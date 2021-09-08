@@ -94,6 +94,7 @@ public class TestController {
             return "redirect:/test/{id}";
         }
         rttr.addFlashAttribute("authError", "권한 없음");
+        log.info(" UPDATE 권한없음 전송");
         return "redirect:/test/{id}";
     }
 
@@ -112,6 +113,7 @@ public class TestController {
         }
 
         rttr.addFlashAttribute("authError", "권한 없음");
+        log.info(" UPDATE 권한없음 전송");
         return "redirect:/test/{id}";
     }
 

@@ -2,35 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:value="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css//main.css">
+    <link rel="stylesheet" href="../css/qna.css">
+    <link rel="stylesheet" href="../css/animation.css">
     <title>Title</title>
     <style>
         .errorBlue{
             color: #005cbf;
         }
+        table{
+            border-spacing: 20px;
+            border-collapse: separate;
+        }
+        #viewTable{
+            width: 40%;
+            display: inline-block;
+            margin-left: 120px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 
 <body>
-<img src="../img/eodeoddl.jpg" alt="멍댕이" width="250px" height="180px">
+
+<div class="container">
+    <section id="main" class="ml-3 my-5 py-5 px-3">
+        <h1>십이간지로 알아보는 연애유형</h1>
+        <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
+            <img src="../img/eodeoddl.jpg" alt="mainImage" class="img-fluid">
+        </div>
+        <p>
+            나만의 MBTI 사이트입니다! <br>
+            아래 시작하기 버튼을 눌러 시작해 주십시오.
+        </p>
+        <button type="button" class="btn btn-outline-danger mt-3" onclick="js:begin()">시작하기</button>
+    </section>
+    <table id="viewTable" class="table table-striped" >
+        <thead>
+        <tr>
+            <th>순위</th>
+            <th>이름</th>
+            <th>조회수</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="srt : ${sorted}">
+            <td th:text="${srtStat.count}"></td>
+            <td th:text="${srt.getTestName()}"></td>
+            <td th:text="${srt.getCount()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <section id="qna">
+        <div class="status mx-auto mt-5">
+            <div class="statusBar">
+            </div>
+        </div>
+        <div class="qBox my-5 py-3 mx-auto">
+
+        </div>
+        <div class="answerBox">
+
+        </div>
+    </section>
+    <section id="result">
+    </section>
+</div>
 <h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
 <h1 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h1>
-############################## <table class="table table-striped">
-    <thead>
-    <tr>
-        <th>순위</th>
-        <th>이름</th>
-        <th>조회수</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="srt : ${sorted}">
-        <td th:text="${srtStat.count}"></td>
-        <td th:text="${srt.getTestName()}"></td>
-        <td th:text="${srt.getCount()}"></td>
-    </tr>
-    </tbody>
-</table>
+
+<hr>
 
 <div th:if="${session.userSession != null}">
     <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
@@ -47,7 +95,9 @@
 </form>
 
 <hr>
+
 <strong th:text="${authError}" class="errorBlue"></strong>
+
 <form  id="commentUpdate"  method="post"  hidden="hidden" th:if="${session.userSession!=null}">
     <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
     <button type="button" onclick="updateComment()"> 댓글 수정 </button>
@@ -80,18 +130,10 @@
                            name="commentIndexDelete" id="commentIndexDelete" th:value="${coStat.index}"> </td>
     </tr>
 </table>
+<script src="../js/data.js" charset="utf-8"></script>
+<script src="../js/start.js" charset="utf-8"></script>
 
 <script>
-    // function getUserName() {
-    //     let userList = document.getElementById('userList');
-    //
-    //     for (let i = 1; i < userList.rows.length; i++) {
-    //         userList.rows[i].cells[2].onclick = function () {
-    //             let userName = userList.rows[i].cells[1].innerText;
-    //             alert(userName+"을 선택하셨습니다.");
-    //         }
-    //     }
-    // }
     function addComment() {
         let form = document.getElementById("comment");
 
@@ -101,7 +143,7 @@
         let name = document.getElementById("userName");
         form.submit();
     }
-    function showUpdateArea(index){
+    function showUpdateArea(index){ // 수정버튼을 눌렀을 때
         let form = document.getElementById("commentUpdate");
         form.removeAttribute("hidden"); // 가린거 드러내기
         let userList = document.getElementById('userList');

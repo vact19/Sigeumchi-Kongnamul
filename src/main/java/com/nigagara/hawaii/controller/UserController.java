@@ -171,7 +171,7 @@ public class UserController {
         } else if (result == LoginResult.SUCCESS) {
 
             HttpSession session = request.getSession(true); // 세션 생성
-            session.setMaxInactiveInterval(30); // 세션 ㅜ초임.
+            session.setMaxInactiveInterval(10); // 세션 ㅜ초임.
             session.setAttribute("userSession", form.getUserName());
 
             /** session 객체 모델 전송은 X. 타임리프에서 자동 처리
