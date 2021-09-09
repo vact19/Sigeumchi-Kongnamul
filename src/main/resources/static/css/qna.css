@@ -7,14 +7,14 @@
   text-align: center;
   border-radius: 20px;
   font-size: 24px;
-  width: 80%
+  width: 50%
 }
 
 .answerList {
   background-color: whitesmoke;
   border-radius: 20px;
   display: block;
-  width: 80%;
+  width: 50%;
   border: 0px;
   font-size: 20px;
 }
@@ -26,7 +26,7 @@
 
 .status {
   height: 20px;
-  width: 80%;
+  width: 50%;
   background-color: white;
   border-radius: 20px;
 }

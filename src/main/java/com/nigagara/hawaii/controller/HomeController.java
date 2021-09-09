@@ -25,11 +25,55 @@ public class HomeController {
     private final EntityManager em;
     private final UserService userService;
 
+    @ResponseBody
     @PostMapping("/ajax")
-    public String jax(){
-        log.info("jax");
+    public Hello jax(@RequestBody Dello dello){
+        //log.info("post 요청받음,{} {} {}", hello.getName(), hello.getAddress(), hello.getAge());
+        log.info("*********** jax() 실행 ****  {}", dello.getUserName());
+        return new Hello("이름", "두살", "서울시");
+    }
+    static class Dello{
+        private String userName;
+        public String getUserName() { return userName; }
+        public void setUserName(String userName) { this.userName = userName; }
+    }
+    static class Hello{
 
-        return null;
+
+        private String name;
+        private String age;
+        private String address;
+
+        public Hello(String name, String age, String address) {
+            this.name = name;
+            this.age = age;
+            this.address = address;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getAge() {
+            return age;
+        }
+
+        public void setAge(String age) {
+            this.age = age;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
     }
 
     @GetMapping("/test")

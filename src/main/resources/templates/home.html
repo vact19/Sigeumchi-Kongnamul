@@ -7,18 +7,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/default.css">
-</head>
 
+</head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <body>
 <img src="img/eodeoddl.jpg" alt="멍댕이" width="400px" height="300px">
-<script type="text/javascript">
-    function sendLinkCustom() {
-        Kakao.init("a19b5bbf9d8a077d08e6f4ab324883fb");
-        Kakao.Link.sendCustom({
-            templateId: 58910
-        });
-    }
-</script>
+
+<button id="btn-save" class="btn btn-primary" >벝튼</button>
+
+
 
 <span class="btn-close-layer"><button OnClick="javascript:ManagePopup('SharePopup','열기')">열기</button></span>
     <a href="/user/new"> 회원가입하기</a> #####
@@ -28,7 +25,7 @@
     >
     <div>
     <label th:for="name">ID</label>
-    <input type="text" th:field="*{userName}" placeholder="id 입력">
+    <input type="text" th:field="*{userName}" placeholder="id 입력" >
         <b th:text="${idError}"></b>
     </div>
     <div>
@@ -79,6 +76,14 @@
         </div>
 </div>
 <!-- Layer POPUP -->
+<script type="text/javascript">
+    function sendLinkCustom() {
+        Kakao.init("a19b5bbf9d8a077d08e6f4ab324883fb");
+        Kakao.Link.sendCustom({
+            templateId: 58910
+        });
+    }
+</script>
 <script>
 
 function ManagePopup(sPopupId, sCase) {
@@ -118,5 +123,6 @@ function CopyUrlToClipboard() {
     }
 </script>
 <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="../js/like.js" charset="utf-8"></script>
 </body>
 </html>

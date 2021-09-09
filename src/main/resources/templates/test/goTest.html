@@ -43,7 +43,9 @@
         </p>
         <button type="button" class="btn btn-outline-danger mt-3" onclick="js:begin()">시작하기</button>
     </section>
-    <table id="viewTable" class="table table-striped" >
+
+  <div style="position: absolute; right: 0px; top: 0px;  width: 35%">
+    <table  id="viewTable" class="table table-striped" >
         <thead>
         <tr>
             <th>순위</th>
@@ -60,11 +62,14 @@
         </tr>
         </tbody>
     </table>
-    <section id="qna">
+  </div>
+
+    <section id="qna" class="ml-3 my-5 py-5 px-3">
         <div class="status mx-auto mt-5">
             <div class="statusBar">
             </div>
         </div>
+
         <div class="qBox my-5 py-3 mx-auto">
 
         </div>
@@ -72,9 +77,11 @@
 
         </div>
     </section>
-    <section id="result">
+
+    <section id="result" class="ml-3 my-5 py-5 px-3" >
     </section>
 </div>
+
 <h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
 <h1 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h1>
 
