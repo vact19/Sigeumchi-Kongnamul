@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -54,9 +55,10 @@ public class TestController {
 
     /**
              댓글 식별자는 개발단계 확인용.
+     // 아래 CRUD 는 코드가 짧아 Service를 거치지 않기로 함
      */
     @PostMapping("/test/{id}/addComment")
-    @Transactional // 코드가 짧아 Service를 거치지 않기로 함
+    @Transactional
     public String addComment(@PathVariable Long id,
                              @RequestParam String textBox, @RequestParam String userName
                              ){
@@ -106,6 +108,15 @@ public class TestController {
 
         TestComment comment = em.find(TestComment.class, commentId);
         if( (comment.getCommentData().getUserName()).equals(username) ){
+            log.info("여기 진입");
+            // 댓글 삭제 전에 댓글 대상의 좋아요를 모두 빼낸다.
+            // 좋아요의 PK로 조회하는 것이 아니므로 delete JPQL
+            Query deleteQuery = em.createQuery("delete from Likes  L where  " +
+                    "L.testComment =:deleteComment")
+                    .setParameter("deleteComment", comment);
+            deleteQuery.executeUpdate(); //Execute an update or delete statement.
+            // 수정 삭제는 따로 executeUpdate() 실행해야 함
+            // Query -- Interface used to control query execution.
             em.remove(comment);
             return "redirect:/test/{id}";
         }

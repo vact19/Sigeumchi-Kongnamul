@@ -23,10 +23,8 @@ function addLike(index){
             dataType: "json",  // response를 어떤 식으로 받을 것인지.  json이 오면 자바스크립트 오브젝트로 변환됨
         }).done(function (resp){ // 자동 parse 되는듯
             // 위 ajax절 결과가 정상일 시 실행, fail은 비정상 시 실행
-            alert(" done 정상 실행");
-            alert(resp); // js Object 상태에서는 Object Object로 표시됨
+            //alert(resp); // js Object 상태에서는 Object Object로 표시됨
             let qqq = JSON.stringify(resp);
-            alert(qqq);
             let www = JSON.parse(qqq);
             let eee = JSON.stringify(www);
             let  rrr = JSON.parse(eee);

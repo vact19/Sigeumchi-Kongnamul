@@ -62,6 +62,7 @@ public class CommentRepository {
     public void addLikesRepository(Long commentId, String userName) {
 
        // 좋아요 1 늘린다.
+        //  find( CLASS, PK );
         TestComment comment = em.find(TestComment.class, commentId);
         CommentData data = comment.getCommentData();
         data.addLikes();
