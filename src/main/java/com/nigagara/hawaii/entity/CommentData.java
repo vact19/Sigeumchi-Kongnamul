@@ -18,6 +18,9 @@ public class CommentData {
         this.content = content;
         this.likes = likes;
     }
+    public void addLikes(){
+        likes++;
+    }
 
     protected CommentData() { } // 'CommentData' should have [public, protected] no-arg constructor
 }

@@ -30,6 +30,7 @@
 </head>
 
 <body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <div class="container">
     <section id="main" class="ml-3 my-5 py-5 px-3">
@@ -104,6 +105,7 @@
 <hr>
 
 <strong th:text="${authError}" class="errorBlue"></strong>
+<strong id="likeError" class="errorBlue" style="display: none;">likeError</strong>
 
 <form  id="commentUpdate"  method="post"  hidden="hidden" th:if="${session.userSession!=null}">
     <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
@@ -122,13 +124,15 @@
         <td>소속 테스트 식별자(pathVar)</td>
         <td>수정</td>
         <td>삭제</td>
+        <td>좋아요</td>
         <td></td>
     </tr>
     <tr th:each="co : ${comments}" >
         <td th:text="${co.id}" ></td>
         <td th:text="${co.commentData.userName}"></td>
         <td th:text="${co.commentData.content}"></td>
-        <td th:text="${co.commentData.likes}"></td>
+        <td><button th:onclick="|addLike(${coStat.index})|" type="button"  th:text="${co.commentData.likes}">
+                </button> </td>
         <td th:text="${co.testEntity.id}"></td>
         <td><button type="button"  th:onclick="|showUpdateArea(${coStat.index})|">수정</button> <input type="hidden"
                            th:id="|commentIndexUpdate${coStat.index}|"
@@ -194,6 +198,8 @@
 
         form.submit();
     }
+
 </script>
+<script src="../js/like2.js" charset="utf-8"></script>
 
 </body>

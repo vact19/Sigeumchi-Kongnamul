@@ -28,6 +28,7 @@ dependencies {
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 	implementation 'junit:junit:4.13.1'
     implementation 'org.projectlombok:lombok:1.18.18'
+	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 
     compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'

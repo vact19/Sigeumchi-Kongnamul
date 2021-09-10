@@ -1,5 +1,6 @@
 package com.nigagara.hawaii.controller;
 
+import com.google.gson.JsonObject;
 import com.nigagara.hawaii.entity.CommentData;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
@@ -10,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
@@ -93,7 +91,7 @@ public class TestController {
             comment.getCommentData().setContent(content);
             return "redirect:/test/{id}";
         }
-        rttr.addFlashAttribute("authError", "권한 없음");
+        rttr.addFlashAttribute("authError", "수정 권한 없음");
         log.info(" UPDATE 권한없음 전송");
         return "redirect:/test/{id}";
     }
@@ -112,11 +110,67 @@ public class TestController {
             return "redirect:/test/{id}";
         }
 
-        rttr.addFlashAttribute("authError", "권한 없음");
-        log.info(" UPDATE 권한없음 전송");
+        rttr.addFlashAttribute("authError", "삭제 권한 없음");
+        log.info(" DELETE 권한없음 전송");
         return "redirect:/test/{id}";
     }
 
+    @PostMapping("/test/commentAddLike")
+    @ResponseBody
+    public String commentAddLike(HttpServletRequest request,@RequestBody Anne anne
+                                            ,RedirectAttributes rttr)
+    // param으로 한번 받아보고 안되면 static class
+    {
+        /**  중복인 경우- 0을 리턴
+         *   권한 없는 경우(로그인하지 않음)- "좋아요 권한 없음" 리턴
+         *   정상- 1 리턴
+         *
+         *   숫자 하나를 제외하고는 String 리턴 시 오류 발생. 왜 0~9 만 가능할까?
+         */
+        log.info(" *********받아온 CommentId는 {}", anne.getCommentId());
+        // 닉네임 구하기
+        HttpSession session = request.getSession();
+        String userName = (String)session.getAttribute("userSession");
+
+        log.info("********* 세션에서 ID 확인 == {} ***", userName);
+        Long commentIdL = anne.getCommentId();
+
+        TestComment comment = em.find(TestComment.class, commentIdL);
+        JsonObject obj = new JsonObject();
+        if( userName==null ){
+            // Json 생성을 도와주는 GSON 설치
+            obj.addProperty("rspLike","좋아요 권한 없음. 로그인 하세요");
+            return obj.toString();
+            // 좋아요 권한 없음 오류. 숫자로 보내지 않으면 파싱에러?
+        }
+
+        // 세션에 등록된 ID가 있으면 if문을 지나 여기까지 오게 됨.
+        boolean result = commentService.likes_isSameUser(commentIdL, userName);
+        log.info("*******{}***********", result);
+
+        if( result ){
+            obj.addProperty("rspLike","좋아요는 한 번만");
+            return obj.toString();
+        } else {
+            //이제 좋아요 +1
+            // 그리고 Likes 엔티티 생성해서 정보 넣고 persist
+            commentService.addLikes(commentIdL,userName);
+            obj.addProperty("rspLike","좋아요 정상 처리");
+            return obj.toString();
+        }
+
+    }
+    static class Anne{
+        private Long commentId;
+
+        public Long getCommentId() {
+            return commentId;
+        }
+
+        public void setCommentId(Long commentId) {
+            this.commentId = commentId;
+        }
+    }
 
 
 

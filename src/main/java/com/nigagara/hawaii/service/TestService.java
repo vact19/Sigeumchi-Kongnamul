@@ -4,6 +4,7 @@ import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,4 +26,8 @@ public class TestService {
 
         return collect;
     }
+
 }
+
+
+
