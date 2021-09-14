@@ -13,9 +13,7 @@ public class UserFormDTOUpdate {
      */
     @NotEmpty(message = "회원 이름은 필수에요")
     private String userName;
-    @NotEmpty(message = "비밀번호 입력해")
     private String password;
-
     private String pwdQuestion;
     private String pwdAnswer;
     private String pwdHint;

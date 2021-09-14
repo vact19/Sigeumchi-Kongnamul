@@ -1,29 +1,48 @@
 package com.nigagara.hawaii.controller;
-
 import com.nigagara.hawaii.controller.DTO.LoginFormDTO;
 import com.nigagara.hawaii.entity.CommentData;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.persistence.EntityManager;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class HomeController {
 
+    // 구현체 JavaMailSenderImpl이 자동 주입됨
+    private final JavaMailSender mailSender;
     private final EntityManager em;
     private final UserService userService;
+    private final PasswordEncoder encoder;
+
+    @GetMapping("/mail")
+    public String sendMail()  {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo("chj6703@gmail.com");
+        message.setSubject("보내져라");
+        message.setText("보내져라요");
+        mailSender.send(message);
+
+        return "redirect:/";
+    }
+
 
     @ResponseBody
     @PostMapping("/ajax")
@@ -81,7 +100,14 @@ public class HomeController {
         return "copy";
     }
 
-    @GetMapping("/")
+    /**
+     *spring security는 로그아웃 시 /login?logout으로 get 요청
+     *       *  logout() 파라미터 설정을 안해서 기본 경로인 /logout 로그아웃 경로,
+     *      *로그아웃 후 경로가 /login?logout으로 잡힌 듯 -> 경로를 /user/logout으로 설정하니
+     *      *spring security가 안 먹힘.
+      *
+     */
+    @GetMapping({"/", "/login"})
     public String home(Model model, RedirectAttributes redirectAttributes){
 
         // 빈 폼 전달하지 않으면 오류 발생
@@ -175,28 +201,34 @@ public class HomeController {
 
         User user1 = new User();
         user1.setUserName("3");
-        user1.setEmail("etrete@.com");
-        user1.setPassword("3");
+        user1.setEmail("chj6703@naver.com");
+
+        String encodedPwd = encoder.encode("3"); // salting 처리까지 자동
+        user1.setPassword(encodedPwd);
+
         user1.setPwdQuestion("내 보물 1호는?"); user1.setPwdAnswer("이 웹사이트");
         user1.setPwdHint(user1.getUserName()+"의 힌트");
 
 
         User user2 = new User();
-        user2.setUserName("JO2");
+        user2.setUserName("jo2");
         user2.setEmail("gdgdg@.com");
-        user2.setPassword("12345");
+
+        String encodedPwd2 = encoder.encode("22");
+        user2.setPassword(encodedPwd2);
+
         user2.setPwdQuestion("내가 처음 산 차는?"); user2.setPwdAnswer("차가 없음");
         user2.setPwdHint(user2.getUserName()+"의 힌트2");
 
         User user3 = new User();
-        user3.setUserName("JO3");
+        user3.setUserName("jo3");
         user3.setEmail("gxvsdf@.com");
-        user3.setPassword("3333");
+        user3.setPassword("33");
 
         User user4 = new User();
-        user4.setUserName("JO4");
+        user4.setUserName("jo4");
         user4.setEmail("gwefsd@.com");
-        user4.setPassword("4444");
+        user4.setPassword("44");
 
         userService.joinUser(user1);
         userService.joinUser(user2);

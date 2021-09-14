@@ -25,14 +25,14 @@ public class UserRepository {
     }
     //
     private void validateUser(User user) {
-        User findUser = findByUserName(user.getUserName());
+        User findUser = ByUserName(user.getUserName());
         if( findUser!=null ){
             throw new IllegalStateException("=============유저 중복=============");
         }
         System.out.println(" ValidateUser 중복 없음 ========================");
     }
 
-    public User findByUserName(String name) {
+    public User ByUserName(String name) {
         try {
             return em.createQuery("select u from User u where u.userName =:name", User.class)
                     .setParameter("name", name).getSingleResult();
