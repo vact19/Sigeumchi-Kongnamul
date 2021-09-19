@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.persistence.EntityManager;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -31,69 +33,6 @@ public class HomeController {
     private final EntityManager em;
     private final UserService userService;
     private final PasswordEncoder encoder;
-
-    @GetMapping("/mail")
-    public String sendMail()  {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo("chj6703@gmail.com");
-        message.setSubject("보내져라");
-        message.setText("보내져라요");
-        mailSender.send(message);
-
-        return "redirect:/";
-    }
-
-
-    @ResponseBody
-    @PostMapping("/ajax")
-    public Hello jax(@RequestBody Dello dello){
-        //log.info("post 요청받음,{} {} {}", hello.getName(), hello.getAddress(), hello.getAge());
-        log.info("*********** jax() 실행 ****  {}", dello.getUserName());
-        return new Hello("이름", "두살", "서울시");
-    }
-    static class Dello{
-        private String userName;
-        public String getUserName() { return userName; }
-        public void setUserName(String userName) { this.userName = userName; }
-    }
-    static class Hello{
-
-
-        private String name;
-        private String age;
-        private String address;
-
-        public Hello(String name, String age, String address) {
-            this.name = name;
-            this.age = age;
-            this.address = address;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAge() {
-            return age;
-        }
-
-        public void setAge(String age) {
-            this.age = age;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-    }
 
     @GetMapping("/test")
     public String goTestPage(){
@@ -149,22 +88,22 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("1번 게시물"); testEntity.setCount(9);
+        testEntity.setTestName("1번 게시물"); testEntity.setView(9);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("2번 게시물"); testEntity2.setCount(7);
+        testEntity2.setTestName("2번 게시물"); testEntity2.setView(7);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
 
         TestEntity testEntity3 = new TestEntity();
-        testEntity3.setTestName("3번 게시물"); testEntity3.setCount(5);
+        testEntity3.setTestName("3번 게시물"); testEntity3.setView(5);
         em.persist(testEntity3);
         Long testId3 = testEntity3.getId();
 
         TestEntity testEntity4 = new TestEntity();
-        testEntity4.setTestName("4번 게시물"); testEntity4.setCount(11);
+        testEntity4.setTestName("4번 게시물"); testEntity4.setView(11);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();
 

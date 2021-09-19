@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="../css//main.css">
     <link rel="stylesheet" href="../css/qna.css">
     <link rel="stylesheet" href="../css/animation.css">
+    <link rel="stylesheet" href="../css/result.css">
     <title>Title</title>
+
     <style>
         .errorBlue{
             color: #005cbf;
@@ -59,7 +61,7 @@
         <tr th:each="srt : ${sorted}">
             <td th:text="${srtStat.count}"></td>
             <td th:text="${srt.getTestName()}"></td>
-            <td th:text="${srt.getCount()}"></td>
+            <td th:text="${srt.getView()}"></td>
         </tr>
         </tbody>
     </table>
@@ -79,12 +81,33 @@
         </div>
     </section>
 
-    <section id="result" class="ml-3 my-5 py-5 px-3" >
-    </section>
-</div>
+    <section id="result" class="ml-3 my-5 py-5 px-3">
+        <h1>당신의 결과는?!</h1>
+        <div class="resultname">
 
-<h1 th:text="${testId}"> thymeleaf 테스트 식별자 표시 오류</h1>
-<h1 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h1>
+        </div>
+        <div id="resultImg" class="my-3 col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
+
+        </div>
+        <div class="resultDesc">
+
+        </div>
+        <div id="SharePopup" class="popup-layer">
+            <div class="box-share-sns">
+              <button type="button" onClick="sendLinkCustom();" value="Custom"
+                      class="kakao mt-3 py-2 px-3" >공유하기</button>
+            </div>
+
+            <div class="share-url">
+                <input type="text" id = "ShareUrl" >
+                <span class="btn-type1"><button OnClick="javascript:CopyUrlToClipboard()">URL 복사</button></span>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+<h3 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h3>
 
 <hr>
 
@@ -124,7 +147,6 @@
         <td>소속 테스트 식별자(pathVar)</td>
         <td>수정</td>
         <td>삭제</td>
-        <td>좋아요</td>
         <td></td>
     </tr>
     <tr th:each="co : ${comments}" >
@@ -200,6 +222,27 @@
     }
 
 </script>
+<!-- Layer POPUP -->  <!--  display none -->
+
+<!-- Layer POPUP -->
+<script type="text/javascript">
+    function sendLinkCustom() {
+        Kakao.init("a19b5bbf9d8a077d08e6f4ab324883fb");
+        Kakao.Link.sendCustom({
+            templateId: 58910
+        });
+    }
+</script>
+<script>
+    function CopyUrlToClipboard() {
+        var obShareUrl = document.getElementById("ShareUrl");
+        obShareUrl.select();  // 해당 값이 선택되도록 select() 합니다
+        document.execCommand("copy"); // 클립보드에 복사합니다.
+        obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿉니다.
+        alert("URL이 클립보드에 복사되었습니다");
+    }
+</script>
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script src="../js/like2.js" charset="utf-8"></script>
 
 </body>

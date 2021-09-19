@@ -17,6 +17,6 @@ public class TestEntity {
     private Long id; // Long -> Not Null
 
     private String testName;
-
-    private int count;
+    //조회수
+    private int view;
 }

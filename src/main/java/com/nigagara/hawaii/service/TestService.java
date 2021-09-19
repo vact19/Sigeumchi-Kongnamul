@@ -21,7 +21,7 @@ public class TestService {
         List<TestEntity> tests = testRepository.findAll();
 
         List<TestEntity> collect = tests.stream().sorted(Comparator.comparing(
-                TestEntity::getCount).reversed())
+                TestEntity::getView).reversed())
                 .collect(Collectors.toList()); // Count 기준 내림차순 정렬
 
         return collect;

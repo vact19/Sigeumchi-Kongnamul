@@ -1,79 +1,79 @@
 const qnaList = [
   {
-    q: '1. 이성 사이에 진정한 친구는 있다, 없다?',
+    q: '1. void 함수에 진정한 리턴값은 있다, 없다?',
     a: [
-      { answer: 'a. 이성 사이에 친구가 어딨어? 절대 없어', type: ['cow', 'tiger', 'dragon', 'chick'] },
-      { answer: 'b. 친구 있지, 절대 이성으로만 안 보일뿐', type: ['mouse', 'rabbit', 'horse', 'snake', 'dog', 'monkey'] },
+      { answer: 'a. void 함수에 리턴값이 어딨어? 절대 없어', type: ['cow', 'tiger', 'dragon', 'chick'] },
+      { answer: 'b. 리턴값 있지, 절대 void로만 안 보일뿐', type: ['mouse', 'rabbit', 'horse', 'snake', 'dog', 'monkey'] },
       { answer: 'c. 난 잘 모르겠어..', type: ['sheep', 'pig' ] },
     ]
   },
   {
-    q: '2. 좋아하는 사람이 생겨 연락하고자 한다 ',
+    q: '2. 좋아하는 프레임워크가 생겨 공부하고자 한다 ',
     a: [
-      { answer: 'a. 바로 먼저 연락한다.', type: ['mouse', 'rabbit', 'tiger', 'monkey'] },
-      { answer: 'b. 언제 연락할지, 어떻게 말할지 심사숙고하여 연락한다.', type: ['cow', 'horse', 'snake', 'dog'] },
-      { answer: 'c. 상대방에게 먼저 연락 올 때까지 기다린다.', type: ['sheep', 'dragon', 'chick', 'pig'] },
+      { answer: 'a. 바로 먼저 한다.', type: ['mouse', 'rabbit', 'tiger', 'monkey'] },
+      { answer: 'b. 언제 공부할지, 어떻게 할지 심사숙고하여 공부한다.', type: ['cow', 'horse', 'snake', 'dog'] },
+      { answer: 'c. 상대방이 먼저 공부할 때까지 기다린다.', type: ['sheep', 'dragon', 'chick', 'pig'] },
     ]
   },
   {
-    q: '3. 당신의 고백 스타일은?',
+    q: '3. 당신의 공부 스타일은?',
     a: [
-      { answer: 'a. 호감이 보이면 바로 고백한다', type: ['cow', 'rabbit', 'tiger', 'dog', 'monkey'] },
-      { answer: 'b. 상대방이 고백할 때까지 기다린다', type: ['sheep', 'chick', 'pig'] },
-      { answer: 'c. 완벽한 분위기, 완벽한 타이밍에서 고백한다.', type: ['mouse', 'horse', 'snake', 'dragon'] }
+      { answer: 'a. 호감이 보이면 바로 공부한다', type: ['cow', 'rabbit', 'tiger', 'dog', 'monkey'] },
+      { answer: 'b. 상대방이 공부할 때까지 기다린다', type: ['sheep', 'chick', 'pig'] },
+      { answer: 'c. 완벽한 분위기, 완벽한 타이밍에서 공부한다.', type: ['mouse', 'horse', 'snake', 'dragon'] }
     ]
   },
   {
-    q: '4. 호감가는 고백 멘트를 고른다면?',
+    q: '4. 호감가는 공부 멘트를 고른다면?',
     a: [
-      { answer: 'a. 박력 그 자체, "야 나랑 사귀자" ', type: ['cow', 'tiger', 'dragon' ] },
-      { answer: 'b. 섬세한 "나 너 많이 좋아해, 나랑 사귈래?" ', type: ['sheep', 'dog', 'monkey', 'chick', 'pig' ] },
-      { answer: 'c. 센스있는 "우리 내일은 연인으로 만날까요" ', type: ['mouse', 'rabbit', 'horse', 'snake' ] },
+      { answer: 'a. 박력 그 자체, "야 나랑 공부하자" ', type: ['cow', 'tiger', 'dragon' ] },
+      { answer: 'b. 섬세한 "나 너 많이 좋아해, 나랑 공부할래?" ', type: ['sheep', 'dog', 'monkey', 'chick', 'pig' ] },
+      { answer: 'c. 센스있는 "우리 내일은 학우로 만날까요" ', type: ['mouse', 'rabbit', 'horse', 'snake' ] },
     ]
   },
   {
-    q: '5. 오늘 연인과 첫 데이트 하는 날이다. 첫 날 허용할 수 있는 스킨십의 범위는?',
+    q: '5. 오늘 연인과 첫 자바공부 하는 날이다. 첫 날 허용할 수 있는 문법의 범위는?',
     a: [
-      { answer: 'a. 쑥스러워.. 손 잡기 정도??', type: ['cow', 'sheep', 'dog', 'dragon', 'chick' ] },
-      { answer: 'b. 요즘 시대가 어느 때인데, 가벼운 뽀뽀까지 가능이야', type: ['mouse', 'rabbit', 'horse', 'pig']},
-      { answer: 'c. 어차피 내 연인인데 왜?? 모든 스킨십 다 돼!', type: ['tiger', 'snake', 'monkey'] },
+      { answer: 'a. 쑥스러워.. 조건문과 반복문 정도??', type: ['cow', 'sheep', 'dog', 'dragon', 'chick' ] },
+      { answer: 'b. 요즘 시대가 어느 때인데, 가벼운 상속과 다형성까지 가능이야', type: ['mouse', 'rabbit', 'horse', 'pig']},
+      { answer: 'c. 어차피 내 연인인데 왜?? 람다와 스트림까지 다 돼!', type: ['tiger', 'snake', 'monkey'] },
     ]
   },
 
   {
-    q: '6. 기념일이 다가온다. 당신은 어떻게 할 것인가? (ex - 100, 200일)',
+    q: '6. 시험기간이 다가온다. 당신은 어떻게 할 것인가? (ex - 100, 200일)',
     a: [
-      { answer: 'a. 무슨 기념일이야, 그냥 평소처럼 해', type: ['dragon', 'chick', 'pig' ] },
-      { answer: 'b. 맛있는 밥이나 사줄까? 아니면 꽃이라도?', type: ['mouse', 'rabbit', 'horse', 'dog' ] },
-      { answer: 'c. 이미 깜짝 이벤트 다 준비해놨어', type: ['cow', 'sheep', 'tiger', 'snake', 'monkey' ] },
+      { answer: 'a. 무슨 시험기간이, 그냥 평소처럼 해', type: ['dragon', 'chick', 'pig' ] },
+      { answer: 'b. 맛있는 책이나 사줄까? 아니면 꽃이라도?', type: ['mouse', 'rabbit', 'horse', 'dog' ] },
+      { answer: 'c. 이미 깜짝 쪽지시험 다 준비해놨어', type: ['cow', 'sheep', 'tiger', 'snake', 'monkey' ] },
     ]
   },
   {
-    q: '7. 연인이 오늘 머리를 바꾸고 옷도 새로 샀다',
+    q: '7. 연인이 오늘 서버를 바꾸고 DB도 새로 샀다',
     a: [
       { answer: 'a. 눈치 못 채고 그냥 있는다', type: ['cow', 'sheep', 'pig' ] },
       { answer: 'b. 눈치는 채나 말은 꺼내지 않는다', type: ['tiger', 'dragon', 'chick' ] },
-      { answer: 'c. "오 대박 오늘 머리도 바꾸고 옷도 새로 샀네?"라고 하며 단번에 눈치챈다', type: ['mouse', 'rabbit', 'horse', 'snake', 'dog', 'monkey' ] },
+      { answer: 'c. "오 대박 오늘 서버도 바꾸고 DB도 새로 샀네?"라고 하며 단번에 눈치챈다', type: ['mouse', 'rabbit', 'horse', 'snake', 'dog', 'monkey' ] },
     ]
   },
   {
-    q: '8. 연인이 데이트가 끝난 후, 집에 데려다 달라고 한다',
+    q: '8. 친구와 팀플이 끝난 후, 집에 데려다 달라고 한다',
     a: [
       { answer: 'a. 각자 만났던 장소에서 헤어진다.', type: ['mouse', 'dragon', 'chick' ] },
-      { answer: 'b. 연인이 살고 있는 집의 역이나 정류장까지 데려다준다.', type: ['rabbit', 'tiger', 'horse', 'snake', 'dog', 'monkey' ] },
+      { answer: 'b. 친구가 살고 있는 집의 역이나 정류장까지 데려다준다.', type: ['rabbit', 'tiger', 'horse', 'snake', 'dog', 'monkey' ] },
       { answer: 'c. 집 앞까지 데려다준다.', type: ['cow', 'sheep', 'pig' ] },
     ]
   },
   {
     q: '9. 연인에게 하루종일 연락이 안 온다..',
     a: [
-      { answer: 'a. 뭐.. 언젠가 연락 오겠지. 내가 할 일 하며 기다린다', type: ['sheep', 'mouse', 'snake', 'chick' ] },
-      { answer: 'b. 초조해서 마음 졸이며 인스타, 페북, 카톡 등 모든 SNS 다 들어가본다.', type: ['cow', 'rabbit', 'horse', 'pig' ] },
-      { answer: 'c. 연인에게 연락 올 때까지 무한 카톡, 무한 전화', type: ['tiger', 'dog', 'monkey', 'dragon' ] },
+      { answer: 'a. 뭐.. 언젠가 연락 오겠지. 자바를 공부하며 기다린다', type: ['sheep', 'mouse', 'snake', 'chick' ] },
+      { answer: 'b. 초조해서 마음 졸이며 카톡에 들어가본다.', type: ['cow', 'rabbit', 'horse', 'pig' ] },
+      { answer: 'c. 연인에게 연락 올 때까지 무한 공부, 무한 독서', type: ['tiger', 'dog', 'monkey', 'dragon' ] },
     ]
   },
   {
-    q: '10. 연인이 연락도 없이 보고싶다고 우리집 앞에 와서 기다린다. ',
+    q: '10. 친구가 연락도 없이 수강신청 하자고 우리집 앞에 와서 기다린다. ',
     a: [
       { answer: 'a. 아니 갑자기 오면 어떡해.. 하 나 준비도 안 했는데 왜 와. 짜증나네', type: ['dragon', 'chick', 'pig'] },
       { answer: 'b. 아 그래?? 나 할 것들 좀만 마무리하고 나갈게', type: ['mouse', 'tiger', 'horse', 'snake' ] },
@@ -81,47 +81,47 @@ const qnaList = [
     ]
   },
   {
-    q: '11. 내가 추구하는 연애관은? ',
+    q: '11. 내가 추구하는 공부관은? ',
     a: [
-      { answer: 'a. 각자 할 것 하며, 평안하고 안정적인 연애가 좋다.', type: ['cow', 'dragon', 'chick', 'pig' ] },
-      { answer: 'b. 보고싶을 때 보고, 데이트도 많이 하고 꽁냥꽁냥하는 연애가 좋아.', type: ['sheep', 'mouse', 'rabbit', 'horse', 'dog'] },
-      { answer: 'c. 연애는 마음가는대로! 불타오르는 연애가 최고지.', type: ['tiger', 'snake', 'monkey' ] },
+      { answer: 'a. 각자 할 것 하며, 평안하고 안정적인 공부가 좋다.', type: ['cow', 'dragon', 'chick', 'pig' ] },
+      { answer: 'b. 보고싶을 때 보고,  꽁냥꽁냥하는 공부가 좋아.', type: ['sheep', 'mouse', 'rabbit', 'horse', 'dog'] },
+      { answer: 'c. 공부는 마음가는대로! 불타오르는 공부가 최고지.', type: ['tiger', 'snake', 'monkey' ] },
     ]
   },
   {
-    q: '12. 연인과 데이트 도중 화를 참을 수 없을만큼 심하게 싸웠다. 어떻게 할 것인가?',
+    q: '12. 친구와 시험공부 도중 화를 참을 수 없을만큼 심하게 싸웠다. 어떻게 할 것인가?',
     a: [
-      { answer: 'a. "아 화나네. 따라오지마 오늘 집 갈 거니까." 라고 말하며 집으로 간다.', type: ['rabbit', 'horse', 'dragon', 'chick' ] },
-      { answer: 'b. "야! 너 화내지마. 너 잘못이지. 내가 뭘 잘못했는데?" 소리지르며 끝까지 불같이 화낸다.', type: ['mouse', 'tiger', 'snake', 'dog', 'monkey'] },
-      { answer: 'c. "아니 그건 아니고, 하.." 조용히 운다.', type: ['cow', 'sheep', 'pig'] },
+      { answer: 'a. "아 화나네. 따라오지마 오늘 집 갈 거니까." 하며 집으로 돌아가며 운다..', type: ['rabbit', 'horse', 'dragon', 'chick' ] },
+      { answer: 'b. "야! 너 화내지마. 너 잘못이지. 내가 뭘 잘못했는데?" 라고 말하며 조용히 운다.', type: ['mouse', 'tiger', 'snake', 'dog', 'monkey'] },
+      { answer: 'c. "아니 그건 아니고, 하.." 소리지르며 끝까지 불같이 운다..', type: ['cow', 'sheep', 'pig'] },
     ]
   }
 ]
 
 const infoList = [
   {
-    name: '연애 뭐 식은 죽 먹기죠, 연애 재능 만땅 <쥐>',
-    desc: '연애의 프로재능러인 당신! 쥐에 해당하는 당신은 연애의 모든 것들을 알고 있어, 쉽게 연애에 성공하는 스타일이랍니다. 주로 포부가 크고 성격이 낙천적인 성향을 가지고 있고, 논리적이면서 두뇌회전이 매우 빠르다고 할 수 있어요. 말재주 또한 좋아 사교성이 좋고 유쾌하지만 화려한 것을 좋아해 허영심을 부리거나 사치를 부리기 때문에 이 점들을 주의해야 돼요. 뛰어난 능력에 자만하는 경우도 종종 있기 때문에 겸손이 필요하답니다! '
+    name: ' infoList[0]-name ',
+    desc: ' infoList[0]-desc '
   },
   {
-    name: '난 너만 봐, 정직한 연애 스타일의 <소>',
-    desc: '연애 유형의 진국인 당신! 소에 해당하는 당신은 상대방만 바라보는 해바라기 연애 스타일이랍니다. 매사에 끈기가 있어 연애를 할 때 성실하고 진심을 다하는 성향을 가지고, 온화하며 따뜻한 마음을 가지고 있어요. 한 번 좋아하면 끝까지 좋아하는 의리파지만 자존심이 쌔 은근히 고집이 강하답니다. 또한 욱하는 성질이 있어 이런 부분들을 조심해야 하고, 질투심이 많아 사랑이 집착으로 바뀔 수 있어 주의해야 된답니다! '
+    name: ' infoList[1]-name ',
+    desc: ' infoList[1]-desc '
   },
   {
-    name: '야 사귀자, 사랑을 쟁취하는 <호랑이>',
-    desc: '한 번 좋아하는 사람이 있으면 내 사람으로 만드는 당신! 호랑이에 해당하는 당신은 썸부터 사랑까지 한 번에 직진하는 스타일이랍니다. 연애할 때 주로 이끄는 성향을 가지고 있고, 시원시원한 성격과 유쾌한 성격을 가지고 있어요. 대쪽같은 성격에다 실수를 용납하는 대인배지만 유혹에 약하고 허영때문에 들뜨는 성격이라 다른 이성의 접근에 주의해야 돼요. 또한 내가 한 말로 인해 상대방이 상처를 받을 수 있기 때문에, 항상 말 조심이 필요하답니다!'
+    name: ' infoList[2]-name ',
+    desc: ' infoList[2]-desc '
   },
   {
-    name: '이건 어때? 난 어때? 독특한 매력을 가진 <토끼>',
-    desc: '상대방을 홀리게 만드는 당신! 신비롭고 독특한 매력을 가져, 상대방이 푹 빠지게 만드는 스타일이에요. 직감이 발달되어 손재주가 뛰어난 편이고, 연애할 때 통통 튀는 모습들을 많이 보여준답니다. 유순하고 낙천적인 성향이지만, 자칫잘못하면 상대방에게 천진난만한 아이처럼 보일 수 있는 점을 주의해야 돼요. 또한 감정 기복이 심한 편이라 변덕스러운 마음을 가질 수 있어, 이런 부분들에 신경을 쓴다면 좋은 연애를 할 수 있어요.'
+    name: ' infoList[3]-name ',
+    desc: ' infoList[3]-desc '
   },
   {
-    name: '결혼은 언제쯤 할까 신혼여행은 어디로?, 이상적인 연애관의 소유자 <용>',
-    desc: '상대방과의 미래를 꿈꾸는 당신! 현실적인 연애보다는, 미래에 대한 이상적인 연애관을 가지고 있어요. 매일매일 사랑하는 사람과 보낼 미래를 생각하기 때문에, 좋은 신랑감이 될 수 있는 자질이 있답니다. 또한 일적으로나 사랑으로나 야망이 커, 크게 성공할 확률이 높고 리더십이 매우 뛰어나답니다. 다만 높은 이상에 비해서 현실이 자신의 마음에 들지 않으면 허세를 부리거나 사람들을 무시하는 경우가 많으니 이점들을 주의하면 좋을 것 같아요!'
+    name: ' infoList[4]-name ',
+    desc: ' infoList[4]-desc '
   },
   {
-    name: '기념일에 무슨 이벤트 할까, 이벤트 플래너 <뱀>',
-    desc: '상대방의 기념일을 챙기며 깜짝 놀라게 하는 당신!, 아이디어가 뛰어나고 남다른 감각이 있어, 상대방에게 많은 이벤트를 해주는 스타일이에요. 연애할 때 눈치도 빠르고, 감동을 줄 수 있어 상대방이 매일 행복하답니다. 전체적으로 화려한 연애를 하지만, 은근히 비밀이 많고 우유부단한 성격을 가지고 있답니다. 또한 귀가 매우 얇아 남의 이야기를 곧이 곧대로 믿어, 상대방을 의심하기도 하기 때문에 조심해야 된답니다!'
+    name: ' infoList[5]-name ',
+    desc: ' infoList[5]-desc '
   },
   {
     name: '어 오늘 머리 바꿨네 잘 어울린다, 센스가 뛰어난 <말>',

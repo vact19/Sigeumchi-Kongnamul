@@ -16,9 +16,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -34,20 +37,56 @@ public class TestController {
     //
     @Transactional // 데이터 변경
     @GetMapping("/test/{id}")
-    public String showTestView(@PathVariable Long id, Model model){
-
+    public String showTestView(@PathVariable Long id, Model model,
+                                HttpServletRequest request, HttpServletResponse  response)
+    {
+        /**쿠키를 get해서 비어있는지 확인, 비어있으면 새 쿠키 생성해주고(rsps.addCookie)
+         *  로직 실행
+         * 비어있지 않으면 쿠키 중에 카운트 쿠키가 있는지 확인
+         *   있으면 그냥 보여주기만 하고 로직 실행
+         *   카운트 쿠키가 없으면 로직 실행  */
+        //조회수 전용 cookieName 확인용 변수. 적합한 쿠키를 가지고 있으면 0이 된다.
+        int cook = 1;
         // 테스트 번호 PathVar
         TestEntity testEntity = em.find(TestEntity.class, id);
-        testEntity.setCount(testEntity.getCount()+1); // @PathVar 조회수 +1 Dirty Checking
-        // 데이터가 없으면 null
 
+        String cookieView = "cookieView"+id; // 경로변수 id와 합한 쿠키명 변수
+
+
+        Cookie[] cookies = request.getCookies();
+        if( cookies == null ){ //  cookies 가 비어있으면?
+            log.info("쿠키가 비어있어 새로 생성");
+            cook=0;
+            testEntity.setView(testEntity.getView()+1); // @PathVar 조회수 +1 Dirty Checking
+            Cookie cookie = new Cookie(cookieView, "cookieViewVal");
+            response.addCookie(cookie);
+            log.info("{}", cookie);
+        } else { // 쿠키는 있으나 조회수 전용 cookie name 이 아닐 경우 아래의 if(cook==1)에서 걸리고
+                    // 위의 빈 쿠키 로직 실행
+            for(int i = 0; i < cookies.length; i++){
+                if(cookies[i].getName().equals(cookieView)){
+                    log.info("쿠키가 이미 있어 생성 않음");
+                    cook = 0;
+                    System.out.println("cookie_view를 가지고 있어 일반 로직 진행");
+                }
+            }
+        }
+        if(cook==1){ // 쿠키는 있으나 정확한 값이 아닐 때
+            log.info("쿠키가 비어있지 않으나 정확한 쿠키 key값이 아님");
+            testEntity.setView(testEntity.getView()+1); // @PathVar 조회수 +1 Dirty Checking
+            Cookie cookie = new Cookie(cookieView, "cookieViewVal");
+            response.addCookie(cookie);
+        }
+
+        // 데이터가 없으면 null
+        // 표시할 댓글을 가져옴
         List<TestComment> comments = commentService.findComments(testEntity);
 
         model.addAttribute("comments", comments);
         model.addAttribute("testId", id);
         model.addAttribute("testName", testEntity.getTestName());
 
-        // 조회수 순위
+        // 조회수 순위. sort메서드 실행해 반환한 후 모델에 넣음
         List<TestEntity> sortedTest = testService.sortTests();
         model.addAttribute("sorted", sortedTest);
         return "/test/goTest";

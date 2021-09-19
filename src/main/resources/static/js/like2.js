@@ -1,4 +1,3 @@
-
 function addLike(index){
 
         index++;

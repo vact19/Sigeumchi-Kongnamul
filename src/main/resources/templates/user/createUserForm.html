@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/default.css">a
+<link rel="stylesheet" href="../css/default.css">
 <style>
   .form-control fieldError {
     border-color: #bd2130;
@@ -16,8 +16,6 @@
 </style>
 
 <body>
-
-
   <form role="form" action="/user/new" th:object="${userFormDTO}"
         method="post">
     <div class="form-group">
