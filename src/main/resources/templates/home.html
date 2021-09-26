@@ -45,6 +45,41 @@
 </div>
 
 <hr>
+<form>
+    <!--
+      The default 'method', 'action' and 'enctype' of an HTML form, if they are not specified,
+       are GET, current URL and application/x-www-form-urlencoded respectively
+      -->
+    <label for="byName"> 제목으로 찾기 </label>
+    <input type="text" id="byName" name="byName">
+    <button type="submit">Submit</button>
+</form>
+
+<form>
+    <label for="byType"> 주제로 찾기 </label>
+    <select id="byType" name="byType">
+        <option value="">목록</option>
+        <option value="type1">type1</option>
+        <option value="type2">type2</option>
+        <option value="type3">type3</option>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+<table>
+    <thead>
+        <th>테스트 번호</th>
+        <th>테스트 이름</th>
+        <th>테스트 분야</th>
+    </thead>
+    <tbody>
+    <tr th:each="test : ${tests}">
+        <td th:text=" ${test.id}">1</td>
+        <td th:text=" ${test.testName}">2</td>
+        <td th:text=" ${test.testType}">3</td>
+    </tr>
+    </tbody>
+</table>
 <a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>
 <a href="/test/3">3번</a> <a href="/test/4"> 4번</a>
 <hr>

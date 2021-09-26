@@ -4,6 +4,7 @@ import com.nigagara.hawaii.entity.CommentData;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.entity.User;
+import com.nigagara.hawaii.repository.TestRepository;
 import com.nigagara.hawaii.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.persistence.EntityManager;
@@ -28,11 +30,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HomeController {
 
+
     // 구현체 JavaMailSenderImpl이 자동 주입됨
     private final JavaMailSender mailSender;
     private final EntityManager em;
     private final UserService userService;
     private final PasswordEncoder encoder;
+    private final TestRepository testRepository;
+
+    final String TYPE1="type1";
+    final String TYPE2="type2";
+    final String TYPE3="type3";
 
     @GetMapping("/test")
     public String goTestPage(){
@@ -47,10 +55,24 @@ public class HomeController {
       *
      */
     @GetMapping({"/", "/login"})
-    public String home(Model model, RedirectAttributes redirectAttributes){
+    public String home(Model model, RedirectAttributes redirectAttributes,
+                                    @RequestParam(required = false) String byName,
+                                    @RequestParam(required = false) String byType){
 
         // 빈 폼 전달하지 않으면 오류 발생
         model.addAttribute("loginFormDTO", new LoginFormDTO());
+
+        if(StringUtils.hasText(byName)){
+            List<TestEntity> tests = testRepository.searchByName(byName);
+            model.addAttribute("tests",tests);
+            return "home";
+        } else if(StringUtils.hasText(byType)){
+            List<TestEntity> tests = testRepository.searchByType(byType);
+            model.addAttribute("tests",tests);
+            return "home";
+        }
+        List<TestEntity> tests = testRepository.findAll();
+        model.addAttribute("tests",tests);
         return "home";
     }
 
@@ -88,22 +110,26 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("1번 게시물"); testEntity.setView(9);
+        testEntity.setTestName("1번 테스트"); testEntity.setView(9);
+        testEntity.setTestType(TYPE1);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("2번 게시물"); testEntity2.setView(7);
+        testEntity2.setTestName("2번 테스트"); testEntity2.setView(7);
+        testEntity2.setTestType(TYPE2);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
 
         TestEntity testEntity3 = new TestEntity();
-        testEntity3.setTestName("3번 게시물"); testEntity3.setView(5);
+        testEntity3.setTestName("3번 테스트"); testEntity3.setView(5);
+        testEntity3.setTestType(TYPE3);
         em.persist(testEntity3);
         Long testId3 = testEntity3.getId();
 
         TestEntity testEntity4 = new TestEntity();
-        testEntity4.setTestName("4번 게시물"); testEntity4.setView(11);
+        testEntity4.setTestName("4번 테스트"); testEntity4.setView(11);
+        testEntity4.setTestType(TYPE3);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();
 
