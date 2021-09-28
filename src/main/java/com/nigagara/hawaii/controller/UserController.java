@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
@@ -49,6 +50,7 @@ public class UserController {
         model.addAttribute("typeMismatchTest", new TypeMismatchTest());
         //model로 빈 객체 넘겨서 표시.  주소창 단순입력으로 접근 불가
         return "user/createUserForm";
+
     }
 
     @GetMapping("/user/findPwd")
@@ -58,6 +60,17 @@ public class UserController {
          *  세션에서 이름을 가져와서 유저테이블을 조회하고,
          *   유저테이블의 pwdQuestion 정보를 DTO에 넣어서 모델에 넣어 보냄
          */
+        /** RedirectAttribute.의 AddFlashAttribute.에 User,객체가 담겨 옴
+         *  model 에서 꺼내서 사용.
+         */
+        User user = (User) model.getAttribute("user");
+        if(user !=null){
+            findPwdDTO.setPwdQuestion( user.getPwdQuestion() );
+            findPwdDTO.setUsername( user.getUserName() );
+            emailDTO.setUsername( user.getUserName() );
+            return "user/findPwd";
+        }
+
         return "user/findPwd";
     }
 
@@ -128,9 +141,25 @@ public class UserController {
         public String getUsername() { return username; }public void setUsername(String username) { this.username = username; }
         public String getEmail() { return email; } public void setEmail(String email) { this.email = email; }
     }
+    @GetMapping("/user/findPwd_id")
+    public String findPwd_id(){
+        return "user/findPwd_id";
+    }
+    // 비밀번호 찾기 화면 이전에 id부터 확인한 뒤 비밀번호 찾기 질문을 뿌려줌
+    @PostMapping("/user/findPwdByHint_id")
+    public String findPwd_id(Model model, @RequestParam String name, RedirectAttributes rttr){
+        User user = userRepository.ByUserName(name);
+        if(user==null){
+            model.addAttribute("idError", "그런 ID 없어요");
+            return "user/findPwd_id";
+        }
+        rttr.addFlashAttribute("user", user);
+        return "redirect:/user/findPwd";
+    }
+
     @PostMapping("/user/findPwdByHint")
     public String findPwd(@Valid FindPwdDTO form, BindingResult bindingResult
-                                ,Model model){
+                                ,Model model, emailDTO emailDTO){ // 빈 emailDTO 보내줘야함
         if(bindingResult.hasErrors()){
             // ModelAttribute 자동 전달
             // 타입 변환 필드 오류나 Bean Validation 오류 등...

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> 비밀번호 찾기 </title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/default.css">
+</head>
+<style>
+    .form-control fieldError {
+        border-color: #bd2130;
+    }
+    .form-control{
+        border-color: #bd9999;
+    }
+    .red{
+        color: #005cbf;
+    }
+</style>
+<body>
+
+<form role="form" action="/user/findPwdByHint_id"
+      method="post">
+    <div>
+    <label th:for="userid">ID 입력</label>
+    <input type="text" id="name" name="name" class="form-control"
+           placeholder="id 입력">
+        <b class="red" th:text="${idError}"></b>
+    </div>
+    <button type="submit">Submit</button>
+
+
+
+
+</form>
+</body>
+</html>

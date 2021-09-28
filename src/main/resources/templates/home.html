@@ -15,7 +15,7 @@
 <img src="img/eodeoddl.jpg" alt="멍댕이" width="400px" height="300px">
 
     <a href="/user/new"> 회원가입하기</a> ###
-    <a href="/user/findPwd"> 비밀번호 찾기</a> ###
+    <a href="/user/findPwd_id"> 비밀번호 찾기</a> ###
 <img src="img/image_main2.jpg" alt="토끼" width="300px" height="300px">
 
 
@@ -75,13 +75,18 @@
     <tbody>
     <tr th:each="test : ${tests}">
         <td th:text=" ${test.id}">1</td>
-        <td th:text=" ${test.testName}">2</td>
+        <!--td에 바로 링크넣기 불가능-->
+        <td>
+            <a th:href="|/test/${test.id}|">
+              <div th:text=" ${test.testName}"></div>
+            </a>
+        </td>
+
         <td th:text=" ${test.testType}">3</td>
     </tr>
     </tbody>
 </table>
-<a href="/test/1">1번</a> <a href="/test/2"> 2번</a><p>
-<a href="/test/3">3번</a> <a href="/test/4"> 4번</a>
+
 <hr>
 <a href="/users"> User 목록 </a> ★★★★
 
@@ -92,7 +97,7 @@
 <h2> 1. 로그인과 id / 비밀번호 검증 2. 회원가입창 회원정보 검증 3. 비밀번호 찾기와 임시 비밀번호 이메일 발급</h2>
 <h2> 4. 비밀번호 암호화 5. 내 정보 수정 6. 로그아웃 상태로 수정창 진입 시 리다이렉트 7. 게시글 조회수 순위 정렬
     8. 쿠키 활용한 조회수 증가 제한 </h2>
-<h2>9. 수정/삭제/ 좋아요/댓글작성창 권한 설정 </h2>
+<h2>9. 수정/삭제/ 좋아요/댓글작성창 권한 설정 10. 검색기능 11. 회원탈퇴 (예정) </h2>
 
 
 <div th:if="${session.userSession != null}">
