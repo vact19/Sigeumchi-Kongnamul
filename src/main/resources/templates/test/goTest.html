@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/default.css">
     <link rel="stylesheet" href="../css//main.css">
     <link rel="stylesheet" href="../css/qna.css">
     <link rel="stylesheet" href="../css/animation.css">
     <link rel="stylesheet" href="../css/result.css">
+
     <title>Title</title>
 
     <style>
@@ -33,6 +34,7 @@
 
 <body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
 <div class="container">
     <section id="main" class="ml-3 my-5 py-5 px-3">
@@ -128,7 +130,8 @@
 <hr>
 
 <strong th:text="${authError}" class="errorBlue"></strong>
-<strong id="likeError" class="errorBlue" style="display: none;">likeError</strong>
+<strong id="CRUDandLikeError" class="errorBlue" style="display: none;">likeError</strong>
+
 
 <form  id="commentUpdate"  method="post"  hidden="hidden" th:if="${session.userSession!=null}">
     <input type="text"  cols="25" rows="5" id="textBoxU" name="textBoxU" placeholder="댓글 수정"></textarea>
@@ -139,6 +142,7 @@
 </form>
 
 <table id="userList" >
+    <thead>
     <tr>
         <td>댓글 식별자</td>
         <td>이름</td>
@@ -147,8 +151,9 @@
         <td>소속 테스트 식별자(pathVar)</td>
         <td>수정</td>
         <td>삭제</td>
-        <td></td>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="co : ${comments}" >
         <td th:text="${co.id}" ></td>
         <td th:text="${co.commentData.userName}"></td>
@@ -156,12 +161,13 @@
         <td><button th:onclick="|addLike(${coStat.index})|" type="button"  th:text="${co.commentData.likes}">
                 </button> </td>
         <td th:text="${co.testEntity.id}"></td>
-        <td><button type="button"  th:onclick="|showUpdateArea(${coStat.index})|">수정</button> <input type="hidden"
-                           th:id="|commentIndexUpdate${coStat.index}|"
+        <td><button type="button"  th:onclick="|showUpdateArea(${coStat.index})|">수정</button>
+            <input type="hidden" th:id="|commentIndexUpdate${coStat.index}|"
                            name="commentIndexUpdate" id="commentIndexUpdate" th:value="${coStat.index}"></td>
         <td><button type="button"  th:onclick="|deleteComment(${coStat.index})|">삭제</button> <input type="hidden"
                            name="commentIndexDelete" id="commentIndexDelete" th:value="${coStat.index}"> </td>
     </tr>
+    </tbody>
 </table>
 <script src="../js/data.js" charset="utf-8"></script>
 <script src="../js/start.js" charset="utf-8"></script>
@@ -188,19 +194,50 @@
     }
     function updateComment(){
         // TextArea쪽에서 post form 가져옴
-        let form = document.getElementById("commentUpdate")
-        let url = window.location.href+"/updateComment";
         let userList = document.getElementById('userList');
         let index = document.getElementById("commRow").value;
         index++;
         let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
-
-        let commId = document.getElementById("commId");
-        commId.setAttribute("value", commentId);
-        form.setAttribute("action", url);
-
-        form.submit();
+        let content=document.getElementById("textBoxU").value;
+        alert(content);
+        let data={
+            commentId:commentId,
+            content: content
+        }
+        $.ajax({
+            type: "POST",
+            url: "/test/updateComment",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function (resp){
+            if("수정 권한 없음" === resp.updateResult){
+                $("#CRUDandLikeError").text(resp.updateResult);
+                $("#CRUDandLikeError").show();
+            } else if("수정 정상 처리"===resp.updateResult){
+                userList.rows[index].cells[2].innerHTML = content;
+                document.getElementById("textBoxU").value='';
+            }
+        }).fail(function (error){
+            alert(JSON.stringify(error));
+        });
     }
+    // function updateComment(){
+    //     // TextArea쪽에서 post form 가져옴
+    //     let form = document.getElementById("commentUpdate")
+    //     let url = window.location.href+"/updateComment";
+    //     let userList = document.getElementById('userList');
+    //     let index = document.getElementById("commRow").value;
+    //     index++;
+    //     let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
+    //
+    //     let commId = document.getElementById("commId");
+    //     commId.setAttribute("value", commentId);
+    //     form.setAttribute("action", url);
+    //
+    //     form.submit();
+    // }
+
 
     function deleteComment(index){
         /**  Form.과 Input.을 직접 만들어 제출. Input  type="hidden"에는 row Index
@@ -217,6 +254,7 @@
         input.setAttribute("value", commentId); input.setAttribute("name", "commentId");
         form.appendChild(input);
         document.body.appendChild(form);
+        alert("댓글을 삭제합니다.");
 
         form.submit();
     }

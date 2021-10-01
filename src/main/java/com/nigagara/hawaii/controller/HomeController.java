@@ -24,6 +24,7 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @Slf4j
@@ -82,6 +83,15 @@ public class HomeController {
         List<User> users = userService.findUsers();
         model.addAttribute("users",users);
         return "/user/userList"; // userList.html
+    }
+    @PostMapping("/random")
+    public String randomTest(){
+        Random rand = new Random();
+        int pathVar = rand.nextInt(4)+1; // 1~4
+        log.info("path{}", pathVar);
+
+        // 형변환 자동.
+        return "redirect:/test/"+pathVar;
     }
 
     @PostMapping("/generateData")

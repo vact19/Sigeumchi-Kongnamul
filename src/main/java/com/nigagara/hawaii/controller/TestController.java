@@ -6,6 +6,7 @@ import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
 import com.nigagara.hawaii.service.CommentService;
 import com.nigagara.hawaii.service.TestService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -114,11 +115,11 @@ public class TestController {
         return "redirect:/test/"+id;
     }
 
-    @PostMapping("/test/{id}/updateComment")
+    @PostMapping("/test/updateComment")
     @Transactional
-    public String updateComment(@PathVariable Long id, @RequestParam("textBoxU") String content,
-                                @RequestParam("commId") Long commentId, HttpServletRequest request
-                                ,Model model, RedirectAttributes rttr)
+    @ResponseBody
+    public String updateComment( @RequestBody UpdateDTO updateDTO
+                                , HttpServletRequest request)
     {
         HttpSession session = request.getSession();
         String userName = (String) session.getAttribute("userSession");
@@ -127,15 +128,76 @@ public class TestController {
          *   -> 댓글 식별자를 이용해 하나의 댓글만 찾아와 수정하도록 변경.
          */
         // 2줄로 끝
-        TestComment comment = em.find(TestComment.class, commentId);
+        TestComment comment = em.find(TestComment.class, updateDTO.getCommentId());
         if( (comment.getCommentData().getUserName()).equals(userName) ){
-            comment.getCommentData().setContent(content);
-            return "redirect:/test/{id}";
+            comment.getCommentData().setContent(updateDTO.getContent());
+
+            JsonObject obj = new JsonObject();
+            obj.addProperty("updateResult", "수정 정상 처리");
+            return obj.toString();
         }
-        rttr.addFlashAttribute("authError", "수정 권한 없음");
+        JsonObject obj = new JsonObject();
+        obj.addProperty("updateResult", "수정 권한 없음");
         log.info(" UPDATE 권한없음 전송");
-        return "redirect:/test/{id}";
+        return obj.toString();
     }
+    @Getter
+    static class UpdateDTO{
+        Long commentId;
+        String content;
+    }
+//    @PostMapping("/test/{id}/updateComment")
+//    @Transactional
+//    public String updateComment(@PathVariable Long id, @RequestParam("textBoxU") String content,
+//                                @RequestParam("commId") Long commentId, HttpServletRequest request
+//            ,Model model, RedirectAttributes rttr)
+//    {
+//        HttpSession session = request.getSession();
+//        String userName = (String) session.getAttribute("userSession");
+//        /** 해당 번호 글의 댓글들을 리스트로 모두 불러와
+//         *   행 번호로 특정 댓글을 찾아내는 방식
+//         *   -> 댓글 식별자를 이용해 하나의 댓글만 찾아와 수정하도록 변경.
+//         */
+//        // 2줄로 끝
+//        TestComment comment = em.find(TestComment.class, commentId);
+//        if( (comment.getCommentData().getUserName()).equals(userName) ){
+//            comment.getCommentData().setContent(content);
+//            return "redirect:/test/{id}";
+//        }
+//        rttr.addFlashAttribute("authError", "수정 권한 없음");
+//        log.info(" UPDATE 권한없음 전송");
+//        return "redirect:/test/{id}";
+//    }
+//    @ResponseBody
+//    @PostMapping("/test/deleteComment")
+//    @Transactional
+//    public String deleteComment(@RequestBody CommentId commentId
+//            , HttpServletRequest request)
+//    {
+//        HttpSession session = request.getSession();
+//        String  username = (String) session.getAttribute("userSession");
+//
+//        TestComment comment = em.find(TestComment.class, commentId.getCommentId());
+//        if( (comment.getCommentData().getUserName()).equals(username) ){
+//
+//            // 댓글 삭제 전에 댓글 대상의 좋아요를 모두 빼낸다. // 좋아요의 PK로 조회하는 것이 아니므로 delete JPQL
+//            Query deleteQuery = em.createQuery("delete from Likes  L where  " +
+//                    "L.testComment =:deleteComment")
+//                    .setParameter("deleteComment", comment);
+//            deleteQuery.executeUpdate(); //Execute an update or delete statement.
+//            em.remove(comment);
+//
+//            JsonObject obj = new JsonObject();
+//            obj.addProperty("respDelete", "삭제 정상 처리");
+//            log.info("DELETE 정상 처리 전송");
+//            return obj.toString();
+//        }
+//        // 세션에서 얻은 id와 댓글의 id가 같지 않음
+//        JsonObject obj = new JsonObject();
+//        obj.addProperty("respDelete", "삭제 권한 없음");
+//        log.info(" DELETE 권한없음 전송");
+//        return obj.toString();
+//    }
 
     @PostMapping("/test/{id}/deleteComment")
     @Transactional
@@ -167,8 +229,7 @@ public class TestController {
 
     @PostMapping("/test/commentAddLike")
     @ResponseBody
-    public String commentAddLike(HttpServletRequest request,@RequestBody Anne anne
-                                            ,RedirectAttributes rttr)
+    public String commentAddLike(HttpServletRequest request,@RequestBody CommentId commentId)
     // param으로 한번 받아보고 안되면 static class
     {
         /**  중복인 경우- 0을 리턴
@@ -177,13 +238,13 @@ public class TestController {
          *
          *   숫자 하나를 제외하고는 String 리턴 시 오류 발생. 왜 0~9 만 가능할까?
          */
-        log.info(" *********받아온 CommentId는 {}", anne.getCommentId());
+        log.info(" *********받아온 CommentId는 {}", commentId.getCommentId());
         // 닉네임 구하기
         HttpSession session = request.getSession();
         String userName = (String)session.getAttribute("userSession");
 
         log.info("********* 세션에서 ID 확인 == {} ***", userName);
-        Long commentIdL = anne.getCommentId();
+        Long commentIdL = commentId.getCommentId();
 
         TestComment comment = em.find(TestComment.class, commentIdL);
         JsonObject obj = new JsonObject();
@@ -210,7 +271,7 @@ public class TestController {
         }
 
     }
-    static class Anne{
+    static class CommentId{
         private Long commentId;
 
         public Long getCommentId() {

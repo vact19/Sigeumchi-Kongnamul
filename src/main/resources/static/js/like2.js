@@ -31,8 +31,8 @@ function addLike(index){
 
             //  "2는 좋아요 권한 없음 오류
             if("좋아요 권한 없음. 로그인 하세요"===rrr.rspLike){
-                $("#likeError").text(rrr.rspLike);
-                $("#likeError").show();
+                $("#CRUDandLikeError").text(rrr.rspLike);
+                $("#CRUDandLikeError").show();
             } else if (resp.rspLike==="좋아요 정상 처리"){
                 commentLikes++;
                 userList.rows[index].cells[3].innerText = commentLikes;
