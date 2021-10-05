@@ -31,14 +31,27 @@
         }
     </style>
 </head>
-
 <body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-
+<script>
+    window.onload = function () {
+        let path = [[${path}]]; // 모델을 타임리프 문법으로 js로 가져오기
+        switch (path){
+            case 1:
+                document.getElementById('title').innerHTML="1번 테스트"; break;
+            case 2:
+                document.getElementById('title').innerHTML="2번 테스트"; break;
+            case 3:
+                document.getElementById('title').innerHTML="3번 테스트"; break;
+            case 4:
+                document.getElementById('title').innerHTML="4번 테스트"; break;
+        }
+    }
+</script>
 
 <div class="container">
     <section id="main" class="ml-3 my-5 py-5 px-3">
-        <h1>십이간지로 알아보는 연애유형</h1>
+        <h1 id="title">십이간지로 알아보는 연애유형</h1>
         <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
             <img src="../img/eodeoddl.jpg" alt="mainImage" class="img-fluid">
         </div>
@@ -169,8 +182,11 @@
     </tr>
     </tbody>
 </table>
-<script src="../js/data.js" charset="utf-8"></script>
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="../js/like2.js" charset="utf-8"></script>
+<script th:src="|../js/data${path}.js|" charset="utf-8"></script>
 <script src="../js/start.js" charset="utf-8"></script>
+<!--<script th:src="|../js/like${path}.js|" charset="utf-8"></script>-->
 
 <script>
     function addComment() {
@@ -207,10 +223,11 @@
         $.ajax({
             type: "POST",
             url: "/test/updateComment",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        }).done(function (resp){
+            data: JSON.stringify(data), // 자바스크립트 오브젝트인 let data를 Json 문자열로 전환해 body에 전달
+            contentType: "application/json; charset=utf-8", // request body 데이터 타입
+            dataType: "json",  // response를 어떤 식으로 받을 것인지.  json이 오면 자바스크립트 오브젝트로 변환됨
+        }).done(function (resp){ // 자동 parse
+            // 위 ajax절 결과가 정상일 시 실행, fail은 비정상 시 실행
             if("수정 권한 없음" === resp.updateResult){
                 $("#CRUDandLikeError").text(resp.updateResult);
                 $("#CRUDandLikeError").show();
@@ -280,7 +297,6 @@
         alert("URL이 클립보드에 복사되었습니다");
     }
 </script>
-<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script src="../js/like2.js" charset="utf-8"></script>
+
 
 </body>

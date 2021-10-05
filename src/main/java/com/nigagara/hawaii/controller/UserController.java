@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -160,16 +161,18 @@ public class UserController {
     @PostMapping("/user/deleteUser")
     @Transactional
     public String deleteUser(HttpServletRequest request){
-        // 세션에서 id 긁어와서 찾고 제거
-        // 기능을 Service에 몰아둬야 나중에 이 기능이 Service에 있나 Repo에
-        // 있나 찾지 않을 듯.
+        // 클라이언트 쿠키의 정보와 서버가 가지고 있는 정보가 일치하는지 확인
         HttpSession session = request.getSession();
+        // 조회 정보를 바탕으로 사용자 이름 username 을 가져옴
         String username = (String) session.getAttribute("userSession");
+
+        // 세션이 만료되었을 경우 오류 방지
+        if( username==null){ return "redirect:/"; }
+        // DB에서 사용자 데이터를 조회하여 삭제
         User user = userService.findByUserName(username);
-
         em.remove(user);
-        session.invalidate();
 
+        session.invalidate(); // 세션 지워주기
         return "redirect:/";
     }
     @PostMapping("/user/findPwdByHint")
@@ -326,7 +329,7 @@ public class UserController {
         } else if (result == LoginResult.SUCCESS) {
 
             HttpSession session = request.getSession(true); // 세션 생성
-            session.setMaxInactiveInterval(1800); // 세션 ㅜ초임.
+            session.setMaxInactiveInterval(1000); // 세션 ㅜ초임.
             session.setAttribute("userSession", form.getUserName());
 
             /** session 객체 모델 전송은 X. 타임리프에서 자동 처리

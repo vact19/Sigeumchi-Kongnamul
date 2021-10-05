@@ -90,6 +90,7 @@ public class TestController {
         // 조회수 순위. sort메서드 실행해 반환한 후 모델에 넣음
         List<TestEntity> sortedTest = testService.sortTests();
         model.addAttribute("sorted", sortedTest);
+        model.addAttribute("path", id);
         return "/test/goTest";
     }
 

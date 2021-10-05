@@ -20,7 +20,7 @@ function addLike(index){
             data:JSON.stringify(data), // 자바스크립트 오브젝트인 let data를 Json 문자열로 전환해 body에 전달
             contentType: "application/json; charset=utf-8", // request body 데이터 타입
             dataType: "json",  // response를 어떤 식으로 받을 것인지.  json이 오면 자바스크립트 오브젝트로 변환됨
-        }).done(function (resp){ // 자동 parse 되는듯
+        }).done(function (resp){ // 자동 parse
             // 위 ajax절 결과가 정상일 시 실행, fail은 비정상 시 실행
             //alert(resp); // js Object 상태에서는 Object Object로 표시됨
             let qqq = JSON.stringify(resp);
@@ -39,8 +39,6 @@ function addLike(index){
             } else if(resp.rspLike==="좋아요는 한 번만"){
                 alert("좋아요는 한 번만");
             }
-
-
 
         }).fail(function (error){
             alert(JSON.stringify(error));
