@@ -1,6 +1,6 @@
 package com.nigagara.hawaii.service;
 
-import com.nigagara.hawaii.entity.CommentData;
+
 import com.nigagara.hawaii.entity.Likes;
 import com.nigagara.hawaii.entity.TestComment;
 import com.nigagara.hawaii.entity.TestEntity;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 

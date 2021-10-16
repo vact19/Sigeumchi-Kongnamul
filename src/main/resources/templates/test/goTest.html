@@ -74,8 +74,16 @@
         </thead>
         <tbody>
         <tr th:each="srt : ${sorted}">
-            <td th:text="${srtStat.count}"></td>
-            <td th:text="${srt.getTestName()}"></td>
+            <td>
+                <a th:href="|/test/${srt.getId()}|">
+                    <div th:text="${srtStat.count}"></div>
+                </a>
+            </td>
+            <td>
+                <a th:href="|/test/${srt.getId()}|">
+                    <div th:text="${srt.getTestName()}"></div>
+                </a>
+            </td>
             <td th:text="${srt.getView()}"></td>
         </tr>
         </tbody>

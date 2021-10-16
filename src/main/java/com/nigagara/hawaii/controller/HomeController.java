@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.persistence.EntityManager;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Random;
@@ -43,26 +44,22 @@ public class HomeController {
     final String TYPE2="type2";
     final String TYPE3="type3";
 
-    @GetMapping("/test")
-    public String goTestPage(){
-        return "copy";
-    }
 
     /**
      *spring security는 로그아웃 시 /login?logout으로 get 요청
      *       *  logout() 파라미터 설정을 안해서 기본 경로인 /logout 로그아웃 경로,
      *      *로그아웃 후 경로가 /login?logout으로 잡힌 듯 -> 경로를 /user/logout으로 설정하니
      *      *spring security가 안 먹힘.
-      *
      */
     @GetMapping({"/", "/login"})
-    public String home(Model model, RedirectAttributes redirectAttributes,
-                                    @RequestParam(required = false) String byName,
-                                    @RequestParam(required = false) String byType){
-
+    public String home(Model model,
+                                    @RequestParam(required = false) String byName, // 검색 파라미터
+                                    @RequestParam(required = false) String byType
+                                    ){
         // 빈 폼 전달하지 않으면 오류 발생
         model.addAttribute("loginFormDTO", new LoginFormDTO());
 
+        //Test 검색에 사용되는 Get조회요청에 따른 응답
         if(StringUtils.hasText(byName)){
             List<TestEntity> tests = testRepository.searchByName(byName);
             model.addAttribute("tests",tests);
@@ -71,29 +68,30 @@ public class HomeController {
             List<TestEntity> tests = testRepository.searchByType(byType);
             model.addAttribute("tests",tests);
             return "home";
-        }
+        } else{
         List<TestEntity> tests = testRepository.findAll();
         model.addAttribute("tests",tests);
         return "home";
+        }
     }
-
+    // user 목록
     @GetMapping("/users")
     public String showUserList(Model model){
-
         List<User> users = userService.findUsers();
         model.addAttribute("users",users);
         return "/user/userList"; // userList.html
     }
+    // 랜덤 탐색
     @PostMapping("/random")
     public String randomTest(){
         Random rand = new Random();
         int pathVar = rand.nextInt(4)+1; // 1~4
-        log.info("path{}", pathVar);
 
         // 형변환 자동.
         return "redirect:/test/"+pathVar;
     }
 
+    // 데이터 생성
     @PostMapping("/generateData")
     @Transactional
     public String generateUser(){

@@ -1,6 +1,6 @@
 const qnaList = [
   {
-    q: '1. void 함수에 진정한 리턴값은 있다, 없다?',
+    q: '1. 3번데이터1번질문?',
     a: [
       { answer: 'a. void 함수에 리턴값이 어딨어? 절대 없어', type: ['cow', 'tiger', 'dragon', 'chick'] },
       { answer: 'b. 리턴값 있지, 절대 void로만 안 보일뿐', type: ['mouse', 'rabbit', 'horse', 'snake', 'dog', 'monkey'] },

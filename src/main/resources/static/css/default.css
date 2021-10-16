@@ -1,6 +1,41 @@
 body{
   background-color: pink;
   font-size: 20px;
+  margin: 0 auto;
+}
+
+div.content{
+  position: relative;
+  min-height: 100%
+}
+
+a{
+  text-decoration-line: none;
+  color: black;
+}
+
+ul.user{
+  float: right;
+  margin-block-start: 40px;
+  margin-block-end: 0;
+}
+
+section.search{
+  background:yellow;
+  right:0;
+  top:80;
+}
+
+.footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-item: center;
+  justify-content: center;
+  background: gray;
 }
 
 *{

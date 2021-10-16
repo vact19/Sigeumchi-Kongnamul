@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
 
@@ -15,10 +16,10 @@ import org.springframework.security.web.firewall.HttpFirewall;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+    // 비밀번호 암호화 코드
     //private final PasswordEncoder encoder; 를 사용해 구현체를 Autowire해 씀
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(); // 구현체 BCrypt
     }
 
@@ -27,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public HttpFirewall defaultHttpFirewall() {
         return new DefaultHttpFirewall();
     }
+
     // Firewall 등록
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -43,3 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable();
     }
 }
+
+
+
