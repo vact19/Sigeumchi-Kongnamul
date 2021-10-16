@@ -81,6 +81,8 @@ public class HomeController {
         model.addAttribute("users",users);
         return "/user/userList"; // userList.html
     }
+
+
     // 랜덤 탐색
     @PostMapping("/random")
     public String randomTest(){

@@ -1,11 +1,10 @@
 package com.nigagara.hawaii.controller;
 
 import com.google.gson.JsonObject;
-import com.nigagara.hawaii.entity.CommentData;
-import com.nigagara.hawaii.entity.TestComment;
-import com.nigagara.hawaii.entity.TestEntity;
+import com.nigagara.hawaii.entity.*;
 import com.nigagara.hawaii.service.CommentService;
 import com.nigagara.hawaii.service.TestService;
+import com.nigagara.hawaii.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +33,7 @@ public class TestController {
     private final EntityManager em;
     private final CommentService commentService;
     private final TestService testService;
+    private final UserService userService;
 
 
     @Transactional // 데이터 변경
@@ -41,6 +41,22 @@ public class TestController {
     public String showTestView(@PathVariable Long id, Model model,
                                 HttpServletRequest request, HttpServletResponse  response)
     {
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("userSession");
+        // 최근 본 테스트 데이터 쌓기
+        if(username!=null){
+            User user = userService.findByUserName(username); // 영속
+            TestEntity testEntity = em.find(TestEntity.class, id);
+
+
+            RecentTest rTest = new RecentTest();
+            rTest.setUser(user);
+            rTest.setRecentTestName(testEntity.getTestName());
+            rTest.setRecentTestUrl("/test/"+id);
+            em.persist(rTest);
+        }
+
+
         /**쿠키를 get해서 비어있는지 확인, 비어있으면 새 쿠키 생성해주고(rsps.addCookie)
          *  로직 실행
          * 비어있지 않으면 쿠키 중에 카운트 쿠키가 있는지 확인

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/default.css">
+</head>
+<body>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>테스트명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="test : ${recentTest}">
+        <td>
+                <a th:href="${test.recentTestUrl}" th:text="${test.recentTestName}"></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

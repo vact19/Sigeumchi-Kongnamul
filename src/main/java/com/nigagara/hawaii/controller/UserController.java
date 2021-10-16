@@ -1,6 +1,7 @@
 package com.nigagara.hawaii.controller;
 
 import com.nigagara.hawaii.controller.DTO.*;
+import com.nigagara.hawaii.entity.RecentTest;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.repository.UserRepository;
 import com.nigagara.hawaii.service.LoginResult;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -328,6 +330,21 @@ public class UserController {
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:/";
+    }
+    // 최근 탐색 테스트 목록
+    @GetMapping("/recentTest")
+    public String showRecentTest(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("userSession");
+        // 해당 유저의 DB ID값을 구해서, ID로 최근테스트 테이블의 자료를 조회해 리스트로.
+        User user = userService.findByUserName(username);
+
+        List<RecentTest> recentTest = userService.findRecentTest(user);
+        Collections.reverse(recentTest); // 순차적으로 쌓인 리스트를 뒤집기
+        model.addAttribute("recentTest", recentTest);
+
+
+        return "/user/recentTestList";
     }
 
 

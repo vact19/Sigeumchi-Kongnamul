@@ -1,6 +1,7 @@
 package com.nigagara.hawaii.service;
 
 import com.nigagara.hawaii.controller.UserController;
+import com.nigagara.hawaii.entity.RecentTest;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -82,5 +83,10 @@ public class UserService {
         message.setSubject("WhoAmI의 임시 비밀번호를 발급해 드려요");
         message.setText("받아라  "+ tempPwd);
         mailSender.send(message);
+    }
+
+    public List<RecentTest>  findRecentTest(User user) {
+        //id를 기준으로 최근테스트 테이블의 자료를 긁어 리스트로 가져옴
+        return userRepository.recentTest(user);
     }
 }

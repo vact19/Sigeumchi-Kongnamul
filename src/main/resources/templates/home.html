@@ -70,11 +70,12 @@
                 <div th:if="${session.userSession != null}">
                     <button type="button"  th:text="|${session.userSession} 로그아웃|" value="로그아웃"
                             onclick="logout()"></button>
-                </div>
-                <div th:if="${session.userSession != null}">
                     <button type="button"  th:text="|${session.userSession} 내 정보 수정|" value="수정"
                             onclick="location.href='/user/myPage' "></button>
+                    <button type="button"  th:text="|${session.userSession} 최근 방문한 테스트|" value="수정"
+                            onclick="location.href='/recentTest' "></button>
                 </div>
+
 
                 <section class="search" style="border: solid 1px;">
                     <form>
@@ -138,7 +139,7 @@
 
 <script>
     function autoGenerate() {
-        var form = document.createElement("form");
+        const form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/generateData");
         document.body.appendChild(form);

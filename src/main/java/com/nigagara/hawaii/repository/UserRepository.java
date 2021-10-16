@@ -1,5 +1,6 @@
 package com.nigagara.hawaii.repository;
 
+import com.nigagara.hawaii.entity.RecentTest;
 import com.nigagara.hawaii.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,5 +49,11 @@ public class UserRepository {
     }
 
 
-
+    public List<RecentTest> recentTest(User user) {
+        // spring data jpa 있으면 findAll() 구현 안해도 될 듯
+        return em.createQuery("select RT FROM RecentTest as RT WHERE " +
+                "RT.user=:user", RecentTest.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }
