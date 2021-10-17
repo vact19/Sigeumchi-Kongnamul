@@ -120,19 +120,19 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("1번 테스트"); testEntity.setView(9);
+        testEntity.setTestName("스마트폰 중독 테스트"); testEntity.setView(9);
         testEntity.setTestType(TYPE1);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("2번 테스트"); testEntity2.setView(7);
+        testEntity2.setTestName("내게 맞는 프로그래밍 언어"); testEntity2.setView(7);
         testEntity2.setTestType(TYPE2);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
 
         TestEntity testEntity3 = new TestEntity();
-        testEntity3.setTestName("3번 테스트"); testEntity3.setView(5);
+        testEntity3.setTestName("내향성 테스트"); testEntity3.setView(5);
         testEntity3.setTestType(TYPE3);
         em.persist(testEntity3);
         Long testId3 = testEntity3.getId();

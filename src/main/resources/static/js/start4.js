@@ -2,50 +2,26 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 
-const endPoint = 12;
-//const select = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let select = 0;
-//12`15
-//16`19
-//20`23
-//24`27
-//29`32
-//32`36
+const endPoint = 5;
+const select = [0, 0, 0, 0, 0];
+
 function calResult(){
-  console.log('결과를 계산합니다');
   console.log(select);
-  let div = select/3
-  let result=0;
-  if(div<=5){
-    result=0
-  } else if (div<=6.4){
-    result=1;
-  } else if (div<=7.7){
-    result=2;
-  } else if (div<=9){
-    result=3;
-  } else if (div<=10.7){
-    result=4;
-  } else if (div<=12){
-    result=5;
-  }
+  var result = select.indexOf(Math.max(...select));
+  console.log("1번테스트 calResult()");
   return result;
 }
 
 function setResult(){
   let point = calResult();
-  console.log("cal 결과값은")
-  console.log(point)
-
-  const resultName = document.querySelector('.resultname');
   // 결과 Index point에 맞는 key.인 name.을 set함
+  const resultName = document.querySelector('.resultname');
   resultName.innerHTML = infoList[point].name;
 
   //이미지 처리
-  let resultImg = document.createElement('img');
+  var resultImg = document.createElement('img');
   const imgDiv = document.querySelector('#resultImg');
-  let imgURL = '../img/image-'+point+'.png';
-  console.log(imgURL);
+  var imgURL = '../img/image-' + point + '.png';
   resultImg.src = imgURL;
   resultImg.alt = point;
   resultImg.classList.add('img-fluid');
@@ -55,7 +31,9 @@ function setResult(){
   const resultDesc = document.querySelector('.resultDesc');
   resultDesc.innerHTML = infoList[point].desc;
 
-  var obShareUrl = document.getElementById("ShareUrl");
+  // 공유
+  const obShareUrl = document.getElementById("ShareUrl");
+  //주소 채워주기
   obShareUrl.value = window.document.location.href;
 }
 
@@ -92,19 +70,21 @@ function addAnswer(answerText, qIdx, idx){
   // 답변 박스에 하나씩 EventListener 달기
   answer.addEventListener("click", function(){
     // answerList(3개) 모두 가져와서 다음으로 넘어가는 css 설정함
-    let children = document.querySelectorAll('.answerList');
+    var children = document.querySelectorAll('.answerList');
     for(let i = 0; i < children.length; i++){
       children[i].disabled = true;
       children[i].style.WebkitAnimation = "fadeOut 0.5s";
       children[i].style.animation = "fadeOut 0.5s";
     }
-
     //해당 Index. 의 타입 { answer: 'a. 바로 먼저 연락한다.', type: ['mouse', 'rabbit', 'tiger', 'monkey'] },
     // 타입의 길이를 구해 길이에 맞게  select 배열에 추가점수
     setTimeout(() => {
-      select =  parseInt(select) + (parseInt(idx)+1);
-      console.log((parseInt(idx)+parseInt(1)));
-      console.log(select);
+      // 해당 qna리스트 데이터의 [질문번호].[답변]
+      var target = qnaList[qIdx].a[idx].type;
+      for(let i = 0; i < target.length; i++){
+        select[target[i]] += 1;
+      }
+
       //클릭한 박스 사라지게 하기
       for(let i = 0; i < children.length; i++){
         children[i].style.display = 'none';
@@ -113,7 +93,6 @@ function addAnswer(answerText, qIdx, idx){
     },450)
   }, false);
 }
-
 /**
  *   다음으로 진행 ( addAnswer 호출 )
  */
@@ -123,15 +102,14 @@ function goNext(qIdx){
     return;
   }
   // qIdx에 맞는 질문 세팅
-  let q = document.querySelector('.qBox');
+  var q = document.querySelector('.qBox');
   q.innerHTML = qnaList[qIdx].q;
-
-  for(let i in qnaList[qIdx].a){ //qnaList.에서  qIdx.에 맞는 키 a의 밸류 배열을 하나씩 담는다.
+  for(let i in qnaList[qIdx].a){//qnaList.에서  qIdx.에 맞는 키 a의 밸류 배열을 하나씩 담는다.
     //console.log(i); // 0 , 1, 2가 찍힘
     addAnswer(qnaList[qIdx].a[i].answer, qIdx, i);
   }
   // 상태 바
-  let status = document.querySelector('.statusBar');
+  var status = document.querySelector('.statusBar');
   status.style.width = (100/endPoint) * (qIdx+1) + '%';
 }
 
