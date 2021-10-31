@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+</head>
+<body style="background-color: pink;">
+<div class="container" style="margin:200px 550px">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title"><strong> 로그인 </strong></h3></div>
+            <div class="panel-body">
+                <form role="form" action="/user/login" method="post" th:object="${loginFormDTO}">
+                    <div class="form-group">
+                        <label th:for="name">ID</label>
+                        <input type="text" class="form-control" th:field="*{userName}" placeholder="id 입력" >
+                        <b th:text="${idError}"></b>
+                    </div>
+                    <div class="form-group">
+                        <label th:for="password">비밀번호 <a href="/user/findPwd_id">(비밀번호 찾기)</a></label>
+                        <input type="password" class="form-control" th:field="*{password}" placeholder="비밀번호 입력">
+                        <b th:text="${pwdError}"></b>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-default">로그인</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
