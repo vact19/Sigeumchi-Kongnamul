@@ -2,13 +2,13 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 
-const endPoint = 5;
-const select = [0, 0, 0, 0, 0];
+const endPoint = 7;
+const select = [0, 0, 0, 0];
 
 function calResult(){
-  console.log(select);
+  console.log('테스트 완료=> '+select);
+  console.log("1번 테스트, 결과를 계산합니다");
   var result = select.indexOf(Math.max(...select));
-  console.log("1번테스트 calResult()");
   return result;
 }
 
@@ -76,14 +76,19 @@ function addAnswer(answerText, qIdx, idx){
       children[i].style.WebkitAnimation = "fadeOut 0.5s";
       children[i].style.animation = "fadeOut 0.5s";
     }
-    //해당 Index. 의 타입 { answer: 'a. 바로 먼저 연락한다.', type: ['mouse', 'rabbit', 'tiger', 'monkey'] },
+    //해당 Index. 의 타입 { answer: 'a. 바로 먼저 연락한다.', type: [ '0', '2'] },
     // 타입의 길이를 구해 길이에 맞게  select 배열에 추가점수
     setTimeout(() => {
       // 해당 qna리스트 데이터의 [질문번호].[답변]
       var target = qnaList[qIdx].a[idx].type;
       for(let i = 0; i < target.length; i++){
+        // target[0]은 0, target[1]은 2. 그러므로 select[0], select[2]에 1씩 추가된다.
+        // 가장 많이 나온 select[] 배열값 idx가 결과값 infoList.의  idx.가 됨.
         select[target[i]] += 1;
       }
+      console.log(select); // 중간 결과 확인
+      console.log("[매우 양호, 양호, 주의, 위험]")
+      console.log("======================")
 
       //클릭한 박스 사라지게 하기
       for(let i = 0; i < children.length; i++){

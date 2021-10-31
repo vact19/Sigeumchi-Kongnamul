@@ -6,9 +6,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
 <body>
 
+<div >총 개수: <span th:text="${users.totalElements}"></span></div>
+<form class="form-inline d-flex justify-content-end" method="get" th:action="@{/users}">
+    <div class="col-auto">
+        <label for="searchText" class="sr-only">검색</label>
+        <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-light mb-3">검색</button>
+    </div>
+</form>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -28,6 +39,21 @@
     </tr>
     </tbody>
 </table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${1 == users.pageable.pageNumber+1} ? 'disabled' ">
+            <a class="page-link" href="#" th:href="@{/users(page=${users.pageable.pageNumber - 1}, searchText=${param.searchText})}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+
+        <li class="page-item" th:classappend="${i == users.pageable.pageNumber+1} ? 'disabled' " th:each="i : ${#numbers.sequence(startPage, endPage)}">
+            <a class="page-link" href="#" th:href="@{/users(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+        </li>
+
+        <li class="page-item" th:classappend="${users.totalPages == users.pageable.pageNumber+1} ? 'disabled' ">
+            <a class="page-link" href="#" th:href="@{/users(page=${users.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+        </li>
+    </ul>
+</nav>
 
 </body>
 </html>

@@ -1,3 +1,16 @@
+*{
+  list-style: none;
+  text-decoration: none;
+  border-collapse: collapse;
+  margin: 0px;
+  padding: 0px;
+}
+.header{
+  background-color: white;
+  width: 1280px;
+  margin: auto;
+  padding:10px;"
+}
 body{
   background-color: pink;
   font-size: 20px;
@@ -20,12 +33,38 @@ ul.user{
   margin-block-end: 0;
 }
 
-section.search{
-  background:yellow;
-  right:0;
-  top:80;
+.aside{
+  /*현재 위치에서 일정 높이 이동시키고
+    싶을 때, 아래 두줄 설정.*/
+  position: relative;
+  top: -100px;
+
+  display: inline-block;
+  width: 380px;
+  height: 300px;
+  background-color: #dc3545;
+  margin-left: 63px;
+  margin-top: 50px;
 }
 
+.section{
+  display: inline-block;
+  margin-left: 160px;
+  background-color: #e83e8c;
+  width: 800px;
+  height: 400px;
+  margin-top: 50px;
+  align-content: center;
+}
+.section_content{
+  margin-right: 20px;
+}
+.test_image{
+  height: 120px; width: 150px;
+}
+.test_name{
+  font-size: 25px;
+}
 .footer{
   position: absolute;
   left: 0;
@@ -37,6 +76,25 @@ section.search{
   justify-content: center;
   background: gray;
 }
+.menu{
+  background-color: #0f6674;
+  height: 100px;
+  width: 100%;
+  align-content: center;
+}
+.menu_btn{
+  width: 300px;
+  display: flex;
+  margin: 0 auto;
+}
+.menu_btn > button{
+  flex: 1;
+  height: 60px;
+  margin-right: 10px;
+}
+
+
+
 
 *{
   font-family: 'Nanum Pen Script', cursive;

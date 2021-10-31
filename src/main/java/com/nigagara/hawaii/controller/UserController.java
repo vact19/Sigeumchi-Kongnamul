@@ -1,7 +1,6 @@
 package com.nigagara.hawaii.controller;
 
 import com.nigagara.hawaii.controller.DTO.*;
-import com.nigagara.hawaii.entity.RecentTest;
 import com.nigagara.hawaii.entity.User;
 import com.nigagara.hawaii.repository.UserRepository;
 import com.nigagara.hawaii.service.LoginResult;
@@ -26,7 +25,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -188,7 +186,7 @@ public class UserController {
     {
         HttpSession session = request.getSession();
         String username = (String) session.getAttribute("userSession");
-        User myPageUser = userRepository.ByUserName(username);
+        User myPageUser = userService.findByUserName(username);
         UserFormDTO form = new UserFormDTO();
         //찾은 유저정보를 모델에 보낼 form에 복사하기
 
@@ -288,6 +286,13 @@ public class UserController {
 
         return "redirect:/";
     }
+    // 새로 추가한 페이지. 1031
+    @GetMapping("/user/login")
+    public String login(Model model){
+        // 빈 폼 전달하지 않으면 오류 발생
+        model.addAttribute("loginFormDTO", new LoginFormDTO());
+        return "login";
+    }
     @PostMapping("/user/login")
     public String login(LoginFormDTO form, HttpServletRequest request
                         , Model model, RedirectAttributes redirectAttributes
@@ -304,12 +309,12 @@ public class UserController {
             form.setUserName("");  form.setPassword("");
             model.addAttribute("idError", "그런 id 없어요");
             model.addAttribute("loginFormDTO",form);
-            return "home";
+            return "login";
         } else if ( result == LoginResult.ONLY_ID ){
             form.setPassword(""); // Password만 비워주고 돌려보냄
             model.addAttribute("pwdError", "PWD 다시 입력");
             model.addAttribute("loginFormDTO",form);
-            return "home";
+            return "login";
         } else if (result == LoginResult.SUCCESS) {
 
             HttpSession session = request.getSession(true); // 세션 생성
@@ -319,10 +324,10 @@ public class UserController {
             /** session 객체 모델 전송은 X. 타임리프에서 자동 처리
              */
            // redirect 되는 url에 모델로 보내짐
-           redirectAttributes.addFlashAttribute("session11", "rttr.addFlashAttribute()");
-           log.info(redirectURL);
-           log.info("???");
-            return "redirect:"+ redirectURL;
+//           redirectAttributes.addFlashAttribute("session11", "rttr.addFlashAttribute()");
+//           log.info(redirectURL);
+//           log.info("???");
+            return "redirect:/";
         }
         return "unexpectedError";
     }
@@ -331,21 +336,8 @@ public class UserController {
         request.getSession().invalidate();
         return "redirect:/";
     }
-    // 최근 탐색 테스트 목록
-    @GetMapping("/recentTest")
-    public String showRecentTest(Model model, HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String username = (String) session.getAttribute("userSession");
-        // 해당 유저의 DB ID값을 구해서, ID로 최근테스트 테이블의 자료를 조회해 리스트로.
-        User user = userService.findByUserName(username);
-
-        List<RecentTest> recentTest = userService.findRecentTest(user);
-        Collections.reverse(recentTest); // 순차적으로 쌓인 리스트를 뒤집기
-        model.addAttribute("recentTest", recentTest);
 
 
-        return "/user/recentTestList";
-    }
 
 
 

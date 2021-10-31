@@ -3,24 +3,22 @@
     <link rel="shortcut icon" type="image/x-icon" href="/img/title-icon.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>심리테스트 Who Am I</title>
-
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/default.css">
-
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <body>
     <div class="content">
-        <header class="header" style="background-color: white;width: auto;padding:10px;">
+        <header class="header">
             <div class="logo" style="display:inline;">
                 <a href="javascript:history.go(0);">
                     <img src="/img/logo.png" width="180px" height="60px">
                 </a>
             </div>
             <ul class="user">
-                <a href="#" th:if="${session.userSession==null}" th:object="${loginFormDTO}"
-                   onclick='window.open("/user/login","_blank","height=500,width=500, status=yes,toolbar=no,menubar=no,location=center");return false'>로그인</a>
+                <a href="/user/login" th:if="${session.userSession==null}" th:object="${loginFormDTO}">로그인</a>
                 <a th:if="${session.userSession != null}" th:text="로그아웃" value="로그아웃"
                    onclick="logout()"></a> |
                 <a th:if="${session.userSession != null}" value="수정"
@@ -29,106 +27,137 @@
                 <a href="/user/findPwd_id" th:if="${session.userSession==null}"> 비밀번호 찾기</a>
             </ul>
         </header>
-        <div>
-            <div style="display: inline-block;">
-                <table>
-                    <thead>
-                    <th>테스트 번호</th>
-                    <th>테스트 이름</th>
-                    <th>테스트 분야</th>
-                    </thead>
-                    <tbody>
-                    <tr th:each="test : ${tests}">
-                        <td th:text=" ${test.id}">1</td>
-                        <!--td에 바로 링크넣기 불가능-->
-                        <td>
-                            <a th:href="|/test/${test.id}|">
-                                <div th:text=" ${test.testName}"></div>
-                            </a>
-                        </td>
-
-                        <td th:text=" ${test.testType}">3</td>
-                    </tr>
-                    </tbody>
-                </table>
+        <!--main section START-->
+        <div class="section">
+            <div>
+                <ul th:each="test: ${testPage}">
+                    <li style=" float: left;">
+                        <div class="section_content">
+                        <a th:href="|/test/${test.id}|">
+                            <img class="test_image" th:src="|../img/image-${test.id}.png|"/> </a>
+                        <div class="test_name" th:text=" ${test.testName}"></div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <div style="float:right;display: inline-block;">
-                <form  action="/user/login" method="post" style="border: solid 1px;margin-block-end:0;background:aquamarine;"
-                       th:if="${session.userSession==null}" th:object="${loginFormDTO}">
-                    <div>
-                        <label th:for="name">ID</label>
-                        <input type="text" th:field="*{userName}" placeholder="id 입력" >
-                        <b th:text="${idError}"></b>
-                    </div>
-                    <div>
-                        <label th:for="password">password</label>
-                        <input type="password" th:field="*{password}"  placeholder="pwd 입력">
-                        <b th:text="${pwdError}"></b>
-                        <button type="submit" value="로그인하기">로그인</button>
-                    </div>
-                </form>
-                <div th:if="${session.userSession != null}">
-                    <button type="button"  th:text="|${session.userSession} 로그아웃|" value="로그아웃"
-                            onclick="logout()"></button>
-                    <button type="button"  th:text="|${session.userSession} 내 정보 수정|" value="수정"
-                            onclick="location.href='/user/myPage' "></button>
-                    <button type="button"  th:text="|${session.userSession} 최근 방문한 테스트|" value="수정"
-                            onclick="location.href='/recentTest' "></button>
-                </div>
+        </div>
+        <!--main section END-->
+
+<!--            <div style="display: inline-block;">-->
+<!--                <table width="350" height="200" font-size="200" style="font-size: 25px; color: blue">-->
+<!--                    <thead>-->
+<!--                    <th>테스트 번호</th>-->
+<!--                    <th>테스트 이름</th>-->
+<!--                    <th>테스트 분야</th>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr th:each="test : ${tests}" align="center">-->
+<!--                        <td th:text=" ${test.id}">1</td>-->
+<!--                        &lt;!&ndash;td에 바로 링크넣기 불가능&ndash;&gt;-->
+<!--                        <td>-->
+<!--                            <a th:href="|/test/${test.id}|">-->
+<!--                                <div th:text=" ${test.testName}"></div>-->
+<!--                            </a>-->
+<!--                        </td>-->
+
+<!--                        <td th:text=" ${test.testType}">3</td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
 
 
-                <section class="search" style="border: solid 1px;">
-                    <form>
+<!--aside start-->
+        <div class="aside">
+            <div style="float:right;">
+<!--                <form  action="/user/login" method="post" style="border: solid 1px;margin-block-end:0;background:aquamarine;"-->
+<!--                       th:if="${session.userSession==null}" th:object="${loginFormDTO}">-->
+<!--                    <div>-->
+<!--                        <label th:for="name">ID</label>-->
+<!--                        <input type="text" th:field="*{userName}" placeholder="id 입력" >-->
+<!--                        <b th:text="${idError}"></b>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <label th:for="password">password</label>-->
+<!--                        <input type="password" th:field="*{password}"  placeholder="pwd 입력">-->
+<!--                        <b th:text="${pwdError}"></b>-->
+<!--                        <button type="submit" value="로그인하기">로그인</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+                <div class="search" style="border: solid 1px;">
+                    <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/}">
+                        <div class="col-auto">
+                            <label for="searchText" class="sr-only">검색</label>
+                            <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-light mb-3" style="margin-top: 17px">주제 검색</button>
+                        </div>
+                    </form>
                         <!--
                           The default 'method', 'action' and
                            'enctype' of an HTML form, if they are not specified,
                            are GET, current URL and application/x-www-form-urlencoded respectively
                           -->
-                        <label for="byName"> 제목으로 찾기 </label>
-                        <input type="text" id="byName" name="byName">
-                        <button type="submit">Submit</button>
-                    </form>
-
                     <form>
-                        <label for="byType"> 주제로 찾기 </label>
-                        <select id="byType" name="byType">
+                        <label for="byType" style="font-size: 24px"> 주제로 찾기 </label>
+                        <select id="byType" name="searchText">
                             <option value="">목록</option>
                             <option value="type1">type1</option>
                             <option value="type2">type2</option>
                             <option value="type3">type3</option>
-                        </select>
-                        <button type="submit">Submit</button>
+                        </select>&nbsp;
+                        <button type="submit" class="btn btn-light mb-3" style="margin-top: 17px">주제 검색</button>
                     </form>
-
                     <form method="post" action="/random">
-                        <button type="submit">랜덤 탐색</button>
+                        <button type="submit" class="btn btn-light mb-3 rrr">랜덤 탐색</button>
                     </form>
-                    <a>검색</a>
-                </section>
+                </div>
             </div>
         </div>
+<!--aside END-->
+<!--menu START-->
+        <div class="menu" th:if="${session.userSession != null}">
+            <div class="menu_btn">
+            <button type="button"  th:text="|로그아웃|" value="로그아웃"
+                    onclick="logout()"></button>
+            <button type="button"  th:text="|내 정보 수정|" value="수정"
+                    onclick="location.href='/user/myPage' "></button>
+            <button type="button"  th:text="|최근 방문한 테스트|" value="수정"
+                    onclick="location.href='/recentTest' "></button>
+            </div>
+        </div>
+<!--menu END-->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${1 == testPage.pageable.pageNumber+1} ? 'disabled' ">
+                    <a class="page-link" href="#" th:href="@{/(page=${testPage.pageable.pageNumber - 1}, searchText=${param.searchText})}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+
+                <li class="page-item" th:classappend="${i == testPage.pageable.pageNumber+1} ? 'disabled' " th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="page-link" href="#" th:href="@{/(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+                </li>
+
+                <li class="page-item" th:classappend="${testPage.totalPages == testPage.pageable.pageNumber+1} ? 'disabled' ">
+                    <a class="page-link" href="#" th:href="@{/(page=${testPage.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+
+
         <div style="padding-bottom: 80px;">
             <hr style="clear: both;">
-
             <a href="/users"> User 목록 </a> ★★★★
-
             <a th:href="'javascript:autoGenerate()'"
                href="#"
                class="btn btn-danger">테스트용 유저 DB / 댓글 생성</a>
 
-            <h2> 1. 로그인과 id / 비밀번호 검증 2. 회원가입창 회원정보 검증 3. 비밀번호 찾기와 임시 비밀번호 이메일 발급</h2>
-            <h2> 4. 비밀번호 암호화 5. 내 정보 수정 6. 로그아웃 상태로 수정창 진입 시 리다이렉트 7. 게시글 조회수 순위 정렬
-                8. 쿠키 활용한 조회수 증가 제한 </h2>
-            <h2>9. 수정/삭제/ 좋아요/댓글작성창 권한 설정 10. 검색기능 11. 회원탈퇴 12. 테스트 랜덤 탐색 </h2>
-            <h2></h2>
+<!--            <div th:if="${session.userSession != null}">-->
+<!--                <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">-->
+<!--            </div>-->
 
-
-            <div th:if="${session.userSession != null}">
-                <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
-            </div>
-            <h2 th:text="${session11}"></h2>
         </div>
-
         <footer class="footer">
             <span class="footer-logo">Who Am I </span>
             개발자 : 조성우, 정한결, 김소희, 임주헌 팀장 : 조성우

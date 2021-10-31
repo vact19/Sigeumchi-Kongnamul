@@ -48,15 +48,12 @@ public class TestController {
             User user = userService.findByUserName(username); // 영속
             TestEntity testEntity = em.find(TestEntity.class, id);
 
-
             RecentTest rTest = new RecentTest();
             rTest.setUser(user);
             rTest.setRecentTestName(testEntity.getTestName());
             rTest.setRecentTestUrl("/test/"+id);
             em.persist(rTest);
         }
-
-
         /**쿠키를 get해서 비어있는지 확인, 비어있으면 새 쿠키 생성해주고(rsps.addCookie)
          *  로직 실행
          * 비어있지 않으면 쿠키 중에 카운트 쿠키가 있는지 확인

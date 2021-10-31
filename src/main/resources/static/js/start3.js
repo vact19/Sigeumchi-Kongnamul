@@ -93,12 +93,15 @@ function addAnswer(answerText, qIdx, idx){
       children[i].style.animation = "fadeOut 0.5s";
     }
 
-    //해당 Index. 의 타입 { answer: 'a. 바로 먼저 연락한다.', type: ['mouse', 'rabbit', 'tiger', 'monkey'] },
+    //해당 Index. 의 타입 { answer: 'a. 바로 먼저 연락한다.', type: ['0', '1', '2', '3'] },
     // 타입의 길이를 구해 길이에 맞게  select 배열에 추가점수
     setTimeout(() => {
       select =  parseInt(select) + (parseInt(idx));
-      console.log((parseInt(idx)+parseInt(1)));
-      console.log(select);
+
+      console.log((parseInt(idx)+parseInt(1)+'번째 답변 선택'));
+      console.log('누계 '+select+'점');
+      console.log("===========================")
+
       //클릭한 박스 사라지게 하기
       for(let i = 0; i < children.length; i++){
         children[i].style.display = 'none';

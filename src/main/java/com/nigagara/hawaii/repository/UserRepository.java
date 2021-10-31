@@ -2,6 +2,7 @@ package com.nigagara.hawaii.repository;
 
 import com.nigagara.hawaii.entity.RecentTest;
 import com.nigagara.hawaii.entity.User;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.List;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
+@Data
 public class UserRepository {
 
     // @PersistenceContext
@@ -44,7 +46,7 @@ public class UserRepository {
         // List로 받지 않으면 못 찾았을 때 오류 발생
     }
 
-    public List<User> findAll(){
+    public List<User> find_All(){
         return em.createQuery("select u from User  as u ", User.class).getResultList();
     }
 

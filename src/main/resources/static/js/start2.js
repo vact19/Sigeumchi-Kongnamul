@@ -6,9 +6,9 @@ const endPoint = 3;
 const select = [0, 0, 0];
 
 function calResult(){
-  console.log(select);
+  console.log('테스트 완료=> '+select);
+  console.log("2번 테스트, 결과를 계산합니다");
   var result = select.indexOf(Math.max(...select));
-  console.log("2번테스트 calResult()");
   return result;
 }
 
@@ -84,6 +84,9 @@ function addAnswer(answerText, qIdx, idx){
       for(let i = 0; i < target.length; i++){
         select[target[i]] += 1;
       }
+      console.log(select)
+      console.log("[JAVA, PYTHON, JS]")
+      console.log("===============")
 
       //클릭한 박스 사라지게 하기
       for(let i = 0; i < children.length; i++){

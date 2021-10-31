@@ -51,7 +51,7 @@ public class UserService {
     }
 
     public List<User> findUsers(){
-        return userRepository.findAll();
+        return userRepository.find_All();
     }
 
     public LoginResult login(String userName, String password){
@@ -70,7 +70,6 @@ public class UserService {
         }
         return null;
     }
-
 
     public User findByUserName(String name){
         return userRepository.ByUserName(name);

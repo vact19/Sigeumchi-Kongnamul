@@ -1,15 +1,19 @@
 package com.nigagara.hawaii.controller;
 import com.nigagara.hawaii.controller.DTO.LoginFormDTO;
-import com.nigagara.hawaii.entity.CommentData;
-import com.nigagara.hawaii.entity.TestComment;
-import com.nigagara.hawaii.entity.TestEntity;
-import com.nigagara.hawaii.entity.User;
+import com.nigagara.hawaii.entity.*;
 import com.nigagara.hawaii.repository.TestRepository;
+import com.nigagara.hawaii.repository.Test_Repository;
+import com.nigagara.hawaii.repository.UserRepository;
+import com.nigagara.hawaii.repository.User_Repository;
 import com.nigagara.hawaii.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -24,6 +28,8 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -34,11 +40,12 @@ public class HomeController {
 
 
     // 구현체 JavaMailSenderImpl이 자동 주입됨
-    private final JavaMailSender mailSender;
     private final EntityManager em;
     private final UserService userService;
     private final PasswordEncoder encoder;
     private final TestRepository testRepository;
+    private final User_Repository user_repository;
+    private final Test_Repository test_repository;
 
     final String TYPE1="type1";
     final String TYPE2="type2";
@@ -55,29 +62,65 @@ public class HomeController {
     public String home(Model model,
                                     @RequestParam(required = false) String byName, // 검색 파라미터
                                     @RequestParam(required = false) String byType
+                                    ,@PageableDefault(size = 2) Pageable pageable
+                                    ,@RequestParam(required = false, defaultValue = "") String searchText
                                     ){
         // 빈 폼 전달하지 않으면 오류 발생
         model.addAttribute("loginFormDTO", new LoginFormDTO());
 
-        //Test 검색에 사용되는 Get조회요청에 따른 응답
-        if(StringUtils.hasText(byName)){
-            List<TestEntity> tests = testRepository.searchByName(byName);
-            model.addAttribute("tests",tests);
-            return "home";
-        } else if(StringUtils.hasText(byType)){
-            List<TestEntity> tests = testRepository.searchByType(byType);
-            model.addAttribute("tests",tests);
-            return "home";
-        } else{
-        List<TestEntity> tests = testRepository.findAll();
-        model.addAttribute("tests",tests);
+        //페이징
+        Page<TestEntity> te = test_repository.findByTestNameContainingOrTestTypeContaining(searchText, searchText, pageable) ;
+        int startPage = Math.max(1, te.getPageable().getPageNumber() - 4); // 시작 페이지. 0 이하로 내려가지 않도록 max()사용
+        int endPage = Math.min(te.getTotalPages(), te.getPageable().getPageNumber() + 4);
+        //1; , users.getTotalPages();
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("testPage",te);
         return "home";
-        }
+
+        // 페이징+검색 기능 추가로 기존 검색로직 삭제
+        //Test 검색에 사용되는 Get조회요청에 따른 응답
+//        if(StringUtils.hasText(byName)){
+//            List<TestEntity> tests = testRepository.searchByName(byName);
+//            model.addAttribute("tests",tests);
+//            return "home";
+//        } else if(StringUtils.hasText(byType)){
+//            List<TestEntity> tests = testRepository.searchByType(byType);
+//            model.addAttribute("tests",tests);
+//            return "home";
+//        } else{
+//        List<TestEntity> tests = testRepository.findAll();
+//        model.addAttribute("tests",tests);
+//        return "home";
+//        }
     }
+    // 최근 탐색 테스트 목록
+    @GetMapping("/recentTest")
+    public String showRecentTest(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("userSession");
+        // 해당 유저의 DB ID값을 구해서, ID로 최근테스트 테이블의 자료를 조회해 리스트로.
+        User user = userService.findByUserName(username);
+
+        List<RecentTest> recentTest = userService.findRecentTest(user);
+        Collections.reverse(recentTest); // 순차적으로 쌓인 리스트를 뒤집기
+        model.addAttribute("recentTest", recentTest);
+
+        return "/user/recentTestList";
+    }
+
     // user 목록
     @GetMapping("/users")
-    public String showUserList(Model model){
-        List<User> users = userService.findUsers();
+    public String showUserList(Model model, @PageableDefault(size = 2) Pageable pageable
+                                        , @RequestParam(required = false, defaultValue = "") String searchText){ //size 기본값 2
+        //Page<User> users = user_repository.findAll(PageRequest.of(0,20)); // 0부터 시작
+        //Page<User> users = user_repository.findAll(pageable); // 0부터 시작
+        Page<User> users = user_repository.findByUserNameContainingOrEmailContaining(searchText, searchText, pageable );
+        int startPage = Math.max(1, users.getPageable().getPageNumber() - 4); // 시작 페이지. 0 이하로 내려가지 않도록 max()사용
+        int endPage = Math.min(users.getTotalPages(), users.getPageable().getPageNumber() + 4);
+        //1; , users.getTotalPages();
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
         model.addAttribute("users",users);
         return "/user/userList"; // userList.html
     }
@@ -142,6 +185,30 @@ public class HomeController {
         testEntity4.setTestType(TYPE3);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();
+
+        TestEntity testEntity5 = new TestEntity();
+        testEntity5.setTestName("4번 테스트"); testEntity5.setView(11);
+        testEntity5.setTestType(TYPE3);
+        em.persist(testEntity5);
+        Long testId5 = testEntity5.getId();
+
+        TestEntity testEntity6 = new TestEntity();
+        testEntity6.setTestName("4번 테스트"); testEntity6.setView(11);
+        testEntity6.setTestType(TYPE3);
+        em.persist(testEntity6);
+        Long testId6 = testEntity6.getId();
+
+        TestEntity testEntity7 = new TestEntity();
+        testEntity7.setTestName("4번 테스트"); testEntity7.setView(11);
+        testEntity7.setTestType(TYPE3);
+        em.persist(testEntity7);
+        Long testId7 = testEntity7.getId();
+
+        TestEntity testEntity8 = new TestEntity();
+        testEntity8.setTestName("4번 테스트"); testEntity8.setView(11);
+        testEntity8.setTestType(TYPE3);
+        em.persist(testEntity8);
+        Long testId8 = testEntity8.getId();
 
         TestComment comment = new TestComment();
         CommentData commentData = new CommentData("다람쥐1", "월요일 좋아1", 4L);
