@@ -37,30 +37,14 @@
 <body>
 <script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script>
-    window.onload = function () {
-        let path = [[${path}]]; // 모델을 타임리프 문법으로 js로 가져오기
-        switch (path){
-            case 1:
-                document.getElementById('title').innerHTML="스마트폰 중독 테스트";
-                document.querySelector(".desc").innerText=" 우리는 스마트폰에 얼마나 의존할까요? "
-                break;
-            case 2:
-                document.getElementById('title').innerHTML="내게 맞는 웹 프로그래밍 언어";
-                document.querySelector(".desc").innerText="어떤 언어로 프로그래밍을 시작해 볼까요? "
-                break;
-            case 3:
-                document.getElementById('title').innerHTML="내향성 테스트";
-                document.querySelector(".desc").innerText="나의 성격을 알아봅시다. "
-                break;
-            default :
-                document.getElementById('title').innerHTML="4번 테스트"; break;
-        }
-    }
-</script>
-
+<!--헤더 삽입-->
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
 <div class="container">
-    <section id="main" class="ml-3 my-5 py-5 px-3">
+
+
+
+
+    <section id="main" class="ml-3 my-5 py-5 px-3" style="margin-left: 70px;">
         <h1 id="title">테스트제목임</h1>
         <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
             <img src="../img/eodeoddl.jpg" alt="mainImage" class="img-fluid">
@@ -70,8 +54,9 @@
         </p>
         <button type="button" class="btn btn-outline-danger mt-3" onclick="js:begin()">시작하기</button>
     </section>
-
-  <div style="position: absolute; right: 0px; top: 0px;  width:700px;">
+  <div style="position: absolute; right: 121px; top: 80px;  width:358px; height: 53px;
+  text-align: center; font-size: 30px; background: #20c997;">실시간 인기 테스트</div>
+  <div style="position: absolute; right: -300px; top: 100px;  width:900px;">
     <table  id="viewTable" class="type11" >
         <thead>
         <tr>
@@ -197,8 +182,10 @@
     </tbody>
 </table>
 
+
 <script src="../js/like2.js" charset="utf-8"></script>
 <script src="../js/commentCRUD.js" charset="utf-8"></script>
+
 <script th:src="|../js/data${path}.js|" charset="utf-8"></script>
 <script th:src="|../js/start${path}.js|" charset="utf-8"></script>
 
@@ -241,7 +228,6 @@
         })
     }
 </script>
-
 <script>
     function CopyUrlToClipboard() {
         var obShareUrl = document.getElementById("ShareUrl");
@@ -250,6 +236,29 @@
         obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿉니다.
         alert("URL이 클립보드에 복사되었습니다");
     }
+</script>
+<script>
+    window.onload = function () {
+        let path = [[${path}]]; // 모델을 타임리프 문법으로 js로 가져오기
+        switch (path){
+            case 1:
+                document.getElementById('title').innerHTML="스마트폰 중독 테스트";
+                document.querySelector(".desc").innerText=" 우리는 스마트폰에 얼마나 의존할까요? "
+                break;
+            case 2:
+                document.getElementById('title').innerHTML="내게 맞는 웹 프로그래밍 언어";
+                document.querySelector(".desc").innerText="어떤 언어로 프로그래밍을 시작해 볼까요? "
+                break;
+            case 3:
+                document.getElementById('title').innerHTML="내향성 테스트";
+                document.querySelector(".desc").innerText="나의 성격을 알아봅시다. "
+                break;
+            default :
+                document.getElementById('title').innerHTML="정신연령 테스트";
+                document.querySelector(".desc").innerText=" 내 정신적 나이는? "; break;
+        }
+    }
+
 </script>
 
 

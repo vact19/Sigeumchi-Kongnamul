@@ -1,0 +1,45 @@
+.member {
+    text-align:center;
+    font-size:30px;
+    margin:5px;
+     }
+
+.search_box{
+   font-size: 40px;
+   border-collapse:collapse;
+   background-color:white;
+     border:solid 1px #aaaaaa;
+     border-radius:20px;
+     margin:5px;
+    padding:40px;
+    margin-top: 60px;
+     width:100%;
+  }
+
+   .search_box button{
+      border:1px solid black;
+      color:white;
+      background-color:black;
+      color:white;
+      padding:10px 25px;
+      font-size:25px;
+      margin-top:10px;
+      border-radius: 5px;
+
+    }
+    .search_box button:hover{
+      background-color:gray;
+      color:black;
+    }
+
+     main{
+     width:920px;
+     margin:0 auto;
+     padding: 5px;
+     float:center;
+     font-size:30px;
+  }
+
+  body{
+    background-color: white;
+   }

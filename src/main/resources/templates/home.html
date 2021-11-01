@@ -15,22 +15,9 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <body>
     <div class="content">
-        <header class="header">
-            <div class="logo" style="display:inline;">
-                <a href="javascript:history.go(0);">
-                    <img src="/img/logo.png" width="180px" height="60px">
-                </a>
-            </div>
-            <ul class="user">
-                <a href="/user/login" th:if="${session.userSession==null}" th:object="${loginFormDTO}">로그인</a>
-                <a th:if="${session.userSession != null}" th:text="로그아웃" value="로그아웃"
-                   onclick="logout()"></a> |
-                <a th:if="${session.userSession != null}" value="수정"
-                   href='/user/myPage'> 내 정보 수정</a>
-                <a href="/user/new" th:if="${session.userSession==null}"> 회원가입하기 |</a>
-                <a href="/user/findPwd_id" th:if="${session.userSession==null}"> 비밀번호 찾기</a>
-            </ul>
-        </header>
+        <!--fragments 폴더에 있는 헤더 삽입 -->
+        <div th:replace="fragments/bodyHeader :: bodyHeader" />
+
         <!--main section START-->
         <div class="section">
             <div>

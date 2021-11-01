@@ -16,7 +16,8 @@
   }
 </style>
 <body>
-
+<!--헤더 삽입-->
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
 
 <form role="form" action="/user/myPage" th:object="${userFormDTO}"
       method="post">

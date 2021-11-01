@@ -185,7 +185,7 @@ public class HomeController {
         Long testId3 = testEntity3.getId();
 
         TestEntity testEntity4 = new TestEntity();
-        testEntity4.setTestName("4번 테스트"); testEntity4.setView(11);
+        testEntity4.setTestName("정신연령 테스트"); testEntity4.setView(11);
         testEntity4.setTestType(TYPE3);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();

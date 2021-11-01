@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title> 비밀번호 찾기 </title>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/default.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/findPwd.css">
 </head>
 <style>
     .form-control fieldError {
@@ -17,75 +18,167 @@
     .red{
         color: #005cbf;
     }
+
+    table {
+        font-size: 40px;
+        border-collapse:collapse;
+        border:solid 1px;
+        margin:10px;
+        padding:25px 0 0 0;
+        width:95%;
+    }
+
+    td, th{
+        border:solid 1px;
+        padding : 2px 10px 5px;
+    }
+    .col1{
+        width:250px;
+        padding:10px;
+        background-color:#eeeeee;
+
+    }
 </style>
 <body>
-
-
-<form role="form" action="/user/findPwdByHint" th:object="${findPwdDTO}"
-      method="post">
-    <div>
-    <label th:for="userid">이름</label>
-
-    <input type="text" th:field="*{username}" class="form-control"
-           placeholder="id 입력"
-           th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
-     <strong th:if= "${#fields.hasErrors('username')}"  th:errors="*{username}" class="red">
-            wrong </strong>
+<header class="header" style="background-color: white;width: auto;padding:10px;">
+    <div class="logo" style="display:inline;">
+        <a href="/">
+            <img src="/img/logo.png" width="180px" height="60px">
+        </a>
     </div>
+    <ul class="user">
+        <a href="#" th:if="${session.userSession==null}" th:object="${loginFormDTO}"
+           onclick='window.open("/user/login","_blank","height=500,width=500, status=yes,toolbar=no,menubar=no,location=center");return false'>로그인</a>
+        <a th:if="${session.userSession != null}" th:text="로그아웃" value="로그아웃"
+           onclick="logout()"></a> |
+        <a th:if="${session.userSession != null}" value="수정"
+           href='/user/myPage'> 내 정보 수정</a>
+        <a href="/user/new" th:if="${session.userSession==null}"> 회원가입하기 |</a>
+        <a href="/user/findPwd_id" th:if="${session.userSession==null}"> 비밀번호 찾기</a>
 
+    </ul>
+    <hr>
+</header>
 
-    <div class="form-group">
-        <label th:for="pwdQuestion">비밀번호 힌트 질문</label>
-        <input type="text" th:field="*{pwdQuestion}" class="form-control"
-               placeholder="비밀번호 힌트 질문"
-               th:class="${#fields.hasErrors('pwdQuestion')}? 'form-control fieldError' : 'form-control'">
-        <strong th:if= "${#fields.hasErrors('pwdQuestion')}"  th:errors="*{pwdQuestion}" class="red">
-            wrong </strong>
+<main>
+    <form role="form" action="/user/findPwdByHint" th:object="${findPwdDTO}"
+          method="post">
+        <div class="member">PW SEARCH</div>
+        <hr width="200px" align="center" >
+        <div class="search_box">
+            비밀번호 찾기
+            <hr>
+            <table>
+                <tr>
+                    <div class="form-group">
+                        <th class="col1">
+                            <label th:for="userid">이름</label>
+                        </th>
+
+                        <td>
+                            <input type="text" th:field="*{username}" class="form-control"
+                                   style="height:30px"
+                                   size="50"
+                                   placeholder="id 입력"
+                                   th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+                            <strong th:if= "${#fields.hasErrors('username')}"  th:errors="*{username}" class="red">
+                                wrong </strong>
+                        </td>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        <th class="col1">
+                            <label th:for="pwdQuestion">비밀번호 힌트 질문</label>
+                        </th>
+                        <td>
+                            <input type="text" th:field="*{pwdQuestion}" class="form-control"
+                                   style="height:30px"
+                                   size="50"
+                                   placeholder="비밀번호 힌트 질문"
+                                   th:class="${#fields.hasErrors('pwdQuestion')}? 'form-control fieldError' : 'form-control'">
+                            <strong th:if= "${#fields.hasErrors('pwdQuestion')}"  th:errors="*{pwdQuestion}" class="red">
+                                wrong </strong>
+                        </td>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        <th class="col1">
+                            <label th:for="pwdAnswer">비밀번호 힌트 답</label>
+                        </th>
+                        <td>
+                            <input type="text" th:field="*{pwdAnswer}" class="form-control"
+                                   style="height:30px"
+                                   size="50"
+                                   placeholder="비밀번호 힌트 답"
+                                   th:class="${#fields.hasErrors('pwdAnswer')}? 'form-control fieldError' : 'form-control'">
+                            <strong th:if= "${#fields.hasErrors('pwdAnswer')}"  th:errors="*{pwdAnswer}" class="red">
+                                wrong </strong>
+                        </td>
+                    </div>
+                </tr>
+            </table>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}"> GlobalError 오류 메시지 </p>
+            </div>
+            <div class="member">
+                <button type="submit" class="btn btn-primary">확인</button>
+                <strong th:text="${pwdHint}"> 비밀번호 힌트 자리 </strong>
+            </div>
+        </div>
+    </form>
+    <br/>
+    <div class="search_box">
+        이메일로 임시 비밀번호 발급받기
+        <hr>
+
+        <form action="/user/findPwdByEmail" method="post" th:object="${emailDTO}">
+            <table>
+                <tr>
+                    <div class="form-group">
+                        <th class="col1">
+                            <label th:for="username"> ID 입력</label>
+                        </th>
+                        <td>
+                            <input type="text" th:field="*{username}" class="form-control"
+                                   style="height:30px"
+                                   size="50"
+                                   placeholder="ID 입력"
+                                   th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
+                            <strong th:if= "${#fields.hasErrors('username')}"  th:errors="*{username}" class="red">wrong </strong>
+                        </td>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                        <th class="col1">
+                            <label th:for="email">이메일<span style="font-size:15px;">( 계정 이메일 주소와 일치해야 합니다 )</span></label>
+                        </th>
+                        <td>
+                            <input type="text" th:field="*{email}" class="form-control"
+                                   style="height:30px"
+                                   size="50"
+                                   placeholder="이메일 입력"
+                                   th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'">
+                            <strong th:if= "${#fields.hasErrors('email')}"  th:errors="*{email}" class="red">wrong </strong>
+                        </td>
+                    </div>
+                </tr>
+            </table>
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+                   th:text="${err}"> GlobalError 오류 메시지 </p>
+            </div>
+            <strong th:if="${EmailOK}" th:text="${EmailOK}" class="red"></strong>
+            <div class="member">
+                <button type="submit" class="btn btn-primary">확인</button>
+            </div>
+        </form>
     </div>
+</main>
+<p><br><br><br></p>
 
-    <div class="form-group">
-        <label th:for="pwdAnswer">비밀번호 힌트 답</label>
-        <input type="text" th:field="*{pwdAnswer}" class="form-control"
-               placeholder="비밀번호 힌트 답"
-               th:class="${#fields.hasErrors('pwdAnswer')}? 'form-control fieldError' : 'form-control'">
-        <strong th:if= "${#fields.hasErrors('pwdAnswer')}"  th:errors="*{pwdAnswer}" class="red">
-            wrong </strong>
-    </div>
-
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-           th:text="${err}"> GlobalError 오류 메시지 </p>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <strong th:text="${pwdHint}"> 비밀번호 힌트 자리 </strong>
-</form>
-<br/>
-<p><br><br></p>
-<hr> <h1> 이메일로 임시 비밀번호 발급받기</h1>
-
-<form action="/user/findPwdByEmail" method="post" th:object="${emailDTO}">
-    <div class="form-group">
-        <label th:for="username"> ID 입력</label>
-        <input type="text" th:field="*{username}" class="form-control"
-               placeholder="ID 입력"
-               th:class="${#fields.hasErrors('username')}? 'form-control fieldError' : 'form-control'">
-        <strong th:if= "${#fields.hasErrors('username')}"  th:errors="*{username}" class="red">wrong </strong>
-    </div>
-
-    <div class="form-group">
-        <label th:for="email">이메일 ( 계정 이메일 주소와 일치해야 합니다 )</label>
-        <input type="text" th:field="*{email}" class="form-control"
-               placeholder="이메일 입력"
-               th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'">
-        <strong th:if= "${#fields.hasErrors('email')}"  th:errors="*{email}" class="red">wrong </strong>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <div th:if="${#fields.hasGlobalErrors()}">
-        <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-           th:text="${err}"> GlobalError 오류 메시지 </p>
-    </div>
-    <strong th:if="${EmailOK}" th:text="${EmailOK}" class="red"></strong>
-
-</form>
 </body>
 </html>

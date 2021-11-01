@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../css/default.css">
 </head>
 <body>
-
+<!--헤더 삽입-->
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
 <div >총 개수: <span th:text="${users.totalElements}"></span></div>
 <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/users}">
     <div class="col-auto">

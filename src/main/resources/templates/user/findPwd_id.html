@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title> 비밀번호 찾기 </title>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/default.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/findPwd.css">
 </head>
 <style>
     .form-control fieldError {
@@ -17,22 +18,73 @@
     .red{
         color: #005cbf;
     }
+    .mini_box{
+        font-size: 40px;
+        border-collapse:collapse;
+        background-color:#eeeeee;
+        border:solid 1px;
+        margin:10px;
+        padding:25px 0 0 0;
+        width:95%;
+        height:100px;
+    }
+    table{
+        margin:0 auto;
+    }
+
 </style>
 <body>
-
-<form role="form" action="/user/findPwdSubmitId"
-      method="post">
-    <div>
-    <label th:for="userid">ID 입력</label>
-    <input type="text" id="name" name="name" class="form-control"
-           placeholder="id 입력">
-        <b class="red" th:text="${idError}"></b>
+<header class="header" style="background-color: white;width: auto;padding:10px;">
+    <div class="logo" style="display:inline;">
+        <a href="/">
+            <img src="/img/logo.png" width="180px" height="60px">
+        </a>
     </div>
-    <button type="submit">Submit</button>
+    <ul class="user">
+        <a href="#" th:if="${session.userSession==null}" th:object="${loginFormDTO}"
+           onclick='window.open("/user/login","_blank","height=500,width=500, status=yes,toolbar=no,menubar=no,location=center");return false'>로그인</a>
+        <a th:if="${session.userSession != null}" th:text="로그아웃" value="로그아웃"
+           onclick="logout()"></a> |
+        <a th:if="${session.userSession != null}" value="수정"
+           href='/user/myPage'> 내 정보 수정</a>
+        <a href="/user/new" th:if="${session.userSession==null}"> 회원가입하기 |</a>
+        <a href="/user/findPwd_id" th:if="${session.userSession==null}"> 비밀번호 찾기</a>
+    </ul>
+    <hr>
+</header>
 
-
-
-
-</form>
+<main>
+    <form role="form" action="/user/findPwdSubmitId"
+          method="post">
+        <div class="member">PW SEARCH</div>
+        <hr width="200px" align="center" >
+        <div class="search_box">
+            비밀번호 찾기
+            <hr>
+            <span style="font-size:25px;">비밀번호를 찾고자하는 아이디를 입력해주세요.</span>
+            <p>
+            <div class="mini_box">
+                <table>
+                    <tr>
+                        <td style=" border-right: solid 1px;
+            padding-right : 15px;">
+                            <label th:for="userid">ID 입력  </label>
+                        </td>
+                        <td style="padding-left : 15px;">
+                            <input type="text" id="name" name="name" class="form-control"
+                                   style="height:40px"
+                                   size="50"
+                                   placeholder="id 입력">
+                            <b class="red" th:text="${idError}"></b>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="member">
+                <button type="submit">다음</button>
+            </div>
+        </div>
+    </form>
+</main>
 </body>
 </html>

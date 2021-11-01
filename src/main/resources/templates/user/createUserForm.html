@@ -3,6 +3,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/default.css">
+<link rel="stylesheet" href="../css/createUserForm.css">
 <style>
   .form-control fieldError {
     border-color: #bd2130;
@@ -13,97 +14,158 @@
   .red{
     color: #005cbf;
   }
+
 </style>
 
 <body>
+<div class="content">
+  <header class="header" style="background-color: white;width: auto;padding:10px;">
+    <div class="logo" style="display:inline;">
+      <a href="/">
+        <img src="/img/logo.png" width="180px" height="60px">
+      </a>
+    </div>
+    <ul class="user">
+      <a href="#" th:if="${session.userSession==null}" th:object="${loginFormDTO}"
+         onclick='window.open("/user/login","_blank","height=500,width=500, status=yes,toolbar=no,menubar=no,location=center");return false'>로그인</a>
+      <a th:if="${session.userSession != null}" th:text="로그아웃" value="로그아웃"
+         onclick="logout()"></a> |
+      <a th:if="${session.userSession != null}" value="수정"
+         href='/user/myPage'> 내 정보 수정</a>
+      <a href="/user/new" th:if="${session.userSession==null}"> 회원가입하기 |</a>
+      <a href="/user/findPwd_id" th:if="${session.userSession==null}"> 비밀번호 찾기</a>
+
+    </ul>
+    <hr>
+  </header>
+</div>
+<main>
+  <div class="member">MEMBER JOIN</div>
+  <hr width="200px" align="center" >
+
   <form role="form" action="/user/new" th:object="${userFormDTO}"
         method="post">
-    <div class="form-group">
-      <label th:for="name">이름</label>
-      <!-- th:object,에서 선언한 object를 이용한다는 의미 *{name}
-      th:field는 id와 name값을 설정함. 관례상 id와 name은 같은 값을 쓸 때가 많다.-->
+    <table>
+      <tr>
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="name">이름</label>
+            <!-- th:object,에서 선언한 object를 이용한다는 의미 *{name}
+            th:field는 id와 name값을 설정함. 관례상 id와 name은 같은 값을 쓸 때가 많다.-->
 
-      <!--class~ 는 css 넣는 용도, if~는 경고문 표시용 (name에 에러가 있으면
-      name과 관련된 에러 출력-->
-      <input type="text" th:field="*{userName}" class="form-control"
-             placeholder="이름을 입력하세요"
-             th:class="${#fields.hasErrors('userName')}? 'form-control fieldError' : 'form-control'"
-      >
-      <!-- if false 시 해당 태그 무시, errors는 해당하는 메시지 표시-->
-      <strong th:if= "${#fields.hasErrors('userName')}"  th:errors="*{userName}" class="red">
-        Incorrect date</strong>
+            <!--class~ 는 css 넣는 용도, if~는 경고문 표시용 (name에 에러가 있으면
+            name과 관련된 에러 출력-->
+          </th>
+          <td>
+            <input type="text" th:field="*{userName}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="이름을 입력하세요"  maxlength="12"
+                   th:class="${#fields.hasErrors('userName')}? 'form-control fieldError' : 'form-control'"
+            >
+            <!-- if false 시 해당 태그 무시, errors는 해당하는 메시지 표시-->
+            <strong th:if= "${#fields.hasErrors('userName')}"  th:errors="*{userName}" class="red">
+              Incorrect date</strong>
+          </td>
+        </div>
+      </tr>
+      <tr>
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="password">비밀번호</label>
+          </th>
+          <td>
+            <input type="text" th:field="*{password}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="비밀번호를 입력하세요"  maxlength="12"
+                   th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
+            <strong th:if= "${#fields.hasErrors('password')}"  th:errors="*{password}" class="red">
+              wrong </strong>
+          </td>
+        </div>
+      </tr>
+      <tr>
+        <!-- th:field는 Id, name을 정함-->
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="email">이메일</label>
+          </th>
+          <td>
+            <input type="text" th:field="*{email1}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="이메일을 입력하세요"  th:class="${#fields.hasErrors('email1')}? 'form-control fieldError' : 'form-control'">
+            <strong th:if= "${ #fields.hasErrors('email1')}"  th:errors="*{email1}" class="red">
+              wrong</strong>
+            <label th:for="email2">@</label>
+            <input type="text"  th:field="*{email2}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="xxx.com"  th:class="${#fields.hasErrors('email2')}? 'form-control fieldError' : 'form-control'">
+            <strong th:if= "${ #fields.hasErrors('email2')}"  th:errors="*{email2}" class="red">
+              wrong</strong>
+            <input type="hidden" name="email" value="meaningless@gmail.com">
+            <p th:if= "${#fields.hasErrors('email')}"  th:errors="*{email}" class="red">
+              wrong</p>
+          </td>
+        </div>
+      </tr>
+
+      <tr>
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="pwdQuestion">비밀번호 찾기 질문</label>
+          </th>
+          <td>
+            <input type="text" th:field="*{pwdQuestion}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="(선택사항)비밀번호 찾기 질문">
+          </td>
+        </div>
+      </tr>
+      <tr>
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="pwdAnswer">비밀번호 찾기 답</label>
+          </th>
+          <td>
+            <input type="text" th:field="*{pwdAnswer}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="(선택사항)비밀번호 찾기 답">
+          </td>
+        </div>
+      </tr>
+      <tr>
+        <div class="form-group">
+          <th class="col1">
+            <label th:for="pwdHint">비밀번호 힌트</label>
+          </th>
+          <td>
+            <input type="text" th:field="*{pwdHint}" class="form-control"
+                   style="height:30px"
+                   size="50"
+                   placeholder="(선택사항)비밀번호 찾기 힌트">
+            (질문에 올바르게 답할 시 조회 가능)
+          </td>
+        </div>
+
+      </tr>
+    </table>
+
+    <div class="member">
+      <button type="submit" class="btn1">가입완료</button>
+      <a href="/"><button type="button" class="btn2">돌아가기</button></a>
     </div>
-
-
-    <div class="form-group">
-      <label th:for="password">비밀번호</label>
-      <input type="text" th:field="*{password}" class="form-control"
-             placeholder="비밀번호를 입력하세요"
-             th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'">
-      <strong th:if= "${#fields.hasErrors('password')}"  th:errors="*{password}" class="red">
-        wrong </strong>
-    </div>
-    <!-- th:field는 Id, name을 정함-->
-    <div class="form-group">
-      <label th:for="email">이메일</label>
-      <input type="text" th:field="*{email1}" class="form-control"
-             placeholder="이메일을 입력하세요"  th:class="${#fields.hasErrors('email1')}? 'form-control fieldError' : 'form-control'">
-      <strong th:if= "${ #fields.hasErrors('email1')}"  th:errors="*{email1}" class="red">
-        wrong</strong>
-      <label th:for="email2">@</label>
-      <input type="text"  th:field="*{email2}" class="form-control"
-             placeholder="xxx.com"  th:class="${#fields.hasErrors('email2')}? 'form-control fieldError' : 'form-control'">
-      <strong th:if= "${ #fields.hasErrors('email2')}"  th:errors="*{email2}" class="red">
-        wrong</strong>
-      <input type="hidden" name="email" value="meaningless@gmail.com">
-      <p th:if= "${#fields.hasErrors('email')}"  th:errors="*{email}" class="red">
-        wrong</p>
-
-    </div>
-
-    <div class="form-group">
-      <label th:for="pwdQuestion">비밀번호 찾기 질문</label>
-      <input type="text" th:field="*{pwdQuestion}" class="form-control"
-             placeholder="(선택사항)비밀번호 찾기 질문">
-    </div>
-
-    <div class="form-group">
-      <label th:for="pwdAnswer">비밀번호 찾기 답</label>
-      <input type="text" th:field="*{pwdAnswer}" class="form-control"
-             placeholder="(선택사항)비밀번호 찾기 답">
-    </div>
-
-    <div class="form-group">
-      <label th:for="pwdHint">비밀번호 힌트 (질문에 올바르게 답할 시 조회 가능)</label>
-      <input type="text" th:field="*{pwdHint}" class="form-control"
-             placeholder="(선택사항)비밀번호 찾기 힌트">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+
   <br/>
-<p><br><br></p>
+  <p><br><br></p>
+</main>
 
-
-
-<form method="post" action="/user/new/typetest" th:object="${typeMismatchTest}" >
-  <div th:if="${#fields.hasGlobalErrors()}">
-    <p class="field-error" th:each="err : ${#fields.globalErrors()}"
-       th:text="${err}"> GlobalError 오류 메시지 </p>
-  </div>
-  <p>
-  <label th:for="price1"> TypeMisMatch 테스트용--  가격</label>
-  <input type="text" th:field="*{price1}" placeholder="10~10000">
-  <strong th:if= "${ #fields.hasErrors('price1')}"  th:errors="*{price1}" class="red"></strong>
-  <br>
-  <label th:for="price2"> TypeMisMatch 테스트용--  가격</label>
-  <input type="text" th:field="*{price2}" placeholder="10~10000">
-  <strong th:if= "${ #fields.hasErrors('price2')}"  th:errors="*{price2}" class="red">
-    wrong</strong>
-  <button type="submit" >눌러요</button>
 
 </form>
-
-
-
 </body>
 </html>

@@ -25,8 +25,10 @@ public class LogoutCheckInterceptor implements HandlerInterceptor {
         if (session==null){
             log.info("비로그인 사용자 요청. {} 입장 가능", requestURI);
             return true;
+        } else if(session.getAttribute("userSession")==null){
+            log.info("세션은 있으나 내부 정보 불일치. 비로그인 사용자");
+            return true;
         }
-        log.info("{}222", session.getAttribute("userSession"));
         // 홈으로 redirect
         response.sendRedirect("/");
         return false;
