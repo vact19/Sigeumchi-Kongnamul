@@ -3,7 +3,7 @@ function addLike(index){
         index++;
         let userList = document.getElementById('userList');
         let commentId = userList.rows[index].cells[0].innerText;  // 행값 index에 해당하는 댓글ID값
-        let commentLikes = userList.rows[index].cells[3].innerText;  // 행값 index에 해당하는 댓글ID값
+        let commentLikes = userList.rows[index].cells[3].innerText;  // 좋아요 수
 
         let data ={
             commentId: commentId

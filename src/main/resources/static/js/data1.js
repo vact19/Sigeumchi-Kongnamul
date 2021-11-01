@@ -6,7 +6,7 @@
 */
 const qnaList = [
   {
-    q: ' 1. 나는 화장실에 스마트폰을! ',
+    q: ' 1. 화장실에 스마트폰을 가져가시는 편인가요?  ',
     a: [
       { answer: 'a. 굳이 가져가지 않는다',type: [0]},
       { answer: 'b. 필요할 때만 가져간다',type: [1,2]},
@@ -65,7 +65,7 @@ const qnaList = [
 const infoList = [
   {
     name: ' 스마트폰 중독 해방! ',
-    desc: ' 전혀아님 '
+    desc: ' 4단계 중 1단계 위험 수준입니다. <br>  fdsfsdfs!<br>fsdfsdf!'
   },
   {
     name: ' 스마트폰 중독 양호 ',

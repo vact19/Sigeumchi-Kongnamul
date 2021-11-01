@@ -51,6 +51,10 @@ public class HomeController {
     final String TYPE2="type2";
     final String TYPE3="type3";
 
+    @GetMapping("/bb")
+    public String home(){
+        return "bb";
+    }
 
     /**
      *spring security는 로그아웃 시 /login?logout으로 get 요청
@@ -62,7 +66,7 @@ public class HomeController {
     public String home(Model model,
                                     @RequestParam(required = false) String byName, // 검색 파라미터
                                     @RequestParam(required = false) String byType
-                                    ,@PageableDefault(size = 2) Pageable pageable
+                                    ,@PageableDefault(size = 8) Pageable pageable
                                     ,@RequestParam(required = false, defaultValue = "") String searchText
                                     ){
         // 빈 폼 전달하지 않으면 오류 발생

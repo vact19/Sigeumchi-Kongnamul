@@ -7,6 +7,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/default.css">
+    <link rel="stylesheet" href="../css/search.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
 </head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <body>
@@ -34,8 +38,8 @@
                     <li style=" float: left;">
                         <div class="section_content">
                         <a th:href="|/test/${test.id}|">
-                            <img class="test_image" th:src="|../img/image-${test.id}.png|"/> </a>
-                        <div class="test_name" th:text=" ${test.testName}"></div>
+                            <img class="test_image" th:src="|../img/image-${test.id}.png|" style="margin-left: 20px;"/> </a>
+                        <div class="test_name" th:text=" ${test.testName}" style="text-align: center"></div>
                         </div>
                     </li>
                 </ul>
@@ -84,14 +88,14 @@
 <!--                        <button type="submit" value="로그인하기">로그인</button>-->
 <!--                    </div>-->
 <!--                </form>-->
-                <div class="search" style="border: solid 1px;">
+                <div class="search" style="border:solid 1px; background: #20c997">
                     <form class="form-inline d-flex justify-content-end" method="get" th:action="@{/}">
                         <div class="col-auto">
                             <label for="searchText" class="sr-only">검색</label>
                             <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}">
                         </div>
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-light mb-3" style="margin-top: 17px">주제 검색</button>
+                            <button type="submit" class="btn btn-light mb-3" style="margin-top: 17px">제목 검색</button>
                         </div>
                     </form>
                         <!--
@@ -116,18 +120,6 @@
             </div>
         </div>
 <!--aside END-->
-<!--menu START-->
-        <div class="menu" th:if="${session.userSession != null}">
-            <div class="menu_btn">
-            <button type="button"  th:text="|로그아웃|" value="로그아웃"
-                    onclick="logout()"></button>
-            <button type="button"  th:text="|내 정보 수정|" value="수정"
-                    onclick="location.href='/user/myPage' "></button>
-            <button type="button"  th:text="|최근 방문한 테스트|" value="수정"
-                    onclick="location.href='/recentTest' "></button>
-            </div>
-        </div>
-<!--menu END-->
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${1 == testPage.pageable.pageNumber+1} ? 'disabled' ">
@@ -143,6 +135,48 @@
                 </li>
             </ul>
         </nav>
+
+        <div class="container" style="height: 100px; ">
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8">
+                    <form class="card card-sm">
+                        <div class="card-body row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <i class="fas fa-search h4 text-body"></i>
+                            </div>
+                            <!--end of col-->
+                            <div class="col" ahref="user/signup_page.html" onclick="signup_popup()">
+                                <input class="form-control form-control-lg form-control-borderless" type="search" name="searchText">
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto">
+                                <button class="btn btn-lg btn-success" type="submit">Search</button>
+                            </div>
+                            <!--end of col-->
+                        </div>
+                    </form>
+                </div>
+                <!--end of col-->
+            </div>
+        </div>
+        <div class="btn" style="width: 100%;">
+            <a href="/test/3" class="button hashtag">#나는 내향인?외향인?</a>
+            <a href="/test/1" class="button2 hashtag">#나도 혹시 스마트폰 중독?</a>
+        </div>
+<!--menu START-->
+        <div class="menu" th:if="${session.userSession != null}">
+            <div class="menu_btn">
+            <button type="button"  th:text="|로그아웃|" value="로그아웃"
+                    onclick="logout()"></button>
+            <button type="button"  th:text="|내 정보 수정|" value="수정"
+                    onclick="location.href='/user/myPage' "></button>
+            <button type="button"  th:text="|최근 방문한 테스트|" value="수정"
+                    onclick="location.href='/recentTest' "></button>
+            </div>
+        </div>
+<!--menu END-->
+
 
 
 

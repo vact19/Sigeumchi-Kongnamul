@@ -36,14 +36,14 @@ function setResult(){
   resultName.innerHTML = infoList[point].name;
 
   //이미지 처리
-  let resultImg = document.createElement('img');
-  const imgDiv = document.querySelector('#resultImg');
-  let imgURL = '../img/image-'+point+'.png';
-  console.log(imgURL);
-  resultImg.src = imgURL;
-  resultImg.alt = point;
-  resultImg.classList.add('img-fluid');
-  imgDiv.appendChild(resultImg);
+  // let resultImg = document.createElement('img');
+  // const imgDiv = document.querySelector('#resultImg');
+  // let imgURL = '../img/image-'+point+'.png';
+  // console.log(imgURL);
+  // resultImg.src = imgURL;
+  // resultImg.alt = point;
+  // resultImg.classList.add('img-fluid');
+  // imgDiv.appendChild(resultImg);
 
   // 이미지 설명 처리
   const resultDesc = document.querySelector('.resultDesc');

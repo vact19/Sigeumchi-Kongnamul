@@ -2,13 +2,13 @@ const main = document.querySelector("#main");
 const qna = document.querySelector("#qna");
 const result = document.querySelector("#result");
 
-const endPoint = 5;
-const select = [0, 0, 0, 0, 0];
+const endPoint = 6;
+const select = [0, 0, 0, 0, 0,0];
 
 function calResult(){
   console.log(select);
   var result = select.indexOf(Math.max(...select));
-  console.log("1번테스트 calResult()");
+  console.log("4번테스트 calResult()");
   return result;
 }
 
@@ -19,13 +19,13 @@ function setResult(){
   resultName.innerHTML = infoList[point].name;
 
   //이미지 처리
-  var resultImg = document.createElement('img');
-  const imgDiv = document.querySelector('#resultImg');
-  var imgURL = '../img/image-' + point + '.png';
-  resultImg.src = imgURL;
-  resultImg.alt = point;
-  resultImg.classList.add('img-fluid');
-  imgDiv.appendChild(resultImg);
+  // var resultImg = document.createElement('img');
+  // const imgDiv = document.querySelector('#resultImg');
+  // var imgURL = '../img/image-' + point + '.png';
+  // resultImg.src = imgURL;
+  // resultImg.alt = point;
+  // resultImg.classList.add('img-fluid');
+  // imgDiv.appendChild(resultImg);
 
   // 이미지 설명 처리
   const resultDesc = document.querySelector('.resultDesc');

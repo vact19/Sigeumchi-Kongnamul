@@ -19,13 +19,13 @@ function setResult(){
   resultName.innerHTML = infoList[point].name;
 
   //이미지 처리
-  var resultImg = document.createElement('img');
-  const imgDiv = document.querySelector('#resultImg');
-  var imgURL = '../img/image-' + point + '.png';
-  resultImg.src = imgURL;
-  resultImg.alt = point;
-  resultImg.classList.add('img-fluid');
-  imgDiv.appendChild(resultImg);
+  // var resultImg = document.createElement('img');
+  // const imgDiv = document.querySelector('#resultImg');
+  // var imgURL = '../img/image-' + point + '.png';
+  // resultImg.src = imgURL;
+  // resultImg.alt = point;
+  // resultImg.classList.add('img-fluid');
+  // imgDiv.appendChild(resultImg);
 
   // 이미지 설명 처리
   const resultDesc = document.querySelector('.resultDesc');
