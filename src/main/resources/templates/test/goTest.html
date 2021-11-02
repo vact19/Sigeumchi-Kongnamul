@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../css/animation.css">
     <link rel="stylesheet" href="../css/result.css">
 
-    <title>Title</title>
+    <title>심리테스트 Who Am I</title>
 
     <style>
         .errorBlue{
@@ -41,13 +41,10 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader" />
 <div class="container">
 
-
-
-
     <section id="main" class="ml-3 my-5 py-5 px-3" style="margin-left: 70px;">
         <h1 id="title">테스트제목임</h1>
         <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
-            <img src="../img/eodeoddl.jpg" alt="mainImage" class="img-fluid">
+            <img id="test_image" src="../img/eodeoddl.jpg" alt="mainImage" class="img-fluid">
         </div>
         <p class="desc">
             아래 시작하기 버튼을 눌러 시작해 주세요!
@@ -123,14 +120,9 @@
     </section>
 
 </div>
-<h3 th:text="${testName}"> thymeleaf 테스트 이름 표시 오류</h3>
-
 <hr>
 
-<div th:if="${session.userSession != null}">
-    <input type="button"  th:value="|세션 활성화 ${session.userSession} 안녕|" value="세션 활성화">
-</div>
-<form id="comment"  method="post" th:if="${session.userSession!=null}">
+<form id="comment"  method="post" th:if="${session.userSession!=null}" style="margin-left: 15px;">
     <textarea cols="25" rows="5" id="textBox" name="textBox" placeholder="댓글 입력"></textarea>
     <button type="button" onclick="addComment()"> 댓 글 등 록 </button>
     <input type="hidden" id="userName" name="userName" th:value="${session.userSession}" value="세션 만료 오류">
@@ -236,28 +228,35 @@
         obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿉니다.
         alert("URL이 클립보드에 복사되었습니다");
     }
+    function logout(){
+        let form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/logout");
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 <script>
-    window.onload = function () {
-        let path = [[${path}]]; // 모델을 타임리프 문법으로 js로 가져오기
-        switch (path){
-            case 1:
-                document.getElementById('title').innerHTML="스마트폰 중독 테스트";
-                document.querySelector(".desc").innerText=" 우리는 스마트폰에 얼마나 의존할까요? "
-                break;
-            case 2:
-                document.getElementById('title').innerHTML="내게 맞는 웹 프로그래밍 언어";
-                document.querySelector(".desc").innerText="어떤 언어로 프로그래밍을 시작해 볼까요? "
-                break;
-            case 3:
-                document.getElementById('title').innerHTML="내향성 테스트";
-                document.querySelector(".desc").innerText="나의 성격을 알아봅시다. "
-                break;
-            default :
-                document.getElementById('title').innerHTML="정신연령 테스트";
-                document.querySelector(".desc").innerText=" 내 정신적 나이는? "; break;
-        }
-    }
+    // window.onload = function () {
+    //     let path = [[${path}]]; // 모델을 타임리프 문법으로 js로 가져오기
+    //     switch (path){
+    //         case 1:
+    //             document.getElementById('title').innerHTML="스마트폰 중독 테스트";
+    //             document.querySelector(".desc").innerText=" 우리는 스마트폰에 얼마나 의존할까요? "
+    //             break;
+    //         case 2:
+    //             document.getElementById('title').innerHTML="내게 맞는 웹 프로그래밍 언어";
+    //             document.querySelector(".desc").innerText="어떤 언어로 프로그래밍을 시작해 볼까요? "
+    //             break;
+    //         case 3:
+    //             document.getElementById('title').innerHTML="내향성 테스트";
+    //             document.querySelector(".desc").innerText="나의 성격을 알아봅시다. "
+    //             break;
+    //         case 4 :
+    //             document.getElementById('title').innerHTML="정신연령 테스트";
+    //             document.querySelector(".desc").innerText=" 내 정신적 나이는? "; break;
+    //     }
+    // }
 
 </script>
 

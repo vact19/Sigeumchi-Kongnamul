@@ -4,7 +4,9 @@
 2 중장년
 3 노인
 */
-
+document.querySelector('#title').innerHTML="정신연령 테스트";
+document.querySelector(".desc").innerText=" 내 정신적 나이는? ";
+document.querySelector("#test_image").src="../img/image-4.png";
 const qnaList = [
   {
     q: ' 1. 남에게 밀리거나 지는 것이 분하다. ',
@@ -66,7 +68,7 @@ const infoList = [
   },
   {
     name: ' "중장년층" 수준입니다.  ',
-    desc: ' 사회를 거치며 한층 성숙해진 당신에게는<br>잠깐 멈춰서 주변을 둘러볼 시간이 필요할지도 몰라요, '
+    desc: ' 사회를 거치며 한층 성숙해진 당신이지만<br>잠깐 멈춰서서 주변을 둘러볼 시간이 필요할지도 몰라요, '
   },
   {
     name: ' "노인" 수준입니다. ',

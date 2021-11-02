@@ -1,3 +1,6 @@
+document.querySelector('#title').innerHTML="내향성 테스트";
+document.querySelector(".desc").innerText="나의 성격을 알아봅시다. "
+document.querySelector("#test_image").src="../img/image-3.png";
 const qnaList = [
   {
     q: '1. 사람들과 어울리고 나면 재충전의 시간이 필요하다.',

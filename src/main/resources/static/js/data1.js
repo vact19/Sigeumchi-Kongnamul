@@ -4,6 +4,10 @@
 2 약간위험
 3
 */
+document.querySelector('#title').innerHTML="스마트폰 중독 테스트";
+document.querySelector(".desc").innerText=" 우리는 스마트폰에 얼마나 의존할까요? "
+document.querySelector("#test_image").src="../img/image-1.png";
+
 const qnaList = [
   {
     q: ' 1. 화장실에 스마트폰을 가져가시는 편인가요?  ',

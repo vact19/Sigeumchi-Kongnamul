@@ -47,9 +47,9 @@ public class HomeController {
     private final User_Repository user_repository;
     private final Test_Repository test_repository;
 
-    final String TYPE1="type1";
-    final String TYPE2="type2";
-    final String TYPE3="type3";
+    final String TYPE1="성향";
+    final String TYPE2="건강";
+    final String TYPE3="기타";
 
     @GetMapping("/bb")
     public String home(){
@@ -134,7 +134,7 @@ public class HomeController {
     @PostMapping("/random")
     public String randomTest(){
         Random rand = new Random();
-        int pathVar = rand.nextInt(4)+1; // 1~4
+        int pathVar = rand.nextInt(8)+1; // 1~4
 
         // 형변환 자동.
         return "redirect:/test/"+pathVar;
@@ -167,61 +167,152 @@ public class HomeController {
     public void generateCommentAndTest() {
         // Test는 생성 메서드가 없음. 직접 @Transactional persist
         TestEntity testEntity = new TestEntity();
-        testEntity.setTestName("스마트폰 중독 테스트"); testEntity.setView(9);
-        testEntity.setTestType(TYPE1);
+        testEntity.setTestName("스마트폰 중독 테스트"); testEntity.setView(19);
+        testEntity.setTestType(TYPE2);
         em.persist(testEntity);
         Long testId = testEntity.getId();
 
         TestEntity testEntity2 = new TestEntity();
-        testEntity2.setTestName("내게 맞는 프로그래밍 언어"); testEntity2.setView(7);
-        testEntity2.setTestType(TYPE2);
+        testEntity2.setTestName("내게 맞는 프로그래밍 언어"); testEntity2.setView(18);
+        testEntity2.setTestType(TYPE3);
         em.persist(testEntity2);
         Long testId2 = testEntity2.getId();
 
         TestEntity testEntity3 = new TestEntity();
-        testEntity3.setTestName("내향성 테스트"); testEntity3.setView(5);
-        testEntity3.setTestType(TYPE3);
+        testEntity3.setTestName("내향성 테스트"); testEntity3.setView(20);
+        testEntity3.setTestType(TYPE1);
         em.persist(testEntity3);
         Long testId3 = testEntity3.getId();
 
         TestEntity testEntity4 = new TestEntity();
-        testEntity4.setTestName("정신연령 테스트"); testEntity4.setView(11);
-        testEntity4.setTestType(TYPE3);
+        testEntity4.setTestName("정신연령 테스트"); testEntity4.setView(17);
+        testEntity4.setTestType(TYPE1);
         em.persist(testEntity4);
         Long testId4 = testEntity4.getId();
 
         TestEntity testEntity5 = new TestEntity();
-        testEntity5.setTestName("4번 테스트"); testEntity5.setView(11);
+        testEntity5.setTestName("신조어 테스트"); testEntity5.setView(12);
         testEntity5.setTestType(TYPE3);
         em.persist(testEntity5);
         Long testId5 = testEntity5.getId();
 
         TestEntity testEntity6 = new TestEntity();
-        testEntity6.setTestName("4번 테스트"); testEntity6.setView(11);
-        testEntity6.setTestType(TYPE3);
+        testEntity6.setTestName("건강 테스트"); testEntity6.setView(14);
+        testEntity6.setTestType(TYPE2);
         em.persist(testEntity6);
         Long testId6 = testEntity6.getId();
 
         TestEntity testEntity7 = new TestEntity();
-        testEntity7.setTestName("4번 테스트"); testEntity7.setView(11);
-        testEntity7.setTestType(TYPE3);
+        testEntity7.setTestName("방콕족 테스트"); testEntity7.setView(12);
+        testEntity7.setTestType(TYPE1);
         em.persist(testEntity7);
         Long testId7 = testEntity7.getId();
 
         TestEntity testEntity8 = new TestEntity();
-        testEntity8.setTestName("4번 테스트"); testEntity8.setView(11);
-        testEntity8.setTestType(TYPE3);
+        testEntity8.setTestName("자기애 테스트"); testEntity8.setView(13);
+        testEntity8.setTestType(TYPE1);
         em.persist(testEntity8);
         Long testId8 = testEntity8.getId();
 
+        TestEntity testEntity9= new TestEntity();
+        testEntity9.setTestName("9번 테스트"); testEntity8.setView(11);
+        testEntity9.setTestType(TYPE3); em.persist(testEntity9);
+        Long testId9 = testEntity9.getId();
+        TestEntity testEntity10= new TestEntity();
+        testEntity10.setTestName("10번 테스트"); testEntity8.setView(11);
+        testEntity10.setTestType(TYPE3); em.persist(testEntity10);
+        Long testId10 = testEntity10.getId();
+        TestEntity testEntity11= new TestEntity();
+        testEntity11.setTestName("11번 테스트"); testEntity8.setView(11);
+        testEntity11.setTestType(TYPE3); em.persist(testEntity11);
+        Long testId11 = testEntity11.getId();
+        TestEntity testEntity12= new TestEntity();
+        testEntity12.setTestName("12번 테스트"); testEntity8.setView(11);
+        testEntity12.setTestType(TYPE3); em.persist(testEntity12);
+        Long testId12 = testEntity12.getId();
+        TestEntity testEntity13= new TestEntity();
+        testEntity13.setTestName("13번 테스트"); testEntity8.setView(11);
+        testEntity13.setTestType(TYPE3); em.persist(testEntity13);
+        Long testId13 = testEntity13.getId();
+        TestEntity testEntity14= new TestEntity();
+        testEntity14.setTestName("14번 테스트"); testEntity8.setView(11);
+        testEntity14.setTestType(TYPE3); em.persist(testEntity14);
+        Long testId14 = testEntity14.getId();
+        TestEntity testEntity15= new TestEntity();
+        testEntity15.setTestName("15번 테스트"); testEntity8.setView(11);
+        testEntity15.setTestType(TYPE3); em.persist(testEntity15);
+        Long testId15 = testEntity15.getId();
+        TestEntity testEntity16= new TestEntity();
+        testEntity16.setTestName("16번 테스트"); testEntity8.setView(11);
+        testEntity16.setTestType(TYPE3); em.persist(testEntity16);
+        Long testId16 = testEntity16.getId();
+        TestEntity testEntity17= new TestEntity();
+        testEntity17.setTestName("17번 테스트"); testEntity8.setView(11);
+        testEntity17.setTestType(TYPE3); em.persist(testEntity17);
+        Long testId17 = testEntity17.getId();
+        TestEntity testEntity18= new TestEntity();
+        testEntity18.setTestName("18번 테스트"); testEntity8.setView(11);
+        testEntity18.setTestType(TYPE3); em.persist(testEntity18);
+        Long testId18 = testEntity18.getId();
+        TestEntity testEntity19= new TestEntity();
+        testEntity19.setTestName("19번 테스트"); testEntity8.setView(11);
+        testEntity19.setTestType(TYPE3); em.persist(testEntity19);
+        Long testId19 = testEntity19.getId();
+        TestEntity testEntity20= new TestEntity();
+        testEntity20.setTestName("20번 테스트"); testEntity8.setView(11);
+        testEntity20.setTestType(TYPE3); em.persist(testEntity20);
+        Long testId20 = testEntity20.getId();
+        TestEntity testEntity21= new TestEntity();
+        testEntity21.setTestName("21번 테스트"); testEntity8.setView(11);
+        testEntity21.setTestType(TYPE3); em.persist(testEntity21);
+        Long testId21 = testEntity21.getId();
+        TestEntity testEntity22= new TestEntity();
+        testEntity22.setTestName("22번 테스트"); testEntity8.setView(11);
+        testEntity22.setTestType(TYPE3); em.persist(testEntity22);
+        Long testId22 = testEntity22.getId();
+        TestEntity testEntity23= new TestEntity();
+        testEntity23.setTestName("23번 테스트"); testEntity8.setView(11);
+        testEntity23.setTestType(TYPE3); em.persist(testEntity23);
+        Long testId23 = testEntity23.getId();
+        TestEntity testEntity24= new TestEntity();
+        testEntity24.setTestName("24번 테스트"); testEntity8.setView(11);
+        testEntity24.setTestType(TYPE3); em.persist(testEntity24);
+        Long testId24 = testEntity24.getId();
+        TestEntity testEntity25= new TestEntity();
+        testEntity25.setTestName("25번 테스트"); testEntity8.setView(11);
+        testEntity25.setTestType(TYPE3); em.persist(testEntity25);
+        Long testId25 = testEntity25.getId();
+        TestEntity testEntity26= new TestEntity();
+        testEntity26.setTestName("26번 테스트"); testEntity8.setView(11);
+        testEntity26.setTestType(TYPE3); em.persist(testEntity26);
+        Long testId26 = testEntity26.getId();
+        TestEntity testEntity27= new TestEntity();
+        testEntity27.setTestName("27번 테스트"); testEntity8.setView(11);
+        testEntity27.setTestType(TYPE3); em.persist(testEntity27);
+        Long testId27 = testEntity27.getId();
+        TestEntity testEntity28= new TestEntity();
+        testEntity28.setTestName("28번 테스트"); testEntity8.setView(11);
+        testEntity28.setTestType(TYPE3); em.persist(testEntity28);
+        Long testId28 = testEntity28.getId();
+        TestEntity testEntity29= new TestEntity();
+        testEntity29.setTestName("29번 테스트"); testEntity8.setView(11);
+        testEntity29.setTestType(TYPE3); em.persist(testEntity29);
+        Long testId29 = testEntity29.getId();
+        TestEntity testEntity30= new TestEntity();
+        testEntity30.setTestName("30번 테스트"); testEntity8.setView(11);
+        testEntity30.setTestType(TYPE3); em.persist(testEntity30);
+        Long testId30 = testEntity30.getId();
+
+
+
         TestComment comment = new TestComment();
-        CommentData commentData = new CommentData("다람쥐1", "월요일 좋아1", 4L);
+        CommentData commentData = new CommentData("다람쥐1", "1번째 댓글", 4L);
         TestComment comment2 = new TestComment();
-        CommentData commentData2 = new CommentData("다람이2", "월요일 안조아2", 44L);
+        CommentData commentData2 = new CommentData("다람이2", "2번째 댓글", 44L);
         TestComment comment3 = new TestComment();
-        CommentData commentData3 = new CommentData("다람이3", "금요일 안조아3", 444L);
+        CommentData commentData3 = new CommentData("다람이3", "3번째 댓글", 444L);
         TestComment comment4 = new TestComment();
-        CommentData commentData4 = new CommentData("다람이4", "금요일 조아4", 4444L);
+        CommentData commentData4 = new CommentData("다람이4", "4번째 댓글", 4444L);
         TestComment comment5 = new TestComment();
         CommentData commentData5 = new CommentData("다람이5", "5번째 댓글", 44444L);
 

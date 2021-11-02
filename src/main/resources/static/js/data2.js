@@ -1,9 +1,11 @@
+document.querySelector('#title').innerHTML="내게 맞는 웹 프로그래밍 언어";
+document.querySelector(".desc").innerText="어떤 언어로 프로그래밍을 시작해 볼까요? "
+document.querySelector("#test_image").src="../img/image-2.png";
 /*
 java,0
 python,1
 js 2
 */
-
 const qnaList = [
   {
     q: '1. 내가 희망하는 기업의 규모는?',
@@ -30,7 +32,6 @@ const qnaList = [
     ]
   }
 ]
-
 const infoList = [
   {
     name: ' 너는 자바 ',
